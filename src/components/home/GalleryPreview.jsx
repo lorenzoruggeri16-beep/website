@@ -38,7 +38,7 @@ export default function GalleryPreview() {
             <img
               src={image}
               alt=""
-              className="w-full object-cover hover:scale-[1.03] transition duration-700"
+              className="w-full object-cover hover:scale-[1.04] hover:opacity-90"
             />
 
           </FadeIn>

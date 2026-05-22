@@ -54,7 +54,7 @@ export default function Portfolio() {
                   <img
                     src={gallery.hero}
                     alt={gallery.title}
-                    className="w-full h-[700px] object-cover group-hover:scale-[1.03] transition duration-700"
+                    className="w-full h-[700px] object-cover group-hover:scale-[1.04] group-hover:opacity-95"
                   />
 
                 </div>

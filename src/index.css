@@ -21,3 +21,19 @@ img {
 section {
   position: relative;
 }
+
+img {
+  transition:
+    transform 700ms ease,
+    opacity 700ms ease;
+}
+
+a,
+button {
+  cursor: pointer;
+}
+
+::selection {
+  background: black;
+  color: white;
+}
