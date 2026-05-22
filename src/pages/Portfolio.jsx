@@ -1,11 +1,9 @@
 import { Link } from "react-router-dom";
-
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
-
 import FadeIn from "../components/ui/FadeIn";
-
 import { galleries } from "../data/galleryData";
+import PageTransition from "../components/ui/PageTransition";
 
 export default function Portfolio() {
   return (
