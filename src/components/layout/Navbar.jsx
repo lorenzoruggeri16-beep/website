@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -7,8 +7,17 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
 
+  const location = useLocation();
+
   useEffect(() => {
 
+    // NON-home pages
+    if (location.pathname !== "/") {
+      setDarkMode(true);
+      return;
+    }
+
+    // Homepage behavior
     const handleScroll = () => {
 
       const heroHeight = window.innerHeight * 0.8;
@@ -25,7 +34,7 @@ export default function Navbar() {
       window.removeEventListener("scroll", handleScroll);
     };
 
-  }, []);
+  }, [location]);
 
   return (
     <>
@@ -74,7 +83,7 @@ export default function Navbar() {
 
         </div>
 
-        {/* Mobile */}
+        {/* Mobile Button */}
         <button
           onClick={() => setOpen(true)}
           className="md:hidden"
@@ -89,17 +98,12 @@ export default function Navbar() {
 
         <div className="fixed inset-0 bg-[#111] z-[100] text-white flex flex-col">
 
+          {/* Top */}
           <div className="flex justify-between items-center px-6 py-8">
 
             <h2 className="uppercase tracking-[0.35em] text-lg">
               Golden Light
             </h2>
-
-            <img 
-            src="/images/logo.svg" 
-            alt="Golden Light" 
-            className="h-8 w-auto"
-            />
 
             <button onClick={() => setOpen(false)}>
               <X size={30} />
@@ -107,6 +111,7 @@ export default function Navbar() {
 
           </div>
 
+          {/* Links */}
           <div className="flex-1 flex flex-col justify-center items-center gap-10 text-4xl font-light">
 
             <Link to="/" onClick={() => setOpen(false)}>
