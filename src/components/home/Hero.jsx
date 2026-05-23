@@ -32,15 +32,15 @@ export default function Hero() {
       <div className="relative z-10 h-full flex flex-col justify-center items-center text-center text-white px-6">
 
         <p className="uppercase tracking-[0.5em] text-xs mb-6">
-          Luxury Wedding Photography
+          Fotografía Editorial de Bodas
         </p>
 
         <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-light leading-none">
-          Timeless
+          Historias
         </h1>
 
         <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-light leading-none">
-          Stories
+          Eternas
         </h1>
 
       </div>
