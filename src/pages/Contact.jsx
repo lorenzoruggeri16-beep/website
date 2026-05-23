@@ -81,7 +81,7 @@ export default function Contact() {
             {/* Right */}
             <FadeIn delay={0.2}>
 
-              <form className="space-y-8">
+              <form  action="https://formspree.io/f/mbdbkjvz" method="POST" className="space-y-8">
 
                 <div>
 
@@ -91,6 +91,7 @@ export default function Contact() {
 
                   <input
                     type="text"
+                    name="name"
                     className="w-full border-b border-black bg-transparent py-4 outline-none"
                   />
 
@@ -104,6 +105,7 @@ export default function Contact() {
 
                   <input
                     type="email"
+                    name="email"
                     className="w-full border-b border-black bg-transparent py-4 outline-none"
                   />
 
@@ -117,6 +119,7 @@ export default function Contact() {
 
                   <input
                     type="text"
+                    name="location"
                     className="w-full border-b border-black bg-transparent py-4 outline-none"
                   />
 
@@ -130,6 +133,7 @@ export default function Contact() {
 
                   <textarea
                     rows="5"
+                    name="message"
                     className="w-full border-b border-black bg-transparent py-4 outline-none resize-none"
                   />
 
