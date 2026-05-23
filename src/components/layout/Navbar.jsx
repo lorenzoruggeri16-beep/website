@@ -51,11 +51,27 @@ export default function Navbar() {
 
         {/* Logo */}
         <Link
-          to="/"
-          className="uppercase tracking-[0.35em] text-lg"
-        >
-          Golden Light
-        </Link>
+  to="/"
+  className="flex items-center gap-4"
+>
+
+  <img
+    src={
+      darkMode
+        ? "/images/logo-black.png"
+        : "/images/logo-white.png"
+    }
+    alt="Golden Light Studio"
+    className="h-10 w-auto"
+  />
+
+  <span className="uppercase tracking-[0.35em] text-lg">
+
+    Golden Light Studio
+
+  </span>
+
+</Link>
 
         {/* Desktop */}
         <div className="hidden md:flex gap-8 uppercase text-xs tracking-[0.25em]">
