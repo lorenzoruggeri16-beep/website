@@ -6,21 +6,21 @@ import FadeIn from "../components/ui/FadeIn";
 
 const posts = [
   {
-    title: "A Romantic Wedding in Tenerife",
-    category: "Destination Wedding",
-    image: "/images/gallery-1.jpg",
+    title: "Best Beaches in Tenerife for Family Photos",
+    category: "Location Guide",
+    image: "/images/motherhood-1.jpg",
   },
 
   {
-    title: "Editorial Bridal Inspiration",
-    category: "Editorial",
-    image: "/images/gallery-2.jpg",
+    title: "What to Wear for a Sunset Beach Session",
+    category: "Style Tips",
+    image: "/images/motherhood-2.jpg",
   },
 
   {
-    title: "Luxury Elopement in Italy",
-    category: "Lake Como",
-    image: "/images/gallery-3.jpg",
+    title: "How to Prepare Children for a Relaxed Photoshoot",
+    category: "Family Photography",
+    image: "/images/motherhood-3.jpg",
   },
 ];
 
@@ -43,9 +43,9 @@ export default function Journal() {
 
             <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-light leading-none">
 
-              Stories &
+              Guides &
               <br />
-              Inspiration
+              Stories
 
             </h1>
 
@@ -79,10 +79,11 @@ export default function Journal() {
 
                   <div className="pt-6">
 
-                    <p className="uppercase tracking-[0.3em] text-xs opacity-60 mb-3">
-
-                      {post.category}
-
+                    <p className="uppercase tracking-[0.3em] text-xs opacity-50 mb-6">
+                        {post.category}
+                    </p>
+                    <p className="text-sm opacity-40 mb-8">
+                      6 min read · May 2026
                     </p>
 
                     <h2 className="text-4xl md:text-5xl font-light leading-tight">
