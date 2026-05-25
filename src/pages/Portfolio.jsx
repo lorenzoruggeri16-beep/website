@@ -32,54 +32,76 @@ export default function Portfolio() {
 
       </FadeIn>
 
-      {/* Gallery Grid */}
-      <section className="px-6 md:px-12 pb-40">
+      
+{/* Stories */}
+<section className="px-6 md:px-12 pb-40">
 
-        <div className="grid md:grid-cols-2 gap-10">
+   <div className="space-y-40">
 
-          {galleries.map((gallery, index) => (
+      {galleries.map((gallery, index) => (
 
-            <FadeIn
-              key={gallery.slug}
-              delay={index * 0.1}
-            >
+       <FadeIn
+         key={gallery.slug}
+         delay={index * 0.1}
+       >
 
-              <Link
-                to={`/portfolio/${gallery.slug}`}
-                className="group block"
-              >
+        <Link
+          to={`/portfolio/${gallery.slug}`}
+          className={`grid md:grid-cols-2 gap-12 items-center ${
+            index % 2 !== 0 ? "md:[&>*:first-child]:order-2" : ""
+          }`}
+        >
 
-                <div className="overflow-hidden">
+          {/* Image */}
+          <div className="overflow-hidden">
 
-                  <img
-                    src={gallery.hero}
-                    alt={gallery.title}
-                    className="w-full h-[700px] object-cover group-hover:scale-[1.04] group-hover:opacity-95"
-                  />
+            <img
+              src={gallery.hero}
+              alt={gallery.title}
+              className="w-full h-[85vh] object-cover hover:scale-[1.03] transition duration-700"
+            />
 
-                </div>
+          </div>
 
-                <div className="pt-6">
+          {/* Content */}
+          <div className="px-4 md:px-12">
 
-                  <p className="uppercase tracking-[0.3em] text-xs opacity-60 mb-3">
-                    {gallery.location}
-                  </p>
+            <p className="uppercase tracking-[0.3em] text-xs opacity-50 mb-6">
 
-                  <h2 className="text-4xl md:text-5xl font-light">
-                    {gallery.title}
-                  </h2>
+              {gallery.location}
 
-                </div>
+            </p>
 
-              </Link>
+            <h2 className="text-5xl md:text-7xl font-light leading-none mb-8">
 
-            </FadeIn>
+              {gallery.title}
 
-          ))}
+            </h2>
 
-        </div>
+            <p className="text-lg leading-relaxed opacity-70 max-w-md mb-10">
 
-      </section>
+              Emotional storytelling captured with cinematic elegance,
+              intentional composition, and timeless imagery.
+
+            </p>
+
+            <span className="uppercase tracking-[0.3em] text-xs border-b border-black pb-2">
+
+              View Story
+
+            </span>
+
+          </div>
+
+        </Link>
+
+      </FadeIn>
+
+    ))}
+
+  </div>
+
+</section>
 
       <Footer />
 
