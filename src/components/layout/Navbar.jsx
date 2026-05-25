@@ -84,6 +84,13 @@ export default function Navbar() {
           </Link>
 
           <Link
+          to="/journal"
+          className="hover:opacity-60 transition"
+          >
+            Journal
+          </Link>
+
+          <Link
             to="/about"
             className="hover:opacity-60 transition"
           >
@@ -136,6 +143,10 @@ export default function Navbar() {
 
             <Link to="/portfolio" onClick={() => setOpen(false)}>
               Portfolio
+            </Link>
+
+            <Link to="/journal" onClick={() => setOpen(false)}>
+             Journal
             </Link>
 
             <Link to="/about" onClick={() => setOpen(false)}>

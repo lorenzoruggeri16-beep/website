@@ -11,6 +11,7 @@ import Portfolio from "../pages/Portfolio";
 import PortfolioDetail from "../pages/PortfolioDetail";
 import About from "../pages/About";
 import Contact from "../pages/Contact";
+import Journal from "../pages/Journal";
 
 export default function AppRouter() {
 
@@ -44,6 +45,11 @@ export default function AppRouter() {
         <Route
           path="/contact"
           element={<Contact />}
+        />
+
+        <Route
+        path="/journal"
+        element={<Journal />}
         />
 
       </Routes>
