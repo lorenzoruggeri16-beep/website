@@ -13,19 +13,19 @@ export default function About() {
         <Navbar />
 
         {/* Hero */}
-        <section className="pt-40 pb-24 px-6 md:px-12 text-center">
+        <section className="pt-40 pb-32 px-6 md:px-12 text-center">
 
           <FadeIn>
 
             <p className="uppercase tracking-[0.4em] text-xs mb-6">
-              About
+              Sobre mí
             </p>
 
-            <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-light leading-none">
+            <h1 className="text-6xl md:text-8xl lg:text-[9rem] font-light leading-none">
 
-              Capturing
+              Emoción,
               <br />
-              emotion honestly.
+              luz y conexión.
 
             </h1>
 
@@ -33,69 +33,127 @@ export default function About() {
 
         </section>
 
-        {/* Story Section */}
+        {/* Split Portrait Section */}
         <section className="px-6 md:px-12 pb-40">
 
-          <div className="grid md:grid-cols-2 gap-20 items-center">
+          <div className="grid md:grid-cols-[1fr_auto_1fr] gap-16 items-center">
 
-            {/* Image */}
+            {/* LEFT */}
             <FadeIn>
 
-              <div className="overflow-hidden">
+              <div className="flex flex-col items-center text-center -translate-y-9 pt-2">
 
                 <img
-                  src="/images/about.jpg"
-                  alt="Photographer Portrait"
-                  className="w-full h-[700px] object-cover"
+                  src="/images/about-left.jpg"
+                  alt=""
+                  className="w-[320px] h-[320px] object-cover rounded-full mb-9"
                 />
+
+                <div className="relative group inline-block mb-4">
+                 <h3 className="name-shine text-3xl font-light text-[#b68d40]">
+                   Lorenzo Ruggeri
+                 </h3>
+
+                 <span ClassName="shne" />
+                </div> 
+
+                <p className="uppercase tracking-[0.3em] text-xs opacity-60 max-w-xs min-h-[60px] flex items-start justify-center">
+
+                  Capturando momentos honestos
+                  y emociones reales junto al océano.
+
+                </p>
 
               </div>
 
             </FadeIn>
 
-            {/* Text */}
+            {/* GOLD LINE */}
+            <div className="hidden md:flex justify-center">
+
+              <div className="w-px h-[520px] bg-[#c6a769] -mt-2" />
+
+            </div>
+
+            {/* RIGHT */}
             <FadeIn delay={0.2}>
 
-              <div>
+              <div className="flex flex-col items-center text-center -translate-y-12 pt-2">
 
-                <p className="uppercase tracking-[0.3em] text-xs mb-6">
-                  The Philosophy
-                </p>
+                <img
+                  src="/images/about-right.jpg"
+                  alt=""
+                  className="w-[320px] h-[320px] object-cover rounded-full mb-8"
+                />
+                <div ClassName="relative group inline-block mb-4">
+                 <h3 
+                  className="name-shine text-3xl font-light mb-4 text-[#b68d40]">
+                   Giorgia Labrozzi
+                 </h3>
 
-                <h2 className="text-5xl md:text-6xl font-light leading-none mb-10">
-
-                  Timeless imagery
-                  <br />
-                  with cinematic depth.
-
-                </h2>
-
-                <div className="space-y-8 text-lg leading-relaxed opacity-70">
-
-                  <p>
-                    I believe wedding photography should feel emotional,
-                    elegant, and deeply personal.
-                  </p>
-
-                  <p>
-                    Inspired by cinema, fashion editorials,
-                    and documentary storytelling,
-                    my approach focuses on creating imagery
-                    that feels timeless rather than trendy.
-                  </p>
-
-                  <p>
-                    Every celebration is approached with intention,
-                    honesty, and an eye for meaningful moments.
-                  </p>
-
+                  <span ClassName="shne" />
                 </div>
+
+                <p className="uppercase tracking-[0.3em] text-xs opacity-60 max-w-xs ">
+
+                  Inspirado por la naturaleza,
+                  el cine y la estética editorial.
+
+                </p>
 
               </div>
 
             </FadeIn>
 
           </div>
+
+        </section>
+
+        {/* Brand Philosophy */}
+        <section className="max-w-5xl mx-auto px-6 md:px-12 pb-40">
+
+          <FadeIn>
+
+            <p className="uppercase tracking-[0.4em] text-xs mb-8 text-center">
+              La filosofía
+            </p>
+
+            <h2 className="text-4xl md:text-6xl font-light leading-tight text-center mb-16">
+
+              Crear imágenes atemporales que
+              transmitan emoción auténtica,
+              elegancia y conexión humana.
+
+            </h2>
+
+          </FadeIn>
+
+          <FadeIn delay={0.2}>
+
+            <div className="space-y-10 text-lg leading-relaxed opacity-70 max-w-3xl mx-auto text-center">
+
+              <p>
+                Golden Light Studio nace de la idea de transformar
+                momentos reales en recuerdos cinematográficos,
+                con una estética limpia, emocional y elegante.
+              </p>
+
+              <p>
+                Cada sesión está diseñada para sentirse natural,
+                íntima y profundamente humana,
+                creando imágenes que permanezcan vivas con el tiempo.
+              </p>
+
+              <p>
+                Inspirado por la luz natural,
+                la moda editorial y las historias auténticas,
+                el objetivo es capturar mucho más que fotografías:
+                emociones reales.
+              </p>
+
+            </div>
+
+          </FadeIn>
 
         </section>
 
