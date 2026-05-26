@@ -12,6 +12,9 @@ import {
 import { galleryData }
 from "../../data/galleryData";
 
+import { supabase }
+from "../../lib/supabase";
+
 export default function PortfolioSection({
   currentUser,
   binItems,
@@ -29,16 +32,22 @@ export default function PortfolioSection({
         );
 
       return saved
-        ? JSON.parse(saved).map((item) => ({
-          ...item,
 
-          coverImage:
-          item.coverImage ||
-          item.image,
+        ? JSON.parse(saved).map(
+            (item) => ({
 
-          image:
-          item.image || [],
-        }))
+              ...item,
+
+              coverImage:
+                item.coverImage ||
+                item.image,
+
+              images:
+                item.images || [],
+
+            })
+          )
+
         : galleryData;
 
     });
@@ -65,6 +74,14 @@ export default function PortfolioSection({
   const [galleryImages,
     setGalleryImages] =
     useState([]);
+
+  const [uploading,
+  setUploading] =
+  useState(false);
+
+  const [uploadProgress,
+  setUploadProgress] =
+  useState(0);
 
   // EDIT
   const [editingPortfolioId,
@@ -115,45 +132,101 @@ export default function PortfolioSection({
   // FILTER
   const filteredPortfolio =
 
-  Array.isArray(
-    portfolioItems
-  )
+    Array.isArray(
+      portfolioItems
+    )
 
-  ? [...portfolioItems]
+      ? [...portfolioItems]
 
-  .filter(
-    (item) =>
+          .filter(
+            (item) => item
+          )
 
-      item.title?.toLowerCase()
-      .includes(
-        search.toLowerCase()
-      ) ||
+          .filter((item) =>
 
-      item.location?.tolowercase()
-      .includes(
-        search.toLowerCase()
-      )
-  )
+            item.title
+              ?.toLowerCase()
+              .includes(
+                search.toLowerCase()
+              ) ||
 
-  .sort((a, b) => {
+            item.location
+              ?.toLowerCase()
+              .includes(
+                search.toLowerCase()
+              )
 
-    if(
-      sortBy === "latest"
-    ){
+          )
 
-      return b.id - a.id;
-    }
+          .sort((a, b) => {
 
-    if (
-      sortBy === "oldest"
-    ){
-      return a.id - b.id;
-    }
+            if (
+              sortBy === "latest"
+            ) {
 
-    return 0;
-  })
+              return b.id - a.id;
 
-  :[];
+            }
+
+            if (
+              sortBy === "oldest"
+            ) {
+
+              return a.id - b.id;
+
+            }
+
+            return 0;
+
+          })
+
+      : [];
+
+  // UPLOAD IMAGE
+  const uploadImage =
+    async (file) => {
+
+      const fileName =
+
+        `${Date.now()}-${file.name}`;
+
+      const { error } =
+
+        await supabase.storage
+
+          .from(
+            "portfolio-images"
+          )
+
+          .upload(
+            fileName,
+            file
+          );
+
+      if (error) {
+
+        console.error(error);
+
+        return null;
+
+      }
+
+      const {
+        data: publicUrlData,
+      } = supabase.storage
+
+        .from(
+          "portfolio-images"
+        )
+
+        .getPublicUrl(
+          fileName
+        );
+
+      return publicUrlData
+        .publicUrl;
+
+    };
 
   // CREATE
   const publishPortfolio =
@@ -206,6 +279,7 @@ export default function PortfolioSection({
       setPortfolioItems([
 
         ...(portfolioItems || []),
+
         newPortfolio,
 
       ]);
@@ -284,34 +358,64 @@ export default function PortfolioSection({
             />
 
             {/* COVER */}
-            <label className="border border-dashed border-black/20 hover:border-black/40 transition duration-500 min-h-[180px] flex flex-col items-center justify-center text-center cursor-pointer p-10 rounded-sm">
+            <label
+
+              onDragOver={(e) =>
+                e.preventDefault()
+              }
+
+              onDrop={async (e) => {
+
+                e.preventDefault();
+
+                const file =
+                  e.dataTransfer.files[0];
+
+                if (file) {
+
+                  const uploadedUrl =
+                    await uploadImage(
+                      file
+                    );
+
+                  if (uploadedUrl) {
+
+                    setCoverPreview(
+                      uploadedUrl
+                    );
+
+                  }
+
+                }
+
+              }}
+
+              className="border border-dashed border-black/20 hover:border-black/40 transition duration-500 min-h-[180px] flex flex-col items-center justify-center text-center cursor-pointer p-10 rounded-sm"
+            >
 
               <input
                 type="file"
                 accept="image/*"
                 className="hidden"
-                onChange={(e) => {
+                onChange={async (e) => {
 
                   const file =
                     e.target.files[0];
 
                   if (file) {
 
-                    const reader =
-                      new FileReader();
+                    const uploadedUrl =
+                      await uploadImage(
+                        file
+                      );
 
-                    reader.onloadend =
-                      () => {
+                    if (uploadedUrl) {
 
-                        setCoverPreview(
-                          reader.result
-                        );
+                      setCoverPreview(
+                        uploadedUrl
+                      );
 
-                      };
-
-                    reader.readAsDataURL(
-                      file
-                    );
+                    }
 
                   }
 
@@ -338,7 +442,7 @@ export default function PortfolioSection({
 
                   <p className="opacity-50 text-sm">
 
-                    cinematic cover
+                    click or drag image
 
                   </p>
 
@@ -349,56 +453,123 @@ export default function PortfolioSection({
             </label>
 
             {/* GALLERY */}
-            <label className="border border-dashed border-black/20 hover:border-black/40 transition duration-500 min-h-[180px] flex flex-col items-center justify-center text-center cursor-pointer p-10 rounded-sm">
+            <label
+
+              onDragOver={(e) =>
+                e.preventDefault()
+              }
+
+              onDrop={async (e) => {
+
+                e.preventDefault();
+
+                const files =
+                  Array.from(
+                    e.dataTransfer.files
+                  );
+
+                setUploading(true);
+
+                setUploadProgress(0);
+
+                const uploaded= [];
+
+                for (
+                  let i = 0;
+                  i < files.length;
+                  i++
+                ) {
+
+                  const uploadedUrl =
+                  await uploadImage(
+                    files[i]
+                  );
+
+                  if (uploadedUrl) {
+
+                    uploaded.push(
+                      uploadedUrl
+                    );
+
+                  }
+
+                  setUploadProgress(
+
+                    Math.round(
+                      ((i+1) /
+                    files.length) *
+                      1000
+                    )
+
+                  );
+
+                }
+
+                setGalleryImages(
+                  uploaded
+                );
+
+                setUploading(false);
+
+              }}
+
+              className="border border-dashed border-black/20 hover:border-black/40 transition duration-500 min-h-[180px] flex flex-col items-center justify-center text-center cursor-pointer p-10 rounded-sm"
+            >
 
               <input
                 type="file"
                 accept="image/*"
                 multiple
                 className="hidden"
-                onChange={(e) => {
+                onChange={async (e) => {
 
                   const files =
                     Array.from(
                       e.target.files
                     );
 
-                  const loadedImages =
-                    [];
+                  setUploading(true);
 
-                  files.forEach(
-                    (file) => {
+                  setUploadProgress(0);
 
-                      const reader =
-                        new FileReader();
+                  const uploaded = [];
 
-                      reader.onloadend =
-                        () => {
+                  for(
+                    let i = 0;
+                    i < files.length;
+                    i++
+                  ) {
 
-                          loadedImages.push(
-                            reader.result
-                          );
+                    const uploadedUrl =
+                    await uploadImage(
+                      files[i]
+                    );
 
-                          if (
-                            loadedImages.length ===
-                            files.length
-                          ) {
+                    if(uploadedUrl) {
 
-                            setGalleryImages(
-                              loadedImages
-                            );
-
-                          }
-
-                        };
-
-                      reader.readAsDataURL(
-                        file
+                      uploaded.push(
+                        uploadedUrl
                       );
 
                     }
 
+                    setUploadProgress(
+
+                      Math.round(
+                        ((i+1) /
+                      files.length) *
+                    100
+                    )
+
                   );
+                    
+                  }
+
+                  setGalleryImages(
+                    uploaded
+                  );
+
+                  setUploading(false);
 
                 }}
               />
@@ -413,7 +584,7 @@ export default function PortfolioSection({
 
                 <p className="opacity-50 text-sm mb-8">
 
-                  multiple cinematic images
+                  click or drag multiple images
 
                 </p>
 
@@ -422,28 +593,25 @@ export default function PortfolioSection({
 
                   <div className="grid grid-cols-3 gap-3">
 
-                    {galleryImages.map(
-                      (
-                        img,
-                        index
-                      ) => (
+                    {galleryImages
+                     .slice(0, 9)
+                     .map((img, index) => (
 
-                        <img
-                          key={index}
-                          src={img}
-                          alt=""
-                          className="w-full h-24 object-cover rounded-sm"
-                        />
+                      <img
+                      key={index}
+                      src={img}
+                      alt=""
+                      className="w-full h-24 object-cover rounded-sm"
+                      />
 
-                      )
-
-                    )}
+                     ))}
 
                   </div>
 
                 )}
-
+                
               </div>
+            
 
             </label>
 
@@ -464,6 +632,9 @@ export default function PortfolioSection({
 
             {/* BUTTON */}
             <button
+              
+              disabled={uploading}
+
               onClick={
                 publishPortfolio
               }
@@ -618,34 +789,6 @@ export default function PortfolioSection({
                         ?.editPortfolio && (
 
                         <button
-                          onClick={() => {
-
-                            setEditingPortfolioId(
-                              item.id
-                            );
-
-                            setEditTitle(
-                              item.title
-                            );
-
-                            setEditLocation(
-                              item.location
-                            );
-
-                            setEditDescription(
-                              item.description
-                            );
-
-                            setEditCover(
-                              item.coverImage ||
-                              item.image
-                            );
-
-                            setEditGallery(
-                              item.images || []
-                            );
-
-                          }}
                           className="w-10 h-10 rounded-full border border-black/10 flex items-center justify-center hover:bg-black hover:text-white transition duration-500"
                         >
 
@@ -662,7 +805,29 @@ export default function PortfolioSection({
                         <button
                           onClick={() => {
 
-                            setBinItems([
+                            const updatedPortfolio =
+
+                              portfolioItems.filter(
+                                (p) =>
+                                  p.id !==
+                                  item.id
+                              );
+
+                            setPortfolioItems(
+                              updatedPortfolio
+                            );
+
+                            localStorage.setItem(
+
+                              "portfolio",
+
+                              JSON.stringify(
+                                updatedPortfolio
+                              )
+
+                            );
+
+                            const updatedBin = [
 
                               ...binItems,
 
@@ -674,14 +839,18 @@ export default function PortfolioSection({
                                   Date.now(),
                               },
 
-                            ]);
+                            ];
 
-                            setPortfolioItems(
+                            setBinItems(
+                              updatedBin
+                            );
 
-                              portfolioItems.filter(
-                                (p) =>
-                                  p.id !==
-                                  item.id
+                            localStorage.setItem(
+
+                              "bin",
+
+                              JSON.stringify(
+                                updatedBin
                               )
 
                             );
@@ -715,4 +884,5 @@ export default function PortfolioSection({
     </div>
 
   );
+
 }

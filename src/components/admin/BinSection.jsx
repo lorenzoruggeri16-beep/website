@@ -1,74 +1,126 @@
+import {
+  Trash2,
+  RotateCcw,
+} from "lucide-react";
+
 export default function BinSection({
   binItems,
   setBinItems,
 }) {
 
-  const restoreItem = (
-    itemId
-  ) => {
+  // RESTORE
+  const restoreItem =
+    (item) => {
 
-    const filtered =
+      // PORTFOLIO
+      if (
+        item.type ===
+        "portfolio"
+      ) {
 
-      binItems.filter(
-        (item) =>
-          item.id !== itemId
+        const currentPortfolio =
+
+          JSON.parse(
+            localStorage.getItem(
+              "portfolio"
+            )
+          ) || [];
+
+        localStorage.setItem(
+
+          "portfolio",
+
+          JSON.stringify([
+
+            ...currentPortfolio,
+
+            item,
+
+          ])
+
+        );
+
+      }
+
+      // ARTICLES
+      if (
+        item.type ===
+        "article"
+      ) {
+
+        const currentArticles =
+
+          JSON.parse(
+            localStorage.getItem(
+              "articles"
+            )
+          ) || [];
+
+        localStorage.setItem(
+
+          "articles",
+
+          JSON.stringify([
+
+            ...currentArticles,
+
+            item,
+
+          ])
+
+        );
+
+      }
+
+      // REMOVE FROM BIN
+      setBinItems(
+
+        binItems.filter(
+          (b) =>
+            b.id !== item.id
+        )
+
       );
 
-    setBinItems(filtered);
+      // REFRESH
+      window.location.reload();
 
-  };
+    };
 
-  const deleteForever = (
-    itemId
-  ) => {
+  // DELETE FOREVER
+  const deleteForever =
+    (id) => {
 
-    const filtered =
+      const updatedBin =
 
-      binItems.filter(
-        (item) =>
-          item.id !== itemId
+        binItems.filter(
+          (item) =>
+            item.id !== id
+        );
+
+      setBinItems(
+        updatedBin
       );
 
-    setBinItems(filtered);
+      localStorage.setItem(
+        "bin",
+        JSON.stringify(
+          updatedBin
+        )
+      );
 
-  };
-
-  const daysRemaining = (
-    deletedAt
-  ) => {
-
-    const twentyDays = 20;
-
-    const passed = Math.floor(
-
-      (
-        Date.now() -
-        deletedAt
-      ) /
-
-      (
-        1000 *
-        60 *
-        60 *
-        24
-      )
-
-    );
-
-    return twentyDays - passed;
-
-  };
+    };
 
   return (
 
-    <div className="max-w-6xl">
+    <div className="max-w-[1600px] mx-auto">
 
       {/* HEADER */}
       <div className="mb-20">
 
         <p className="uppercase tracking-[0.3em] text-xs opacity-50 mb-6">
 
-          Trash Management
+          Recovery Management
 
         </p>
 
@@ -80,9 +132,9 @@ export default function BinSection({
 
         <p className="opacity-50 text-lg max-w-2xl leading-relaxed">
 
-          Deleted items stay here
-          for 20 days before
-          being permanently removed.
+          Restore deleted
+          sessions and editorial
+          stories.
 
         </p>
 
@@ -91,18 +143,17 @@ export default function BinSection({
       {/* EMPTY */}
       {binItems.length === 0 && (
 
-        <div className="bg-white border border-black/5 p-16 text-center">
+        <div className="border border-dashed border-black/10 p-20 text-center">
 
-          <p className="text-2xl font-light mb-4">
+          <p className="uppercase tracking-[0.3em] text-xs opacity-40 mb-4">
 
-            Bin is empty
+            Bin Empty
 
           </p>
 
-          <p className="opacity-40">
+          <p className="opacity-50">
 
-            Deleted articles and
-            portfolio sessions will
+            Deleted items will
             appear here.
 
           </p>
@@ -112,102 +163,81 @@ export default function BinSection({
       )}
 
       {/* ITEMS */}
-      <div className="space-y-8">
+      <div className="flex gap-8 overflow-x-auto pb-6">
 
-        {binItems.map((item) => (
+        {binItems.map(
+          (item) => (
 
-          <div
-            key={item.id}
-            className="bg-white border border-black/5 overflow-hidden hover:shadow-xl transition duration-500"
-          >
-
-            <div className="grid lg:grid-cols-[240px_1fr]">
+            <div
+              key={item.id}
+              className="bg-white min-w-[420px] overflow-hidden border border-black/5 rounded-sm"
+            >
 
               {/* IMAGE */}
-              {item.image && (
+              <img
+                src={
+                  item.coverImage ||
+                  item.image
+                }
+                alt={item.title}
+                className="w-full h-[240px] object-cover"
+              />
 
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className="w-full h-full object-cover min-h-[240px]"
-                />
+              <div className="p-8">
 
-              )}
+                {/* TYPE */}
+                <p className="uppercase tracking-[0.3em] text-xs opacity-40 mb-4">
 
-              {/* CONTENT */}
-              <div className="p-10">
+                  {item.type}
 
-                <div className="flex items-start justify-between gap-10 mb-10">
+                </p>
 
-                  <div>
+                {/* TITLE */}
+                <h3 className="text-3xl font-light mb-6">
 
-                    <p className="uppercase tracking-[0.3em] text-xs opacity-40 mb-4">
+                  {item.title}
 
-                      {item.type}
+                </h3>
 
-                    </p>
+                {/* DESCRIPTION */}
+                <p className="opacity-60 leading-relaxed mb-8">
 
-                    <h3 className="text-3xl font-light mb-4">
+                  {item.description}
 
-                      {item.title}
-
-                    </h3>
-
-                    <p className="opacity-60 leading-relaxed max-w-2xl">
-
-                      {item.excerpt ||
-                        item.description}
-
-                    </p>
-
-                  </div>
-
-                  <div className="text-right">
-
-                    <p className="text-sm opacity-40 mb-2">
-
-                      Auto delete in
-
-                    </p>
-
-                    <p className="text-2xl font-light">
-
-                      {daysRemaining(
-                        item.deletedAt
-                      )} days
-
-                    </p>
-
-                  </div>
-
-                </div>
+                </p>
 
                 {/* ACTIONS */}
-                <div className="flex gap-4">
+                <div className="flex gap-3">
 
+                  {/* RESTORE */}
                   <button
                     onClick={() =>
                       restoreItem(
-                        item.id
+                        item
                       )
                     }
-                    className="border border-black px-6 py-4 uppercase tracking-[0.25em] text-[11px] hover:bg-black hover:text-white transition duration-500"
+                    className="w-10 h-10 rounded-full border border-black/10 flex items-center justify-center hover:bg-black hover:text-white transition duration-500"
                   >
 
-                    Restore
+                    <RotateCcw
+                      size={15}
+                    />
 
                   </button>
 
+                  {/* DELETE */}
                   <button
                     onClick={() =>
                       deleteForever(
                         item.id
                       )
                     }
-                    className="border border-red-200 text-red-500 px-6 py-4 uppercase tracking-[0.25em] text-[11px] hover:bg-red-500 hover:text-white transition duration-500"
+                    className="w-10 h-10 rounded-full border border-red-200 text-red-500 flex items-center justify-center hover:bg-red-500 hover:text-white transition duration-500"
                   >
 
-                    Delete Forever
+                    <Trash2
+                      size={15}
+                    />
 
                   </button>
 
@@ -217,13 +247,14 @@ export default function BinSection({
 
             </div>
 
-          </div>
+          )
 
-        ))}
+        )}
 
       </div>
 
     </div>
 
   );
+
 }
