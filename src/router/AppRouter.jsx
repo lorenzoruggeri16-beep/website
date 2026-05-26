@@ -12,6 +12,7 @@ import PortfolioDetail from "../pages/PortfolioDetail";
 import About from "../pages/About";
 import Contact from "../pages/Contact";
 import Journal from "../pages/Journal";
+import Admin from "../pages/Admin";
 
 export default function AppRouter() {
 
@@ -51,6 +52,11 @@ export default function AppRouter() {
         path="/journal"
         element={<Journal />}
         />
+
+        <Route
+         path="/admin"
+         element={<Admin />}
+      />
 
       </Routes>
 

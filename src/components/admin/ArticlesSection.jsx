@@ -1,0 +1,562 @@
+import {
+  useState,
+  useEffect,
+} from "react";
+
+import {
+  Pencil,
+  Trash2,
+  SlidersHorizontal,
+} from "lucide-react";
+
+import { journalArticles }
+from "../../data/journalData";
+
+export default function ArticlesSection({
+  currentUser,
+  binItems,
+  setBinItems,
+}) {
+
+  // ARTICLES
+  const [articles,
+    setArticles] =
+    useState(() => {
+
+      const saved =
+        localStorage.getItem(
+          "articles"
+        );
+
+      return saved
+        ? JSON.parse(saved)
+        : journalArticles;
+
+    });
+
+  // CREATE
+  const [articleTitle,
+    setArticleTitle] =
+    useState("");
+
+  const [articleCategory,
+    setArticleCategory] =
+    useState("");
+
+  const [articleDescription,
+    setArticleDescription] =
+    useState("");
+
+  const [articlePreview,
+    setArticlePreview] =
+    useState("");
+
+  // EDIT
+  const [editingArticleId,
+    setEditingArticleId] =
+    useState(null);
+
+  const [editTitle,
+    setEditTitle] =
+    useState("");
+
+  const [editCategory,
+    setEditCategory] =
+    useState("");
+
+  const [editDescription,
+    setEditDescription] =
+    useState("");
+
+  const [editImage,
+    setEditImage] =
+    useState("");
+
+  // SEARCH
+  const [search,
+    setSearch] =
+    useState("");
+
+  const [sortBy,
+    setSortBy] =
+    useState("latest");
+
+  // SAVE
+  useEffect(() => {
+
+    localStorage.setItem(
+      "articles",
+      JSON.stringify(
+        articles
+      )
+    );
+
+  }, [articles]);
+
+  // FILTER
+  const filteredArticles =
+
+    [...articles]
+
+      .filter((article) =>
+
+        article.title
+          ?.toLowerCase()
+          .includes(
+            search.toLowerCase()
+          ) ||
+
+        article.category
+          ?.toLowerCase()
+          .includes(
+            search.toLowerCase()
+          )
+
+      )
+
+      .sort((a, b) => {
+
+        if (
+          sortBy === "latest"
+        ) {
+
+          return b.id - a.id;
+
+        }
+
+        if (
+          sortBy === "oldest"
+        ) {
+
+          return a.id - b.id;
+
+        }
+
+        return 0;
+
+      });
+
+  // CREATE ARTICLE
+  const publishArticle =
+    () => {
+
+      if (
+        !articleTitle ||
+        !articleCategory ||
+        !articleDescription ||
+        !articlePreview
+      ) {
+
+        alert(
+          "Fill all fields"
+        );
+
+        return;
+
+      }
+
+      const slug =
+
+        articleTitle
+          .toLowerCase()
+          .replaceAll(" ", "-");
+
+      const newArticle = {
+
+        id: Date.now(),
+
+        slug,
+
+        title:
+          articleTitle,
+
+        category:
+          articleCategory,
+
+        description:
+          articleDescription,
+
+        image:
+          articlePreview,
+
+      };
+
+      setArticles([
+
+        ...articles,
+        newArticle,
+
+      ]);
+
+      // RESET
+      setArticleTitle("");
+      setArticleCategory("");
+      setArticleDescription("");
+      setArticlePreview("");
+
+    };
+
+  return (
+
+    <div className="max-w-[1600px] mx-auto">
+
+      {/* HEADER */}
+      <div className="mb-20">
+
+        <p className="uppercase tracking-[0.3em] text-xs opacity-50 mb-6">
+
+          Editorial Management
+
+        </p>
+
+        <h2 className="text-6xl font-light mb-6">
+
+          Journal
+
+        </h2>
+
+        <p className="opacity-50 text-lg max-w-2xl leading-relaxed">
+
+          Curate cinematic stories,
+          motherhood sessions and
+          editorial narratives.
+
+        </p>
+
+      </div>
+
+      <div className="grid lg:grid-cols-12 gap-20 w-full items-start">
+
+        {/* LEFT */}
+        <div className="lg:col-span-4 max-w-[500px] bg-white border border-black/10 p-10">
+
+          <div className="space-y-5">
+
+            {/* TITLE */}
+            <input
+              type="text"
+              placeholder="Article Title"
+              value={articleTitle}
+              onChange={(e) =>
+                setArticleTitle(
+                  e.target.value
+                )
+              }
+              className="w-full border-b border-black bg-transparent py-4 outline-none"
+            />
+
+            {/* CATEGORY */}
+            <input
+              type="text"
+              placeholder="Category"
+              value={articleCategory}
+              onChange={(e) =>
+                setArticleCategory(
+                  e.target.value
+                )
+              }
+              className="w-full border-b border-black bg-transparent py-4 outline-none"
+            />
+
+            {/* IMAGE */}
+            <label className="border border-dashed border-black/20 hover:border-black/40 transition duration-500 min-h-[160px] flex flex-col items-center justify-center text-center cursor-pointer p-10">
+
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={(e) => {
+
+                  const file =
+                    e.target.files[0];
+
+                  if (file) {
+
+                    const reader =
+                      new FileReader();
+
+                    reader.onloadend =
+                      () => {
+
+                        setArticlePreview(
+                          reader.result
+                        );
+
+                      };
+
+                    reader.readAsDataURL(
+                      file
+                    );
+
+                  }
+
+                }}
+              />
+
+              {articlePreview ? (
+
+                <img
+                  src={
+                    articlePreview
+                  }
+                  alt=""
+                  className="w-full h-[180px] object-cover"
+                />
+
+              ) : (
+
+                <>
+
+                  <p className="uppercase tracking-[0.3em] text-xs opacity-40 mb-4">
+
+                    Upload Article Image
+
+                  </p>
+
+                  <p className="opacity-50 text-sm">
+
+                    cinematic cover
+
+                  </p>
+
+                </>
+
+              )}
+
+            </label>
+
+            {/* DESCRIPTION */}
+            <textarea
+              rows="4"
+              placeholder="Article Description"
+              value={
+                articleDescription
+              }
+              onChange={(e) =>
+                setArticleDescription(
+                  e.target.value
+                )
+              }
+              className="w-full border-b border-black bg-transparent py-4 outline-none resize-none"
+            />
+
+            {/* BUTTON */}
+            <button
+              onClick={
+                publishArticle
+              }
+              className="border border-black px-8 py-4 uppercase tracking-[0.3em] text-xs hover:bg-black hover:text-white transition duration-500"
+            >
+
+              Publish Article
+
+            </button>
+
+          </div>
+
+        </div>
+
+        {/* RIGHT */}
+        <div className="lg:col-span-8 w-full">
+
+          {/* SEARCH */}
+          <div className="mb-10">
+
+            <div className="w-full h-px bg-gradient-to-r from-transparent via-[#c6a66a] to-transparent opacity-70 mb-10" />
+
+            <div className="flex items-center justify-between gap-6">
+
+              <input
+                type="text"
+                placeholder="Search articles..."
+                value={search}
+                onChange={(e) =>
+                  setSearch(
+                    e.target.value
+                  )
+                }
+                className="flex-1 border-b border-[#c6a66a] bg-transparent py-4 outline-none"
+              />
+
+              <button
+                onClick={() => {
+
+                  if (
+                    sortBy === "latest"
+                  ) {
+
+                    setSortBy(
+                      "oldest"
+                    );
+
+                  } else {
+
+                    setSortBy(
+                      "latest"
+                    );
+
+                  }
+
+                }}
+                className="w-14 h-14 border border-[#c6a66a]/30 flex items-center justify-center hover:bg-black hover:text-white transition duration-500"
+              >
+
+                <SlidersHorizontal
+                  size={18}
+                />
+
+              </button>
+
+            </div>
+
+          </div>
+
+          {/* ARTICLES */}
+          <div className="flex gap-8 overflow-x-auto pb-6">
+
+            {filteredArticles.map(
+              (article) => (
+
+                <div
+                  key={article.id}
+                  className="bg-white min-w-[420px] overflow-hidden border border-black/5"
+                >
+
+                  {/* IMAGE */}
+                  <img
+                    src={
+                      article.image
+                    }
+                    alt={
+                      article.title
+                    }
+                    className="w-full h-[240px] object-cover"
+                  />
+
+                  <div className="p-8">
+
+                    <p className="uppercase tracking-[0.3em] text-xs opacity-40 mb-4">
+
+                      {article.category}
+
+                    </p>
+
+                    <h3 className="text-3xl font-light mb-6">
+
+                      {article.title}
+
+                    </h3>
+
+                    <p className="opacity-60 leading-relaxed mb-8">
+
+                      {
+                        article.description
+                      }
+
+                    </p>
+
+                    {/* ACTIONS */}
+                    <div className="flex gap-3">
+
+                      {/* EDIT */}
+                      {currentUser?.permissions
+                        ?.editArticles && (
+
+                        <button
+                          onClick={() => {
+
+                            setEditingArticleId(
+                              article.id
+                            );
+
+                            setEditTitle(
+                              article.title
+                            );
+
+                            setEditCategory(
+                              article.category
+                            );
+
+                            setEditDescription(
+                              article.description
+                            );
+
+                            setEditImage(
+                              article.image
+                            );
+
+                          }}
+                          className="w-10 h-10 rounded-full border border-black/10 flex items-center justify-center hover:bg-black hover:text-white transition duration-500"
+                        >
+
+                          <Pencil
+                            size={15}
+                          />
+
+                        </button>
+
+                      )}
+
+                      {/* DELETE */}
+                      {currentUser?.permissions
+                        ?.deleteArticles && (
+
+                        <button
+                          onClick={() => {
+
+                            setBinItems([
+
+                              ...binItems,
+
+                              {
+                                ...article,
+                                type:
+                                  "article",
+                                deletedAt:
+                                  Date.now(),
+                              },
+
+                            ]);
+
+                            setArticles(
+
+                              articles.filter(
+                                (a) =>
+                                  a.id !==
+                                  article.id
+                              )
+
+                            );
+
+                          }}
+                          className="w-10 h-10 rounded-full border border-red-200 text-red-500 flex items-center justify-center hover:bg-red-500 hover:text-white transition duration-500"
+                        >
+
+                          <Trash2
+                            size={15}
+                          />
+
+                        </button>
+
+                      )}
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              )
+
+            )}
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  );
+}

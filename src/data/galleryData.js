@@ -1,29 +1,17 @@
-export const galleries = [
+
+export const galleryData = [
+
   {
-    slug: "beach-motherhood",
+    id: 1,
+
     title: "Motherhood by the Ocean",
-    location: "Tenerife, Spain",
 
-    hero: "/images/motherhood-1.jpg",
+    location: "Tenerife",
 
-    images: [
-      "/images/motherhood-1.jpg",
-      "/images/motherhood-2.jpg",
-      "/images/motherhood-3.jpg",
-    ],
+    description:
+      "An emotional beach motherhood session during golden hour.",
+
+    image: "/images/motherhood-1.jpg",
   },
 
-  {
-    slug: "lake-como",
-    title: "Lake Como Romance",
-    location: "Lake Como, Italy",
-
-    hero: "/images/gallery-4.jpg",
-
-    images: [
-      "/images/gallery-4.jpg",
-      "/images/gallery-2.jpg",
-      "/images/gallery-3.jpg",
-    ],
-  },
 ];

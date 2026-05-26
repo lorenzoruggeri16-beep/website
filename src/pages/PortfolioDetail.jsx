@@ -1,73 +1,384 @@
-import { useParams } from "react-router-dom";
-import Navbar from "../components/layout/Navbar";
-import Footer from "../components/layout/Footer";
-import { galleries } from "../data/galleryData";
-import PageTransition from "../components/ui/PageTransition";
+import {
+  useEffect,
+  useState,
+} from "react";
+
+import {
+  useParams,
+  Link,
+} from "react-router-dom";
+
+import {
+  motion,
+} from "framer-motion";
+
+import Navbar
+from "../components/layout/Navbar";
+
+import Footer
+from "../components/layout/Footer";
+
+import PageTransition
+from "../components/ui/PageTransition";
 
 export default function PortfolioDetail() {
 
-  const { slug } = useParams();
+  const { slug } =
+    useParams();
 
-  const gallery = galleries.find(
-    (item) => item.slug === slug
-  );
+  const [portfolio,
+    setPortfolio] =
+    useState(null);
 
-  if (!gallery) {
-    return <div>Gallery not found</div>;
+  const [moreSessions,
+    setMoreSessions] =
+    useState([]);
+
+  // LOAD PORTFOLIO
+  useEffect(() => {
+
+    const savedPortfolio =
+      localStorage.getItem(
+        "portfolio"
+      );
+
+    if (savedPortfolio) {
+
+      const portfolioItems =
+        JSON.parse(
+          savedPortfolio
+        );
+
+      // CURRENT
+      const foundPortfolio =
+
+        portfolioItems.find(
+          (item) =>
+
+            (
+              item.slug ||
+
+              item.id
+                .toString()
+
+            ) === slug
+
+        );
+
+      setPortfolio(
+        foundPortfolio
+      );
+
+      // RELATED
+      const related =
+
+        portfolioItems
+          .filter(
+
+            (item) =>
+
+              (
+                item.slug ||
+
+                item.id
+                  .toString()
+
+              ) !== slug
+
+          )
+          .slice(0, 3);
+
+      setMoreSessions(
+        related
+      );
+
+    }
+
+  }, [slug]);
+
+  // LOADING
+  if (!portfolio) {
+
+    return (
+
+      <main className="min-h-screen bg-[#f6f2eb] flex items-center justify-center">
+
+        <p className="uppercase tracking-[0.35em] text-xs opacity-40">
+
+          Loading Session...
+
+        </p>
+
+      </main>
+
+    );
+
   }
 
   return (
-    <main className="bg-[#f8f6f2] text-black min-h-screen">
 
-      <Navbar />
+    <PageTransition>
 
-      {/* Hero */}
-      <section className="relative h-screen overflow-hidden">
+      <main className="bg-[#f6f2eb] overflow-hidden">
 
-        <img
-          src={gallery.hero}
-          alt={gallery.title}
-          className="absolute inset-0 w-full h-full object-cover"
-        />
+        <Navbar />
 
-        <div className="absolute inset-0 bg-black/30" />
+        {/* HERO */}
+        <section className="relative h-screen overflow-hidden">
 
-        <div className="relative z-10 h-full flex flex-col justify-center items-center text-center text-white px-6">
+          <img
+            src={portfolio.image}
+            alt={portfolio.title}
+            className="w-full h-full object-cover scale-[1.02]"
+          />
 
-          <p className="uppercase tracking-[0.4em] text-xs mb-6">
-            {gallery.location}
-          </p>
+          {/* DARK OVERLAY */}
+          <div className="absolute inset-0 bg-black/25" />
 
-          <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-light leading-none">
-            {gallery.title}
-          </h1>
+          {/* TEXT */}
+          <div className="absolute bottom-0 left-0 w-full px-6 lg:px-20 pb-24 z-10">
 
-        </div>
+            <motion.div
+              initial={{
+                opacity: 0,
+                y: 50,
+              }}
+              animate={{
+                opacity: 1,
+                y: 0,
+              }}
+              transition={{
+                duration: 1,
+              }}
+            >
 
-      </section>
+              <p className="uppercase tracking-[0.45em] text-xs text-white/70 mb-8">
 
-      {/* Images */}
-      <section className="px-6 md:px-12 py-32">
+                {portfolio.location}
 
-        <div className="space-y-10">
+              </p>
 
-          {gallery.images.map((image, index) => (
+              <h1 className="text-6xl lg:text-[140px] leading-none font-light text-white max-w-6xl">
 
-            <img
-              key={index}
-              src={image}
-              alt=""
-              className="w-full object-cover"
-            />
+                {portfolio.title}
 
-          ))}
+              </h1>
 
-        </div>
+            </motion.div>
 
-      </section>
+          </div>
 
-      <Footer />
+        </section>
 
-    </main>
+        {/* INTRO */}
+        <section className="px-6 lg:px-20 py-32">
+
+          <div className="grid lg:grid-cols-12 gap-20">
+
+            {/* LEFT */}
+            <div className="lg:col-span-4">
+
+              <p className="uppercase tracking-[0.35em] text-xs opacity-40 mb-8">
+
+                Cinematic Session
+
+              </p>
+
+              <div className="w-32 h-px bg-[#c6a66a] mb-10" />
+
+            </div>
+
+            {/* RIGHT */}
+            <div className="lg:col-span-8">
+
+              <p className="text-2xl lg:text-4xl font-light leading-relaxed opacity-80 max-w-4xl">
+
+                {portfolio.description}
+
+              </p>
+
+            </div>
+
+          </div>
+
+        </section>
+
+        {/* IMAGE COMPOSITION */}
+        <section className="px-6 lg:px-20 pb-32">
+
+          <div className="grid lg:grid-cols-12 gap-10 items-start">
+
+            {/* BIG IMAGE */}
+            <div className="lg:col-span-7 overflow-hidden">
+
+              <img
+                src={portfolio.image}
+                alt={portfolio.title}
+                className="w-full h-[900px] object-cover hover:scale-[1.02] transition duration-[2500ms]"
+              />
+
+            </div>
+
+            {/* SIDE COLUMN */}
+            <div className="lg:col-span-5 flex flex-col gap-10 lg:pt-32">
+
+              <div className="overflow-hidden">
+
+                <img
+                  src={portfolio.image}
+                  alt={portfolio.title}
+                  className="w-full h-[420px] object-cover hover:scale-[1.02] transition duration-[2500ms]"
+                />
+
+              </div>
+
+              <div className="bg-white p-12">
+
+                <p className="uppercase tracking-[0.35em] text-xs opacity-40 mb-8">
+
+                  Session Notes
+
+                </p>
+
+                <p className="text-lg leading-relaxed opacity-70">
+
+                  Every session is built
+                  around emotion,
+                  movement and natural
+                  light to preserve the
+                  authenticity of the
+                  moment through a
+                  cinematic and timeless
+                  perspective.
+
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
+
+        {/* MORE SESSIONS */}
+        <section className="px-6 lg:px-20 pb-32">
+
+          <div className="flex items-center justify-between mb-20">
+
+            <div>
+
+              <p className="uppercase tracking-[0.35em] text-xs opacity-40 mb-5">
+
+                Continue Exploring
+
+              </p>
+
+              <h2 className="text-5xl lg:text-7xl font-light">
+
+                More Sessions
+
+              </h2>
+
+            </div>
+
+            <div className="hidden lg:block w-40 h-px bg-[#c6a66a]" />
+
+          </div>
+
+          <div className="grid lg:grid-cols-3 gap-10">
+
+            {moreSessions.map(
+              (item) => (
+
+                <Link
+                  key={item.id}
+                  to={`/portfolio/${item.slug || item.id}`}
+                  className="group"
+                >
+
+                  <article className="overflow-hidden bg-white hover:-translate-y-2 transition duration-700">
+
+                    <div className="overflow-hidden">
+
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="w-full h-[450px] object-cover group-hover:scale-[1.03] transition duration-[1800ms]"
+                      />
+
+                    </div>
+
+                    <div className="p-8">
+
+                      <p className="uppercase tracking-[0.35em] text-xs opacity-40 mb-5">
+
+                        {item.location}
+
+                      </p>
+
+                      <h3 className="text-3xl font-light leading-tight">
+
+                        {item.title}
+
+                      </h3>
+
+                    </div>
+
+                  </article>
+
+                </Link>
+
+              )
+
+            )}
+
+          </div>
+
+        </section>
+
+        {/* CINEMATIC STRIP */}
+        <section className="pb-32 overflow-hidden">
+
+          <div className="border-y border-[#c6a66a]/30 py-10 whitespace-nowrap">
+
+            <div className="flex gap-20 text-[12vw] font-light opacity-[0.06] uppercase tracking-[0.08em] animate-marquee">
+
+              <span>
+
+                Golden Light Studio
+
+              </span>
+
+              <span>
+
+                Cinematic Memories
+
+              </span>
+
+              <span>
+
+                Tenerife Photography
+
+              </span>
+
+              <span>
+
+                Editorial Sessions
+
+              </span>
+
+            </div>
+
+          </div>
+
+        </section>
+
+        <Footer />
+
+      </main>
+
+    </PageTransition>
+
   );
 }
