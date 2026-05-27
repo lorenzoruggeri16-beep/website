@@ -37,6 +37,53 @@ export default function PortfolioDetail() {
     setMoreSessions] =
     useState([]);
 
+  const [selectedIndex,
+  setSelectedIndex] =
+  useState(0);
+
+  const [cursorVisible,
+  setCursorVisible] =
+  useState(false);
+
+  const [cursorPosition,
+  setCursorPosition] =
+  useState({
+    x: 0,
+    y: 0,
+  });
+
+  const [lightboxOpen,
+  setLightboxOpen] =
+  useState(false);
+
+  const [activeImage,
+  setActiveImage] =
+  useState(0);
+
+  useEffect(() => {
+
+    const handleEscape =
+
+    (e) => {
+
+      if (
+        e.key === "Escape"
+      ) {
+
+        setLightboxOpen(
+          false
+        );
+
+      }
+
+    };
+
+    window.addEventListener(
+      "keydown",
+      handleEscape
+    );
+  }, []);
+
   const [
   emblaRef,
   emblaApi,
@@ -44,9 +91,42 @@ export default function PortfolioDetail() {
 
   loop: true,
   align: "center",
+  dragFree: true,
 
 });
 
+useEffect(() => {
+
+  if (!emblaApi)
+    return;
+  const onSelect = () => {
+
+    setSelectedIndex(
+      emblaApi.selectedScrollSnap()
+    );
+  };
+
+  emblaApi.on(
+    "select",
+    onSelect
+  );
+
+  onSelect();
+
+  const autoplay =
+
+    setInterval(() => {
+
+      emblaApi.scrollNext();
+
+    }, 4000);
+
+  return () =>
+    clearInterval(
+      autoplay
+    );
+
+}, [emblaApi]);
 
 
   // LOAD PORTFOLIO
@@ -189,7 +269,7 @@ export default function PortfolioDetail() {
         </section>
 
         {/* INTRO */}
-        <section className="px-6 lg:px-20 py-32">
+        <section className="px-6 lg:px-20 pt-6 pb-10">
 
           <div className="grid lg:grid-cols-12 gap-20">
 
@@ -224,61 +304,285 @@ export default function PortfolioDetail() {
         {/* CINEMATIC GALLERY */}
         <section className="pb-32 overflow-hidden">
 
+        {!lightboxOpen && (
+
+          <>
+          {/* LEFT ARROW */}
+<button
+  onClick={() =>
+    emblaApi?.scrollPrev()
+  }
+  className="
+
+    absolute
+    left-2 lg:left-8
+
+    top-[58%]
+    -translate-y-1/2
+
+    z-40
+
+    w-14
+    h-14
+
+    lg:w-16
+    lg:h-16
+
+    rounded-full
+
+    backdrop-blur-md
+    bg-white/10
+
+    border
+    border-white/20
+
+    text-white
+
+    flex
+    items-center
+    justify-center
+
+    hover:bg-black
+    hover:scale-110
+
+    transition-all
+    duration-500
+
+  "
+>
+
+  ←
+
+</button>
+
+{/* RIGHT ARROW */}
+<button
+  onClick={() =>
+    emblaApi?.scrollNext()
+  }
+  className="
+
+    absolute
+    right-2 lg:right-8
+
+    top-[58%]
+    -translate-y-1/2
+
+    z-40
+
+    w-14
+    h-14
+
+    lg:w-16
+    lg:h-16
+
+    rounded-full
+
+    backdrop-blur-md
+    bg-white/10
+
+    border
+    border-white/20
+
+    text-white
+
+    flex
+    items-center
+    justify-center
+
+    hover:bg-black
+    hover:scale-110
+
+    transition-all
+    duration-500
+
+  "
+>
+
+  →
+
+</button>
+
+</>
+
+        )}
+
+
+{cursorVisible && (
+
+  <div
+   className="
+   
+   fixed
+   z-[999]
+
+   pointer-events-none
+
+   w-16
+   h-16
+
+   rounded-full
+
+   backdrop-blur-xl
+   bg-white/10
+
+   border
+   border-white/20
+
+   text-white
+
+   flex
+   items-center
+   justify-center
+
+   uppercase
+   tracking-[0.1em]
+   text-[10px]
+
+   transition-transform
+   duration-150
+
+   "
+
+   style={{
+
+    left:
+    cursorPosition.x - 32,
+
+    top:
+    cursorPosition.y - 32,
+
+   }}
+   >
+
+    Drag 
+
+   </div>
+
+  )}
+                  
           <div
            ref={emblaRef}
-           className="overflow-hidden px-6 lg:px-20"
+
+           onMouseEnter={() =>
+            setCursorVisible(true)
+           }
+
+           onMouseLeave={() =>
+            setCursorVisible(false)
+           }
+
+           onMouseMove={(e) => {
+
+            setCursorPosition({
+
+            x: e.clientX,
+            y: e.clientY,
+           });
+          }}
+
+           onWheel={(e) => {
+
+            if (!emblaApi)
+              return;
+
+            if (e.deltaY > 0) {
+
+              emblaApi.scrollNext();
+            } else {
+
+              emblaApi.scrollPrev();
+
+            }
+
+           }}
+
+           className="overflow-hidden px-6 lg:px-20 scrollbar-hide"
            >
-            <div className="flex gap-6">
+            <div className="flex gap-3">
 
             {portfolio.images?.map(
               (image, index) => (
 
                 <motion.div
-                 key={index}
-                 initial={{
+                key={index}
+                initial={{
                   opacity: 0,
                   y: 60,
-                 }}
-                 whileInView={{
+                }}
+                whileInView={{
                   opacity: 1,
                   y: 0,
-                 }}
-                 transition={{
-                  duration: 1,
-                 }}
-                 viewport={{
+                }}
+                transition={{
+                  duration:1
+                }}
+                viewport={{
                   once: true,
-                 }}
-                 className="
+                }}
+                
+                className={`
+                  ${
+                    index % 2 === 0
+
+                    ? "mt-0"
+
+                    : "mt-24"
+                  }
+
+                flex-shrink-0
                  
-                 flex-shrink-0
-                 
-                 w-[92vw]
-                 md:w-[75vw]
-                 lg:w-[55vw]
+                 w-[78vw]
+                 md:w-[42vw]
+                 lg:w-[24vw]
                  
                  snap-center
-                 
-                 "
-                 >
+
+                 transition-all
+                 duration-700
+
+                 ${
+                  selectedIndex === index
+
+                  ? "scale-100 opacity-100 z-20 blur-0"
+
+                  : Math.abs(index - selectedIndex) === 1
+
+                  ? "scale-[0.97] opacity-75 blur-[2px]"
+
+                  : "cale-[0.92] opacity-40 blur-[4px]"
+                 }
                 
-                <div className="overflow-hidden">
+                 `}
+                >
+
+                <div className="overflow-hidden rounded-none">
+
+                  
 
                   <img
+                  onClick={() => {
+
+                    setActiveImage(index);
+                    setLightboxOpen(true);
+                  }}
+
                    src={image}
                    alt=""
                    className="
                    
                    w-full
-                   h-[70vh]
-                   lg:h-[85vh]
+                   h-[58vh]
+                   lg:h-[72vh]
                    
                    object-cover
                    
-                   hover:scale-[1.02]
+                   hover:scale-[1.06]
+                   hover:rotate-[0.4deg]
                    
-                   transition
-                   duration-[2500ms]
+                   transition-all
+                   duration-[3000ms]
+                   ease-out
                    
                    "
                    />
@@ -297,9 +601,9 @@ export default function PortfolioDetail() {
 
 
         {/* MORE SESSIONS */}
-        <section className="px-6 lg:px-20 pb-32">
+        <section className="px-6 lg:px-20 pb-12">
 
-          <div className="flex items-center justify-between mb-20">
+          <div className="flex items-center justify-between mb-12">
 
             <div>
 
@@ -309,7 +613,7 @@ export default function PortfolioDetail() {
 
               </p>
 
-              <h2 className="text-5xl lg:text-7xl font-light">
+              <h2 className="text-4xl lg:text-5xl font-light">
 
                 More Sessions
 
@@ -321,63 +625,116 @@ export default function PortfolioDetail() {
 
           </div>
 
-          <div className="grid lg:grid-cols-3 gap-10">
+          <div className="overflow-x-auto scrollbar-hide">
 
-            {moreSessions.map(
-              (item) => (
+  <div className="flex gap-6 min-w-max pb-4">
 
-                <Link
-                  key={item.id}
-                  to={`/portfolio/${item.slug || item.id}`}
-                  className="group"
-                >
+    {moreSessions.map((item) => (
 
-                  <article className="overflow-hidden bg-white hover:-translate-y-2 transition duration-700">
+      <Link
+        key={item.id}
+        to={`/portfolio/${item.slug || item.id}`}
+        className="group flex-shrink-0 w-[240px]"
+      >
 
-                    <div className="overflow-hidden">
+        <article>
 
-                      <img
-                        src={item.image}
-                        alt={item.title}
-                        className="w-full h-[450px] object-cover group-hover:scale-[1.03] transition duration-[1800ms]"
-                      />
+          <div className="overflow-hidden rounded-[2px]">
 
-                    </div>
+            <img
+              src={
+                item.coverImage ||
+                item.image ||
+                item.images?.[0]
+              }
+              alt={item.title}
+              className="
 
-                    <div className="p-8">
+                w-full
+                h-[320px]
 
-                      <p className="uppercase tracking-[0.35em] text-xs opacity-40 mb-5">
+                object-cover
 
-                        {item.location}
+                group-hover:scale-[1.03]
 
-                      </p>
+                transition-all
+                duration-[1800ms]
 
-                      <h3 className="text-3xl font-light leading-tight">
-
-                        {item.title}
-
-                      </h3>
-
-                    </div>
-
-                  </article>
-
-                </Link>
-
-              )
-
-            )}
+              "
+            />
 
           </div>
+
+          <div className="pt-5">
+
+            <p className="uppercase tracking-[0.35em] text-[10px] opacity-40 mb-3">
+
+              {item.location}
+
+            </p>
+
+            <h3 className="text-2xl font-light">
+
+              {item.title}
+
+            </h3>
+
+          </div>
+
+        </article>
+
+      </Link>
+
+    ))}
+
+    {/* VIEW ALL */}
+    <Link
+      to="/portfolio"
+      className="
+
+        flex-shrink-0
+
+        w-[240px]
+        h-[320px]
+
+        border
+        border-black/10
+
+        flex
+        items-center
+        justify-center
+
+        uppercase
+        tracking-[0.35em]
+        text-xs
+
+        hover:bg-black
+        hover:text-white
+
+        transition-all
+        duration-500
+
+      "
+    >
+
+      View Full Portfolio
+
+    </Link>
+
+  </div>
+
+</div>
+
+            
 
         </section>
 
         {/* CINEMATIC STRIP */}
-        <section className="pb-32 overflow-hidden">
+        <section className="pb-12 overflow-hidden relative">
+          
+          <div className="border-y border-[#c6a66a]/30 py-6 whitespace-nowrap">
 
-          <div className="border-y border-[#c6a66a]/30 py-10 whitespace-nowrap">
-
-            <div className="flex gap-20 text-[12vw] font-light opacity-[0.06] uppercase tracking-[0.08em] animate-marquee">
+            <div className="flex gap-12 text-[36px] lg:text-[72px] font-light opacity-[0.08] uppercase tracking-[0.08em] animate-marquee">
 
               <span>
 
@@ -408,6 +765,194 @@ export default function PortfolioDetail() {
           </div>
 
         </section>
+
+        {lightboxOpen && (
+
+          <div
+          className="
+          
+          fixed
+          inset-0
+
+          z-[9999]
+
+          bg-black/90
+          backdrop-blur-xl
+
+          flex
+          items-center
+          justify-center
+          
+          "
+
+          onClick={() =>
+            setLightboxOpen(false)
+          }
+          >
+
+            {/* IMAGE*/}
+            <img
+            src={
+              portfolio.images[
+                activeImage
+              ]
+            }
+            alt=""
+            className="
+            
+            max-w-[90vw]
+            max-h-[90vw]
+
+            object-contain
+
+            "
+            onClick={(e) =>
+              e.stopPropagation()
+            }
+            />
+
+            {/* COUNTER */}
+            <div
+            className="
+            
+            absolute
+            top-28
+            left-10
+
+            text-white/70
+
+            uppercase
+            tracking-[0.45em]
+
+            text-xm
+
+            z-50
+            
+            "
+            >
+
+              {String(
+                activeImage + 1
+              ).padStart(2, "0")}
+
+              /
+
+              {String(
+                portfolio.images.length
+              ).padStart(2, "0")}
+
+            </div>
+
+            {/* CLOSE */}
+
+            <button
+             onClick={() =>
+              setLightboxOpen(false)
+             }
+             className="
+             
+             absolute
+             top-8
+             right-8
+
+             text-white
+             text-3xl
+
+             opacity-70
+             hover:opacity-100
+
+             transition
+
+             "
+
+             >
+
+              ✕
+
+             </button>
+
+             {/* PREV*/}
+             <button
+              onClick={(e) => {
+                
+                e.stopPropagation();
+
+                setActiveImage(
+                  (prev) =>
+
+                    prev === 0
+
+                    ? portfolio.images.length - 1
+                    : prev - 1
+                );
+              }}
+              className="
+              
+              absolute
+              left-8
+              top-1/2
+
+              -translate-y-1/2
+
+              text-white
+              text-5xl
+
+              opacity-60
+              hover:opacity-100
+
+              transition
+
+              "
+              >
+
+                 ←
+
+              </button>
+
+              {/* NEXT */}
+            <button
+              onClick={(e) => {
+
+                e.stopPropagation();
+
+                setActiveImage(
+                  (prev) =>
+
+                    prev ===
+                    portfolio.images.length - 1
+
+                    ? 0
+
+                    : prev + 1
+                );
+
+              }}
+              className="
+              
+              absolute
+              right-8
+              top-1/2
+
+              -translate-y-1/2
+
+              text-white
+              text-5xl
+
+              opacity-60 
+              hover:opacity-100 
+
+              transition
+
+              "
+            >
+
+               →
+
+               </button>
+
+          </div>
+
+        )}
 
         <Footer />
 
