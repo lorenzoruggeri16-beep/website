@@ -17,6 +17,12 @@ export default function PortfolioEditorialGrid() {
     setPortfolioItems] =
     useState([]);
 
+  const [activeCategory,
+  setActiveCategory] =
+  useState(
+    "Portrait Sessions"
+  );
+
   useEffect(() => {
 
     const savedPortfolio =
@@ -32,142 +38,209 @@ export default function PortfolioEditorialGrid() {
         )
       );
 
+    console.log(
+  JSON.parse(savedPortfolio)
+
+  );
+
     }
 
   }, []);
 
+  const groupedPortfolio = {
+
+  
+    Weddings:
+     portfolioItems.filter(
+      (item) =>
+        item.category ===
+       "Weddings"
+     ),
+
+    Events:
+     portfolioItems.filter(
+      (item) =>
+        item.category ===
+       "Events"
+     ),
+
+    "Portrait Sessions":
+      portfolioItems.filter(
+        (item) =>
+          item.category ===
+        "Portrait Sessions"
+      )
+   };
+
+   console.log(portfolioItems);
+ 
   return (
 
-    <section className="px-6 lg:px-20 py-20">
+    <section className="px-0 py-0 bg-[#f6f2eb]">
 
-      <div className="space-y-52">
+      <div className="px-6 lg:px-20 pb-32">
 
-        {portfolioItems.map(
-          (item, index) => (
+        {/* CATEGORY NAV */}
+        <div className="flex justify-center">
+          <div className="flex flex-wrap justify-center gap-16 mb-24 border-b border-black/10 py-10">
+           {[
+            "Portrait Sessions",
+            "Weddings",
+            "Events",
+           ].map((category) => (
 
-            <motion.div
-              key={item.id}
-              initial={{
-                opacity: 0,
-                y: 80,
-              }}
-              whileInView={{
-                opacity: 1,
-                y: 0,
-              }}
-              viewport={{
-                once: true,
-              }}
-              transition={{
-                duration: 1.2,
-              }}
-            >
+            <button
+             key={category}
+             onClick={() =>
+              setActiveCategory(
+                category
+              )
+             }
+             className={`
+              
+              relative
 
-              <Link
-                to={`/portfolio/${item.slug || item.id}`}
-                className="group block"
+              text-sm lg:text-base 
+          
+
+              uppercase
+              tracking-[0.35em]
+
+              pb-4
+
+              transition-all
+              duration-500
+              
+              ${
+                activeCategory ===
+                category
+
+                ? "opacity-100"
+
+                : "opacity-30 hover:opacity-60"
+
+                }
+              `}
               >
+                 {category}
 
-                <div className={`
+            <div
+             className={`
+              absolute
+              left-0 
+              -bottom-[2px]
+              
+              h-[1px]
+              bg-[#c6a66a]
+              
+              transition-all
+              duration-700
+              
+              ${
+                activeCategory ===
+                category
 
-                  grid lg:grid-cols-12
-                  gap-10 lg:gap-20
-                  items-end
+                ? "w-full opacity-100"
 
-                  ${
-                    index % 2 === 0
-                      ? ""
-                      : "lg:grid-flow-dense"
-                  }
+                : "w-0 opacity-0"
+              }
+              `}
+              />
 
-                `}>
+            </button>
 
-                  {/* IMAGE */}
-                  <div className={`
+            ))}
 
-                    relative overflow-hidden
+             </div>
 
-                    ${
-                      index % 2 === 0
+           </div>
 
-                        ? "lg:col-span-8"
+                {/* GRID*/}
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
 
-                        : "lg:col-span-8 lg:col-start-5"
+                  {groupedPortfolio[
+                    activeCategory
+                  ]?.map((item) => (
+                      
+                      <motion.div
+                      whileHover={{
+                        y: -10,
+                      }}
+                       key={item.id}
+                       initial={{
+                        opacity: 0,
+                        y:40,
+                       }}
+                       whileInView={{
+                        opacity: 1,
+                        y: 0,
+                       }}
+                       viewport={{
+                        once: true,
+                       }}
+                       transition={{
+                        duration: 1,
+                       }}
+                      >
 
-                    }
+                      <Link
+                       to={`/portfolio/${item.slug || item.id}`}
+                       className="group block"
+                       >
 
-                  `}>
+                        {/* IMAGE*/}
+                        <div className="relative overflow-hidden bg-black">
 
-                    <div className="overflow-hidden">
+                          <img
+                           src={
+                            item.coverImage ||
+                            item.image
+                           }
+                           alt={item.title}
+                           className="w-full h-[420px] object-cover group-hover:scale-[1.04] transition duration-[2500ms]"
+                           />
 
-                      <img
-                        src={item.image}
-                        alt={item.title}
-                        className="w-full h-[90vh] object-cover group-hover:scale-[1.02] transition duration-[3000ms]"
-                      />
+                           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent opacity-60 group-hover:opacity-90 transition duration-700" />
 
-                    </div>
+                        </div>
 
-                    {/* OVERLAY */}
-                    <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition duration-700" />
+                        {/* CONTENT */}
+                        <div className="pt-8 transition-all duration-700 group-hover:translate-y-[-6px]">
 
-                  </div>
+                          <p className="uppercase tracking-[0.35em] text-[10px] opacity-40 mb-4">
 
-                  {/* TEXT */}
-                  <div className={`
+                            {item.location}
 
-                    relative z-10
+                          </p>
 
-                    ${
-                      index % 2 === 0
+                          <h3 className="text-3xl font-light leading-tight mb-6">
 
-                        ? "lg:col-span-3 lg:-ml-20"
+                            {item.title}
 
-                        : "lg:col-span-3 lg:col-start-2 lg:-mr-20"
+                          </h3>
 
-                    }
+                          <div className="w-16 h-px bg-[#c6a66a] mb-6" />
 
-                  `}>
+                          <button className="uppercase tracking-[0.35em] text-[11px] hover:tracking-[0.45em] transition-all duration-500">
+                            
+                            View Story 
 
-                    <div className="bg-[#f6f2eb] p-8 lg:p-12">
+                          </button>
 
-                      <p className="uppercase tracking-[0.4em] text-[10px] opacity-40 mb-8">
+                        </div>
 
-                        {item.location}
+                       </Link>
 
-                      </p>
+                      </motion.div>
 
-                      <h2 className="text-4xl lg:text-6xl font-light leading-[1.05] mb-10">
-
-                        {item.title}
-
-                      </h2>
-
-                      <div className="w-20 h-px bg-[#c6a66a] mb-10" />
-
-                      <button className="uppercase tracking-[0.35em] text-[11px] hover:opacity-50 transition duration-500">
-
-                        Explore Session
-
-                      </button>
-
-                    </div>
-
-                  </div>
-
+                    ))}
+               
                 </div>
 
-              </Link>
+              </div>  
 
-            </motion.div>
+            </section>
 
-          )
+            );
 
-        )}
-
-      </div>
-
-    </section>
-
-  );
-}
+          }     

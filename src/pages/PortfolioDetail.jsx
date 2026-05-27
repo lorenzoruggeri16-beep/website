@@ -12,6 +12,9 @@ import {
   motion,
 } from "framer-motion";
 
+import useEmblaCarousel
+from "embla-carousel-react";
+
 import Navbar
 from "../components/layout/Navbar";
 
@@ -33,6 +36,18 @@ export default function PortfolioDetail() {
   const [moreSessions,
     setMoreSessions] =
     useState([]);
+
+  const [
+  emblaRef,
+  emblaApi,
+] = useEmblaCarousel({
+
+  loop: true,
+  align: "center",
+
+});
+
+
 
   // LOAD PORTFOLIO
   useEffect(() => {
@@ -127,7 +142,10 @@ export default function PortfolioDetail() {
         <section className="relative h-screen overflow-hidden">
 
           <img
-            src={portfolio.image}
+            src={
+              portfolio.coverImage ||
+              portfolio.image
+            }
             alt={portfolio.title}
             className="w-full h-full object-cover scale-[1.02]"
           />
@@ -203,63 +221,80 @@ export default function PortfolioDetail() {
 
         </section>
 
-        {/* IMAGE COMPOSITION */}
-        <section className="px-6 lg:px-20 pb-32">
+        {/* CINEMATIC GALLERY */}
+        <section className="pb-32 overflow-hidden">
 
-          <div className="grid lg:grid-cols-12 gap-10 items-start">
+          <div
+           ref={emblaRef}
+           className="overflow-hidden px-6 lg:px-20"
+           >
+            <div className="flex gap-6">
 
-            {/* BIG IMAGE */}
-            <div className="lg:col-span-7 overflow-hidden">
+            {portfolio.images?.map(
+              (image, index) => (
 
-              <img
-                src={portfolio.image}
-                alt={portfolio.title}
-                className="w-full h-[900px] object-cover hover:scale-[1.02] transition duration-[2500ms]"
-              />
+                <motion.div
+                 key={index}
+                 initial={{
+                  opacity: 0,
+                  y: 60,
+                 }}
+                 whileInView={{
+                  opacity: 1,
+                  y: 0,
+                 }}
+                 transition={{
+                  duration: 1,
+                 }}
+                 viewport={{
+                  once: true,
+                 }}
+                 className="
+                 
+                 flex-shrink-0
+                 
+                 w-[92vw]
+                 md:w-[75vw]
+                 lg:w-[55vw]
+                 
+                 snap-center
+                 
+                 "
+                 >
+                
+                <div className="overflow-hidden">
+
+                  <img
+                   src={image}
+                   alt=""
+                   className="
+                   
+                   w-full
+                   h-[70vh]
+                   lg:h-[85vh]
+                   
+                   object-cover
+                   
+                   hover:scale-[1.02]
+                   
+                   transition
+                   duration-[2500ms]
+                   
+                   "
+                   />
+
+                </div>
+
+              </motion.div>
+
+              ))}
 
             </div>
 
-            {/* SIDE COLUMN */}
-            <div className="lg:col-span-5 flex flex-col gap-10 lg:pt-32">
-
-              <div className="overflow-hidden">
-
-                <img
-                  src={portfolio.image}
-                  alt={portfolio.title}
-                  className="w-full h-[420px] object-cover hover:scale-[1.02] transition duration-[2500ms]"
-                />
-
-              </div>
-
-              <div className="bg-white p-12">
-
-                <p className="uppercase tracking-[0.35em] text-xs opacity-40 mb-8">
-
-                  Session Notes
-
-                </p>
-
-                <p className="text-lg leading-relaxed opacity-70">
-
-                  Every session is built
-                  around emotion,
-                  movement and natural
-                  light to preserve the
-                  authenticity of the
-                  moment through a
-                  cinematic and timeless
-                  perspective.
-
-                </p>
-
-              </div>
-
-            </div>
-
-          </div>
+           </div>
 
         </section>
+
 
         {/* MORE SESSIONS */}
         <section className="px-6 lg:px-20 pb-32">

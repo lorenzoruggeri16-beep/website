@@ -61,6 +61,10 @@ export default function PortfolioSection({
     setPortfolioLocation] =
     useState("");
 
+  const [portfolioCategory,
+  setPortfolioCategory] =
+  useState("Portrait Sessions");
+
   const [portfolioDescription,
     setPortfolioDescription] =
     useState("");
@@ -261,6 +265,9 @@ export default function PortfolioSection({
 
         title:
           portfolioTitle,
+        
+        category:
+          portfolioCategory,
 
         location:
           portfolioLocation,
@@ -357,6 +364,31 @@ export default function PortfolioSection({
               className="w-full border-b border-black bg-transparent py-4 outline-none"
             />
 
+            <select
+             value={portfolioCategory}
+             onChange={(e) =>
+              setPortfolioCategory(
+              e.target.value
+              )
+             }
+             className="w-full border-b border-black bg-transparent py-4 outline-none"
+             >
+
+              <option>
+                Portrait Sessions
+              </option>
+
+              <option>
+                Weddings
+              </option>
+
+              <option>
+                Events
+              </option>
+                   
+             </select>
+
+          
             {/* COVER */}
             <label
 
@@ -588,6 +620,40 @@ export default function PortfolioSection({
 
                 </p>
 
+                {/* PROGRESS */}
+                <div className="mb-8">
+
+                  <div className="flex justify-between text-xs uppercase tracking-[0.3em] opacity-50 mb-3">
+
+                    <span>
+                      Upload Progress
+                    </span>
+
+                    <span>
+                      {uploadProgress}%
+                    </span>
+
+                  </div>
+
+                  <div className="w-full h-[2px] bg-black/10 overflow-hidden">
+                  
+                  <div
+                  className="h-full bg-[#c6a66a] transition-all duration-500"
+                  style={{
+                    width:
+                    `${uploadProgress}%`,
+                    opacity:
+                    uploading
+                     ? 1
+                     : 0,
+                  }}
+
+                  />
+
+                  </div>
+
+                </div>
+
                 {/* PREVIEW */}
                 {galleryImages.length > 0 && (
 
@@ -609,7 +675,7 @@ export default function PortfolioSection({
                   </div>
 
                 )}
-                
+
               </div>
             
 

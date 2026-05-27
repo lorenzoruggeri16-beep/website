@@ -31,9 +31,52 @@ export default function PortfolioHero() {
         portfolio.length > 0
       ) {
 
+        const images =
+
+          portfolio.map(
+            (item) =>
+
+              item.coverImage ||
+              item.image
+
+          );
+
+        const randomImage =
+
+          images[
+            Math.floor(
+              Math.random() *
+              images.length
+            )
+          ];
+
         setHeroImage(
-          portfolio[0]
+          randomImage
         );
+
+        const interval =
+
+          setInterval(() => {
+
+            const nextImage =
+
+              images[
+                Math.floor(
+                  Math.random() *
+                  images.length
+                )
+              ];
+
+            setHeroImage(
+              nextImage
+            );
+
+          }, 7000);
+
+        return () =>
+          clearInterval(
+            interval
+          );
 
       }
 
@@ -43,21 +86,34 @@ export default function PortfolioHero() {
 
   return (
 
-    <section className="relative h-screen overflow-hidden">
+    <section className="relative h-[92vh] overflow-hidden">
 
       {/* IMAGE */}
       {heroImage && (
 
-        <img
-          src={heroImage.image}
-          alt={heroImage.title}
-          className="w-full h-full object-cover scale-[1.02]"
+        <motion.img
+         key={heroImage}
+         src={heroImage}
+         alt=""
+         initial={{
+          opacity: 0,
+          scale: 1.08,
+         }}
+         animate={{
+          opacity: 1,
+          scale: 1.02,
+         }}
+         transition={{
+          duration: 4,
+          ease: "easeOut",
+         }}
+         className="w-full h-full object-cover"
         />
 
       )}
 
       {/* OVERLAY */}
-      <div className="absolute inset-0 bg-black/25" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/10" />
 
       {/* CONTENT */}
       <div className="absolute inset-0 flex items-end px-6 lg:px-20 pb-24">
@@ -83,7 +139,7 @@ export default function PortfolioHero() {
 
           </p>
 
-          <h1 className="text-6xl lg:text-[140px] leading-none font-light text-white max-w-6xl mb-12">
+          <h1 className="text-5xl lg:text-[96px] leading-none font-light text-white max-w-6xl mb-12">
 
             Cinematic stories
             crafted through
@@ -110,4 +166,5 @@ export default function PortfolioHero() {
     </section>
 
   );
+
 }
