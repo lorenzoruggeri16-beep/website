@@ -5,6 +5,10 @@ import Footer from "../components/layout/Footer";
 
 import journalData from "../data/journalData";
 
+import {useEffect, useState} from "react";
+
+import { supabase } from "../lib/supabase";
+
 export default function JournalArticle() {
 
   const { slug } = useParams();
@@ -27,15 +31,69 @@ export default function JournalArticle() {
   ];
 
   // FIND ARTICLE
-  const article =
+const [article,
+  setArticle] =
+  useState(null);
 
-  allArticles.find(
-    (a) =>
+useEffect(() => {
 
-      a.slug?.trim() ===
-      slug?.trim()
-      
-  );
+  const fetchArticle =
+    async () => {
+
+      const {
+        data,
+        error,
+      } = await supabase
+
+        .from("articles")
+
+        .select("*")
+
+        .eq(
+          "slug",
+          slug
+        )
+
+        .single();
+
+      if (error) {
+
+        console.log(error);
+
+        return;
+
+      }
+
+      setArticle({
+
+        id:
+          data.id,
+
+        slug:
+          data.slug,
+
+        title:
+          data.title,
+
+        category:
+          data.category,
+
+        excerpt:
+          data.excerpt,
+
+        coverImage:
+          data.cover_image,
+
+        blocks:
+          data.blocks,
+
+      });
+
+    };
+
+  fetchArticle();
+
+}, [slug]);
 
   if (!article) {
 

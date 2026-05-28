@@ -7,6 +7,8 @@ import journalData from "../../data/journalData";
 
 import StoryCard from "./StoryCard";
 
+import { supabase } from "../../lib/supabase";
+
 export default function StoriesGrid() {
 
   const [articles,
@@ -15,28 +17,71 @@ export default function StoriesGrid() {
 
   useEffect(() => {
 
-    const savedArticles =
-      localStorage.getItem(
-        "articles"
-      );
+  const fetchArticles =
+    async () => {
 
-    if (savedArticles) {
+      const {
+        data,
+        error,
+      } = await supabase
+
+        .from("articles")
+
+        .select("*")
+
+        .order(
+          "created_at",
+          {
+            ascending: false,
+          }
+        );
+
+      if (error) {
+
+        console.log(error);
+
+        return;
+
+      }
+
+      const formattedArticles =
+
+        data.map(
+          (article) => ({
+
+            id:
+              article.id,
+
+            slug:
+              article.slug,
+
+            title:
+              article.title,
+
+            category:
+              article.category,
+
+            excerpt:
+              article.excerpt,
+
+            coverImage:
+              article.cover_image,
+
+            blocks:
+              article.blocks,
+
+          })
+        );
 
       setArticles(
-        JSON.parse(
-          savedArticles
-        )
+        formattedArticles
       );
 
-    } else {
+    };
 
-      setArticles(
-        journalData
-      );
+  fetchArticles();
 
-    }
-
-  }, []);
+}, []);
 
   return (
 

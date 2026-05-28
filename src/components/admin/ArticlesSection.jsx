@@ -11,6 +11,9 @@ import {
 
 import journalData from "../../data/journalData";
 
+import { supabase }
+from "../../lib/supabase";
+
 export default function ArticlesSection({
   currentUser,
   binItems,
@@ -121,7 +124,7 @@ export default function ArticlesSection({
 
   // CREATE ARTICLE
   const publishArticle =
-    () => {
+  async () => {
 
       if (
         !articleTitle ||
@@ -143,8 +146,60 @@ export default function ArticlesSection({
           .toLowerCase()
           .replaceAll(" ", "-");
 
-      const newArticle = {
+      //UPLOAD COVER IMAGE
+      const imageName =
 
+      `${Date.now()}-${articleTitle}`;
+
+      const {
+
+        data: imageData,
+        error: imageError,
+      } = await supabase
+
+      .storage
+
+      .from("journal")
+
+      .upload(
+
+        imageName,
+
+        fetch(articlePreview)
+        .then((res) => res.blob())
+
+      );
+
+      if (imageError) {
+
+        console.log(
+          imageError
+        );
+
+        return;
+
+      }
+
+      // GET IMAGE URL
+      const {
+
+        data: publicUrlData,
+      } = supabase
+
+      .storage
+
+      .from("journal")
+
+      .getPublicUrl(
+        imageName
+      );
+
+      const imageUrl =
+
+       publicUrlData.publicUrl;
+
+      const newArticle = {
+        
         id: Date.now(),
 
         slug,
@@ -159,7 +214,7 @@ export default function ArticlesSection({
           articleDescription,
 
         coverImage:
-          articlePreview,
+          imageUrl,
 
         blocks,
 
@@ -167,6 +222,44 @@ export default function ArticlesSection({
          Date.now(),
 
       };
+
+      //INSERT DATABASE
+        const {
+          error,
+         } = await supabase
+
+        .from("articles")
+
+        .instert([
+        {
+        title:
+          newArticle.title,
+
+        slug:
+          newArticle.slug,
+
+        category:
+          newArticle.category,
+
+        excerpt:
+          newArticle.excerpt,
+
+        cover_image:
+          newArticle.coverImage,
+
+        blocks:
+          newArticle.blocks,
+
+        },
+      ]);
+
+      if (error) {
+
+        console.log(error);
+
+        return;
+      }
+        
 
       setArticles = [
 
