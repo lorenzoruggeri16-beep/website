@@ -9,8 +9,7 @@ import {
   SlidersHorizontal,
 } from "lucide-react";
 
-import { journalArticles }
-from "../../data/journalData";
+import journalData from "../../data/journalData";
 
 export default function ArticlesSection({
   currentUser,
@@ -30,7 +29,7 @@ export default function ArticlesSection({
 
       return saved
         ? JSON.parse(saved)
-        : journalArticles;
+        : journalData;
 
     });
 
@@ -51,26 +50,10 @@ export default function ArticlesSection({
     setArticlePreview] =
     useState("");
 
-  // EDIT
-  const [editingArticleId,
-    setEditingArticleId] =
-    useState(null);
-
-  const [editTitle,
-    setEditTitle] =
-    useState("");
-
-  const [editCategory,
-    setEditCategory] =
-    useState("");
-
-  const [editDescription,
-    setEditDescription] =
-    useState("");
-
-  const [editImage,
-    setEditImage] =
-    useState("");
+  // BLOCKS
+  const [blocks,
+    setBlocks] =
+    useState([]);
 
   // SEARCH
   const [search,
@@ -143,7 +126,6 @@ export default function ArticlesSection({
       if (
         !articleTitle ||
         !articleCategory ||
-        !articleDescription ||
         !articlePreview
       ) {
 
@@ -173,26 +155,43 @@ export default function ArticlesSection({
         category:
           articleCategory,
 
-        description:
+        excerpt:
           articleDescription,
 
-        image:
+        coverImage:
           articlePreview,
+
+        blocks,
+
+        createdAt:
+         Date.now(),
 
       };
 
-      setArticles([
+      setArticles = [
 
-        ...articles,
         newArticle,
+        ...articles,
 
-      ]);
+      ];
+
+      setArticles(
+        updatedArticles
+      );
+
+      localStorage.setItem(
+        "articles",
+        JSON.stringify(
+          updatedArticles
+        )
+      );
 
       // RESET
       setArticleTitle("");
       setArticleCategory("");
       setArticleDescription("");
       setArticlePreview("");
+      setBlocks([]);
 
     };
 
@@ -258,7 +257,7 @@ export default function ArticlesSection({
               className="w-full border-b border-black bg-transparent py-4 outline-none"
             />
 
-            {/* IMAGE */}
+            {/* COVER IMAGE */}
             <label className="border border-dashed border-black/20 hover:border-black/40 transition duration-500 min-h-[160px] flex flex-col items-center justify-center text-center cursor-pointer p-10">
 
               <input
@@ -309,7 +308,7 @@ export default function ArticlesSection({
 
                   <p className="uppercase tracking-[0.3em] text-xs opacity-40 mb-4">
 
-                    Upload Article Image
+                    Upload Cover Image
 
                   </p>
 
@@ -325,10 +324,10 @@ export default function ArticlesSection({
 
             </label>
 
-            {/* DESCRIPTION */}
+            {/* EXCERPT */}
             <textarea
               rows="4"
-              placeholder="Article Description"
+              placeholder="Short cinematic excerpt..."
               value={
                 articleDescription
               }
@@ -340,6 +339,212 @@ export default function ArticlesSection({
               className="w-full border-b border-black bg-transparent py-4 outline-none resize-none"
             />
 
+            {/* BLOCK BUILDER */}
+            <div className="space-y-4 pt-6">
+
+              <p className="uppercase tracking-[0.3em] text-xs opacity-40">
+
+                Story Blocks
+
+              </p>
+
+              {/* ADD TEXT */}
+              <button
+                type="button"
+                onClick={() => {
+
+                  setBlocks([
+
+                    ...blocks,
+
+                    {
+                      type: "text",
+                      content: "",
+                    },
+
+                  ]);
+
+                }}
+                className="border border-black/10 px-4 py-3 text-xs uppercase tracking-[0.25em] hover:bg-black hover:text-white transition duration-500"
+              >
+
+                Add Text Block
+
+              </button>
+
+              {/* ADD QUOTE */}
+              <button
+                type="button"
+                onClick={() => {
+
+                  setBlocks([
+
+                    ...blocks,
+
+                    {
+                      type: "quote",
+                      content: "",
+                    },
+
+                  ]);
+
+                }}
+                className="border border-black/10 px-4 py-3 text-xs uppercase tracking-[0.25em] hover:bg-black hover:text-white transition duration-500 ml-3"
+              >
+
+                Add Quote
+
+              </button>
+
+              {/* ADD IMAGE */}
+
+              <button
+               type="button"
+               onClick={() => {
+
+                setBlocks([
+
+                  ...blocks,
+
+                  {
+                    type: "image",
+                    image: "",
+                  },
+
+                ]);
+
+              }}
+              className="border border-black/10 px-4 py-3 text-xs uppercase tracking-[0.25em] hover:bg-black hover:text-white transition duration-500 ml-3"
+              >
+
+                Add Image 
+
+              </button>
+
+            </div>
+
+            {/* BLOCKS RENDER */}
+            <div className="space-y-6 pt-8">
+
+              {blocks.map(
+                (block, index) => (
+
+                  <div
+                    key={index}
+                    className="border border-black/10 p-5"
+                  >
+
+                    <p className="uppercase tracking-[0.25em] text-[10px] opacity-40 mb-4">
+
+                      {block.type} block
+
+                    </p>
+
+                    {block.type === "image" ? (
+
+                      <label className="border border-dashed border-black/20 hover:border-black/40 transition duration-500 min-h-[180px] flex flex-col items-center justify-center text-center cursor-pointer p-6">
+
+                        <input
+                         type="file"
+                         accept="image/*"
+                         className="hidden"
+                         onChange={(e) => {
+
+                          const file =
+                          e.target.files[0]
+
+                          if (file) {
+
+                            const reader =
+                            new FileReader();
+
+                            reader.onloadend =
+                            () => {
+
+                              const updatedBlocks =
+                              [...blocks];
+
+                              updatedBlocks[index]
+                              .image =
+                              reader.result;
+
+                              setBlocks(
+                                updatedBlocks
+                              );
+
+                            };
+
+                            reader.readAsDataURL(
+                              file
+                            );
+
+                          }
+
+                         }}
+                         />
+                      
+                      {block.image ? (
+
+                        <img
+                        src={block.image}
+                        alt=""
+                        className="w-full h-[220px] object-cover"
+                        />
+                       
+                      ) : (
+                        <>
+                        
+                         <p className="uppercase tracking-[0.3em] text-xs opacity-40 mb-4">
+                        
+                           Upload Story Image 
+
+                         </p>
+
+                         <p className="opacity-50 text-sm">
+
+                            cinematic editorial frame 
+
+                         </p>
+                        
+                        </>
+
+                      )}
+
+                      </label>
+
+                    ) : (
+
+                      <textarea
+                      rows="5"
+                      value={block.content}
+                      onChange={(e) => {
+
+                        const updatedBlocks =
+                        [...blocks];
+
+                        updatedBlocks[index]
+                        .content =
+                        e.target.value;
+
+                        setBlocks(
+                          updatedBlocks
+                        );
+
+                      }}
+                      className="w-full bg-transparent outline-none resize-none leading-relaxed"
+                      placeholder="Write cinematic content..."
+                      />
+
+                    )}
+
+                  </div>
+
+                )
+
+              )}
+
+            </div>
+            
             {/* BUTTON */}
             <button
               onClick={
@@ -425,6 +630,7 @@ export default function ArticlesSection({
                   {/* IMAGE */}
                   <img
                     src={
+                      article.coverImage ||
                       article.image
                     }
                     alt={
@@ -447,11 +653,9 @@ export default function ArticlesSection({
 
                     </h3>
 
-                    <p className="opacity-60 leading-relaxed mb-8">
+                    <p className="opacity-60 leading-relaxed mb-8 line-clamp-4">
 
-                      {
-                        article.description
-                      }
+                      {article.excerpt}
 
                     </p>
 
@@ -463,29 +667,6 @@ export default function ArticlesSection({
                         ?.editArticles && (
 
                         <button
-                          onClick={() => {
-
-                            setEditingArticleId(
-                              article.id
-                            );
-
-                            setEditTitle(
-                              article.title
-                            );
-
-                            setEditCategory(
-                              article.category
-                            );
-
-                            setEditDescription(
-                              article.description
-                            );
-
-                            setEditImage(
-                              article.image
-                            );
-
-                          }}
                           className="w-10 h-10 rounded-full border border-black/10 flex items-center justify-center hover:bg-black hover:text-white transition duration-500"
                         >
 
@@ -559,4 +740,5 @@ export default function ArticlesSection({
     </div>
 
   );
+
 }

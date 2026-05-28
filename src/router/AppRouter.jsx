@@ -13,6 +13,7 @@ import About from "../pages/About";
 import Contact from "../pages/Contact";
 import Journal from "../pages/Journal";
 import Admin from "../pages/Admin";
+import JournalArticle from "../pages/JournalArticle";
 
 export default function AppRouter() {
 
@@ -49,8 +50,13 @@ export default function AppRouter() {
         />
 
         <Route
-        path="/journal"
-        element={<Journal />}
+         path="/journal"
+         element={<Journal />}
+         />
+
+        <Route
+        path="/journal/:slug"
+        element={<JournalArticle />}
         />
 
         <Route

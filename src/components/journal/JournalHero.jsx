@@ -6,7 +6,7 @@ export default function JournalHero() {
 
   return (
 
-    <section className="relative min-h-screen flex items-center px-6 lg:px-20 pt-32 pb-20 overflow-hidden">
+    <section className="relative min-h-[78vh] flex items-center px-6 lg:px-20 pt-32 pb-10 overflow-hidden">
 
       {/* BACKGROUND */}
       <div className="absolute inset-0 bg-[#f6f2eb]" />
@@ -26,7 +26,7 @@ export default function JournalHero() {
         transition={{
           duration: 1.2,
         }}
-        className="relative z-10 max-w-6xl"
+        className="relative z-10 max-w-5xl"
       >
 
         <p className="uppercase tracking-[0.45em] text-xs opacity-40 mb-8">
@@ -35,7 +35,7 @@ export default function JournalHero() {
 
         </p>
 
-        <h1 className="text-7xl lg:text-[140px] leading-none font-light mb-12 max-w-5xl">
+        <h1 className="text-5xl lg:text-[96px] leading-[0.95] font-light mb-10 max-w-4xl">
 
           Stories captured
           through light
@@ -43,9 +43,9 @@ export default function JournalHero() {
 
         </h1>
 
-        <div className="w-40 h-px bg-[#c6a66a] mb-12" />
+        <div className="w-24 h-px bg-[#c6a66a] mb-10" />
 
-        <p className="text-lg lg:text-2xl leading-relaxed opacity-60 max-w-3xl">
+        <p className="text-base lg:text-xl leading-[1.9] opacity-60 max-w-2xl">
 
           A cinematic journal of
           motherhood, intimacy,

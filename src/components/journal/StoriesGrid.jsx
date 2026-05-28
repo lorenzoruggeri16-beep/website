@@ -3,7 +3,11 @@ import {
   useState,
 } from "react";
 
-export default function EditorialGrid() {
+import journalData from "../../data/journalData";
+
+import StoryCard from "./StoryCard";
+
+export default function StoriesGrid() {
 
   const [articles,
     setArticles] =
@@ -24,6 +28,12 @@ export default function EditorialGrid() {
         )
       );
 
+    } else {
+
+      setArticles(
+        journalData
+      );
+
     }
 
   }, []);
@@ -32,6 +42,7 @@ export default function EditorialGrid() {
 
     <section className="px-6 lg:px-20 pb-32">
 
+      {/* TOP */}
       <div className="flex items-center justify-between mb-20">
 
         <div>
@@ -54,48 +65,18 @@ export default function EditorialGrid() {
 
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-20">
+      {/* GRID */}
+      <div className="grid lg:grid-cols-2 gap-16">
 
         {articles.slice(1).map(
           (article) => (
 
-            <article
+            <StoryCard
               key={article.id}
-              className="group"
-            >
-
-              <div className="overflow-hidden mb-10 h-[650px]">
-
-                <img
-                  src={article.image}
-                  alt={article.title}
-                  className="w-full h-full object-cover group-hover:scale-[1.03] transition duration-[1800ms]"
-                />
-
-              </div>
-
-              <p className="uppercase tracking-[0.35em] text-xs opacity-40 mb-6">
-
-                {article.category}
-
-              </p>
-
-              <h3 className="text-4xl lg:text-5xl font-light leading-tight mb-8">
-
-                {article.title}
-
-              </h3>
-
-              <p className="text-lg opacity-60 leading-relaxed">
-
-                {article.excerpt}
-
-              </p>
-
-            </article>
+              article={article}
+            />
 
           )
-
         )}
 
       </div>
@@ -103,4 +84,5 @@ export default function EditorialGrid() {
     </section>
 
   );
+
 }

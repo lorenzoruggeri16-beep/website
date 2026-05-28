@@ -2,39 +2,30 @@ import Navbar from "../components/layout/Navbar";
 
 import Footer from "../components/layout/Footer";
 
-import PageTransition from "../components/ui/PageTransition";
-
 import JournalHero from "../components/journal/JournalHero";
 
-import FeaturedArticle from "../components/journal/FeaturedArticle";
+import FeaturedStory from "../components/journal/FeaturedStory";
 
-import EditorialGrid from "../components/journal/EditorialGrid";
-
-import JournalStrip from "../components/journal/JournalStrip";
+import StoriesGrid from "../components/journal/StoriesGrid";
 
 export default function Journal() {
 
   return (
 
-    <PageTransition>
+    <main className="bg-[#f6f2eb] min-h-screen overflow-hidden">
 
-      <main className="bg-[#f6f2eb] overflow-hidden">
+      <Navbar />
 
-        <Navbar />
+      <JournalHero />
 
-        <JournalHero />
+      <FeaturedStory />
 
-        <FeaturedArticle />
+      <StoriesGrid />
 
-        <EditorialGrid />
+      <Footer />
 
-        <JournalStrip />
-
-        <Footer />
-
-      </main>
-
-    </PageTransition>
+    </main>
 
   );
+
 }

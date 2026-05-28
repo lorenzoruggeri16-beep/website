@@ -11,8 +11,7 @@ import PortfolioSection from "../components/admin/PortfolioSection";
 import SettingsSection from "../components/admin/SettingsSection";
 import BinSection from "../components/admin/BinSection";
 
-import { journalArticles }
-from "../data/journalData";
+import journalData from "../data/journalData";
 
 import { galleryData }
 from "../data/galleryData";
@@ -146,7 +145,7 @@ export default function Admin() {
       )
     )?.length ||
 
-    journalArticles.length;
+    journalData.length;
 
   const portfolioCount =
 
