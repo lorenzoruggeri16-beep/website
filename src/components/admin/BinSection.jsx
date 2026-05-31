@@ -2,76 +2,87 @@ import {
   Trash2,
   RotateCcw,
 } from "lucide-react";
+import { supabase } from "../../lib/supabase";
 
 export default function BinSection({
   binItems,
   setBinItems,
 }) {
 
+const articleItems =
+
+binItems.filter(
+  (item) =>
+    item.type ===
+  "article"
+);
+
+const portfolioItems =
+
+binItems.filter(
+  (item) =>
+    item.type ===
+  "portfolio"
+);
+
   // RESTORE
   const restoreItem =
-    (item) => {
+    async (item) => {
+    
+      if (
+        item.type ===
+        "article"
+      ) {
 
+        const { error } =
+          await supabase
+
+            .from("articles")
+
+            .update({
+
+              deleted: false,
+
+              deleted_at: null,
+
+            })
+
+            .eq(
+              "id",
+              item.id
+            );
+
+        if (error) {
+
+          console.log(error);
+
+          return;
+
+        }
+
+      }
       // PORTFOLIO
       if (
         item.type ===
         "portfolio"
       ) {
 
-        const currentPortfolio =
+        const { error } =
+         await supabase
+         .from("portfolio")
+         .update({
+          deleted: false,
+          deleted_at: null,
+         })
+         .eq("id", item.id);
 
-          JSON.parse(
-            localStorage.getItem(
-              "portfolio"
-            )
-          ) || [];
-
-        localStorage.setItem(
-
-          "portfolio",
-
-          JSON.stringify([
-
-            ...currentPortfolio,
-
-            item,
-
-          ])
-
-        );
-
+         if(error) {
+          console.log(error);
+          return;
+         }
+         
       }
-
-      // ARTICLES
-      if (
-        item.type ===
-        "article"
-      ) {
-
-        const currentArticles =
-
-          JSON.parse(
-            localStorage.getItem(
-              "articles"
-            )
-          ) || [];
-
-        localStorage.setItem(
-
-          "articles",
-
-          JSON.stringify([
-
-            ...currentArticles,
-
-            item,
-
-          ])
-
-        );
-
-      }
-
+      
       // REMOVE FROM BIN
       setBinItems(
 
@@ -82,37 +93,64 @@ export default function BinSection({
 
       );
 
-      // REFRESH
-      window.location.reload();
-
+      
     };
 
   // DELETE FOREVER
   const deleteForever =
-    (id) => {
+    async (item) => {
 
-      const updatedBin =
+      if (
+        item.type ===
+        "article"
+      ) {
+
+        const { error } =
+         await supabase
+
+         .from("articles")
+         .delete()
+         .eq("id", item.id);
+
+        if (error) {
+
+          console.log(error);
+        
+          return;
+
+        }
+      }
+
+      if (
+        item.type ===
+        "portfolio"
+      ) {
+        const { error } =
+         await supabase
+          .from("portfolio")
+          .delete()
+          .eq("id", item.id);
+
+          if(error) {
+            console.log(error);
+            return;
+          }
+      }
+    
+      setBinItems(
 
         binItems.filter(
-          (item) =>
-            item.id !== id
-        );
-
-      setBinItems(
-        updatedBin
-      );
-
-      localStorage.setItem(
-        "bin",
-        JSON.stringify(
-          updatedBin
+          (b) =>
+            b.id !== item.id
         )
+
       );
 
     };
-
+   
+       
   return (
-
+    
     <div className="max-w-[1600px] mx-auto">
 
       {/* HEADER */}
@@ -129,6 +167,41 @@ export default function BinSection({
           Bin
 
         </h2>
+
+        <div className="flex gap-10 mt-8">
+          <div>
+
+            <p className="text-xs uppercase tracking-[0.3em] opacity-40">
+
+              Articles 
+
+            </p>
+
+            <p className="text-3xl font-light">
+
+              {articleItems.length}
+              
+            </p>
+
+          </div>
+
+          <div>
+
+            <p className="text-xs uppercase tracking-[0.3em] opacity-40">
+
+              Portfolio 
+
+            </p>
+
+            <p className="text-3xl font-light">
+
+              {portfolioItems.length}
+
+            </p>
+
+          </div>
+
+        </div>
 
         <p className="opacity-50 text-lg max-w-2xl leading-relaxed">
 
@@ -162,7 +235,7 @@ export default function BinSection({
 
       )}
 
-      {/* ITEMS */}
+      {/* ARTICLES */}
       <div className="flex gap-8 overflow-x-auto pb-6">
 
         {binItems.map(
@@ -228,9 +301,7 @@ export default function BinSection({
                   {/* DELETE */}
                   <button
                     onClick={() =>
-                      deleteForever(
-                        item.id
-                      )
+                      deleteForever(item)
                     }
                     className="w-10 h-10 rounded-full border border-red-200 text-red-500 flex items-center justify-center hover:bg-red-500 hover:text-white transition duration-500"
                   >

@@ -9,8 +9,6 @@ import {
   SlidersHorizontal,
 } from "lucide-react";
 
-import journalData from "../../data/journalData";
-
 import { supabase }
 from "../../lib/supabase";
 
@@ -21,20 +19,75 @@ export default function ArticlesSection({
 }) {
 
   // ARTICLES
-  const [articles,
-    setArticles] =
-    useState(() => {
+  const [articles, setArticles] = useState([]);
 
-      const saved =
-        localStorage.getItem(
-          "articles"
+  useEffect(() => {
+
+  const fetchArticles =
+    async () => {
+
+      const {
+        data,
+        error,
+      } = await supabase
+
+        .from("articles")
+
+        .select("*")
+
+        .eq("deleted", false)
+
+        .order(
+          "created_at",
+          {
+            ascending: false,
+          }
         );
 
-      return saved
-        ? JSON.parse(saved)
-        : journalData;
+      if (error) {
 
-    });
+        console.log(error);
+
+        return;
+
+      }
+
+      setArticles(
+
+        data.map(
+          (article) => ({
+
+            id:
+              article.id,
+
+            slug:
+              article.slug,
+
+            title:
+              article.title,
+
+            category:
+              article.category,
+
+            excerpt:
+              article.excerpt,
+
+            coverImage:
+              article.cover_image,
+
+            blocks:
+              article.blocks,
+
+          })
+        )
+
+      );
+
+    };
+
+  fetchArticles();
+
+}, []);
 
   // CREATE
   const [articleTitle,
@@ -67,19 +120,7 @@ export default function ArticlesSection({
     setSortBy] =
     useState("latest");
 
-  // SAVE
-  useEffect(() => {
-
-    localStorage.setItem(
-      "articles",
-      JSON.stringify(
-        articles
-      )
-    );
-
-  }, [articles]);
-
-  // FILTER
+    // FILTER
   const filteredArticles =
 
     [...articles]
@@ -123,9 +164,13 @@ export default function ArticlesSection({
       });
 
   // CREATE ARTICLE
+  const [editingId,
+    setEditingId] =
+    useState(null);
+  
   const publishArticle =
   async () => {
-
+    
       if (
         !articleTitle ||
         !articleCategory ||
@@ -146,61 +191,73 @@ export default function ArticlesSection({
           .toLowerCase()
           .replaceAll(" ", "-");
 
-      //UPLOAD COVER IMAGE
-      const imageName =
+      
 
-      `${Date.now()}-${articleTitle}`;
+      let imageUrl =
+         articlePreview;
 
-      const {
+// Upload solo se è una nuova immagine
+if (
+  articlePreview.startsWith(
+    "data:image"
+  )
+) {
 
-        data: imageData,
-        error: imageError,
-      } = await supabase
+  const imageName =
+    `${Date.now()}-${articleTitle}`;
 
-      .storage
+  const imageBlob =
+    await fetch(
+      articlePreview
+    ).then(
+      (res) => res.blob()
+    );
 
-      .from("journal")
+  const {
+    error: imageError,
+  } = await supabase
 
-      .upload(
+    .storage
 
-        imageName,
+    .from("journal")
 
-        fetch(articlePreview)
-        .then((res) => res.blob())
+    .upload(
+      imageName,
+      imageBlob
+    );
 
-      );
+  if (imageError) {
 
-      if (imageError) {
+    console.log(
+      imageError
+    );
 
-        console.log(
-          imageError
-        );
+    return;
 
-        return;
+  }
 
-      }
+  const {
+    data: publicUrlData,
+  } = supabase
 
-      // GET IMAGE URL
-      const {
+    .storage
 
-        data: publicUrlData,
-      } = supabase
+    .from("journal")
 
-      .storage
+    .getPublicUrl(
+      imageName
+    );
 
-      .from("journal")
+  imageUrl =
+    publicUrlData.publicUrl;
 
-      .getPublicUrl(
-        imageName
-      );
-
-      const imageUrl =
-
-       publicUrlData.publicUrl;
+}
 
       const newArticle = {
         
-        id: Date.now(),
+        id:
+        editingId ||
+        Date.now(),
 
         slug,
 
@@ -224,14 +281,18 @@ export default function ArticlesSection({
       };
 
       //INSERT DATABASE
-        const {
-          error,
-         } = await supabase
+      let error;
+
+      // EDIT MODE
+        if (editingId) {
+
+        const response =
+          await supabase
 
         .from("articles")
 
-        .instert([
-        {
+        .update({
+
         title:
           newArticle.title,
 
@@ -250,41 +311,108 @@ export default function ArticlesSection({
         blocks:
           newArticle.blocks,
 
-        },
-      ]);
+        })
+
+        .eq("id", editingId);
+    
+       error =
+         response.error;
+
+        } else {
+
+         // CREATE MODE
+          const response =
+           await supabase
+
+           .from("articles")
+
+           .insert([
+          {
+
+          title:
+            newArticle.title,
+
+          slug:
+            newArticle.slug,
+
+          category:
+            newArticle.category,
+
+          excerpt:
+            newArticle.excerpt,
+
+          cover_image:
+            newArticle.coverImage,
+
+          blocks:
+            newArticle.blocks,
+
+          },
+        ]);
+
+         error =
+        response.error;
+
+        }  
 
       if (error) {
 
         console.log(error);
-
+    
         return;
       }
-        
 
-      setArticles = [
-
-        newArticle,
-        ...articles,
-
-      ];
+      const {
+        data: refreshedArticles,
+      } = await supabase
+        .from("articles")
+        .select("*")
+        .eq("deleted", false)
+        .order("created_at", {ascending: false,});
 
       setArticles(
-        updatedArticles
-      );
+        refreshedArticles.map(
+          (article) => ({
+            id: article.id,
+            slug: article.slug,
+            title: article.title,
+            category: article.category,
+            excerpt: article.excerpt,
+            coverImage: article.cover_image,
+            blocks: article.blocks,
 
-      localStorage.setItem(
-        "articles",
-        JSON.stringify(
-          updatedArticles
+          })
         )
-      );
 
+      );
+setTimeout(() => {
+
+  console.log(
+    "ARTICLES AFTER UPDATE"
+  );
+
+  console.log(
+    articles
+  );
+
+}, 1000);
+
+      console.log(
+  "REFRESHED",
+  refreshedArticles
+);
+
+console.log(
+  "ARTICLES STATE UPDATE"
+);
+ 
       // RESET
       setArticleTitle("");
       setArticleCategory("");
       setArticleDescription("");
       setArticlePreview("");
       setBlocks([]);
+      setEditingId(null);
 
     };
 
@@ -760,14 +888,44 @@ export default function ArticlesSection({
                         ?.editArticles && (
 
                         <button
-                          className="w-10 h-10 rounded-full border border-black/10 flex items-center justify-center hover:bg-black hover:text-white transition duration-500"
-                        >
+                        
+
+                         onClick={() => {
+                          
+                           setEditingId(
+                           article.id
+                          );
+                                                          
+                           setArticleTitle(
+                           article.title
+                         );
+                        
+                           setArticleCategory(
+                           article.category
+                          );
+
+                           setArticleDescription(
+                            article.excerpt
+                         );
+
+                           setArticlePreview(
+                           article.coverImage
+                         );
+
+                           setBlocks(
+                            article.blocks || []
+                          );
+
+                          }}
+
+                           className="w-10 h-10 rounded-full border border-black/10 flex items-center justify-center hover:bg-black hover:text-white transition duration-500"
+                          >
 
                           <Pencil
-                            size={15}
-                          />
+                           size={15}
+                         />
 
-                        </button>
+                      </button>
 
                       )}
 
@@ -776,33 +934,55 @@ export default function ArticlesSection({
                         ?.deleteArticles && (
 
                         <button
-                          onClick={() => {
+                         onClick={async () => {
 
-                            setBinItems([
+                         const { error } =
+                          await supabase
 
-                              ...binItems,
+                              .from("articles")
 
-                              {
-                                ...article,
-                                type:
-                                  "article",
-                                deletedAt:
-                                  Date.now(),
-                              },
+                              .update({
+                              deleted: true,
+                              deleted_at:
+                                new Date()
+                                  .toISOString(),
+                            })
 
-                            ]);
-
-                            setArticles(
-
-                              articles.filter(
-                                (a) =>
-                                  a.id !==
-                                  article.id
-                              )
-
+                            .eq(
+                              "id",
+                              article.id
                             );
 
-                          }}
+                        if (error) {
+
+                          console.log(error);
+
+                          return;
+                      }
+
+                        setArticles(
+                          articles.filter(
+                            (a) =>
+                              a.id !== article.id
+                          )
+                        );
+
+                        setBinItems((prev) => [
+                          {
+                            id: article.id,
+                            title: article.title,
+                            type: "article",
+                            coverImage: article.coverImage,
+                            description: article.excerpt,
+                            deletedAt: new Date() .toISOString(),
+                          },
+
+                          ...prev,
+
+                        ]);
+
+                      }}
+                            
                           className="w-10 h-10 rounded-full border border-red-200 text-red-500 flex items-center justify-center hover:bg-red-500 hover:text-white transition duration-500"
                         >
 

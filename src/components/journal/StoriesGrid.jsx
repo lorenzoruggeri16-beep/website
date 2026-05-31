@@ -29,6 +29,8 @@ export default function StoriesGrid() {
 
         .select("*")
 
+        .eq("deleted", false)
+
         .order(
           "created_at",
           {
@@ -43,6 +45,8 @@ export default function StoriesGrid() {
         return;
 
       }
+
+      console.log(data);
 
       const formattedArticles =
 

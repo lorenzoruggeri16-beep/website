@@ -5,7 +5,6 @@ import {
   useState,
 } from "react";
 
-import journalData from "../../data/journalData";
 import { supabase } from "../../lib/supabase";
 
 export default function FeaturedStory() {
@@ -27,6 +26,8 @@ export default function FeaturedStory() {
         .from("articles")
 
         .select("*")
+
+        .eq("deleted", false)
 
         .order(
           "created_at",

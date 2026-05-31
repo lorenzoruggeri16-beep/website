@@ -1,8 +1,48 @@
+import { useEffect, useState } from "react";
+import { supabase } from "../../lib/supabase";
+
 export default function SettingsSection({
   currentUser,
-  users,
-  setUsers,
 }) {
+
+  const [users, setUsers] =
+    useState([]);
+
+  useEffect(() => {
+
+    fetchUsers();
+
+  }, []);
+
+  const fetchUsers = async () => {
+
+    const {
+      data,
+      error,
+    } = await supabase
+
+      .from("admin_users")
+
+      .select("*")
+
+      .order(
+        "name",
+        {
+          ascending: true,
+        }
+      );
+
+    if (error) {
+
+      console.log(error);
+
+      return;
+
+    }
+
+    setUsers(data);
+
+  };
 
   // ONLY OWNER ACCESS
   if (

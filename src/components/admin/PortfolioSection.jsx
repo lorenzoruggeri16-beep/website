@@ -9,11 +9,7 @@ import {
   SlidersHorizontal,
 } from "lucide-react";
 
-import { galleryData }
-from "../../data/galleryData";
-
-import { supabase }
-from "../../lib/supabase";
+import { supabase } from "../../lib/supabase";
 
 export default function PortfolioSection({
   currentUser,
@@ -24,33 +20,7 @@ export default function PortfolioSection({
   // PORTFOLIO
   const [portfolioItems,
     setPortfolioItems] =
-    useState(() => {
-
-      const saved =
-        localStorage.getItem(
-          "portfolio"
-        );
-
-      return saved
-
-        ? JSON.parse(saved).map(
-            (item) => ({
-
-              ...item,
-
-              coverImage:
-                item.coverImage ||
-                item.image,
-
-              images:
-                item.images || [],
-
-            })
-          )
-
-        : galleryData;
-
-    });
+    useState([])
 
   // CREATE
   const [portfolioTitle,
@@ -124,14 +94,46 @@ export default function PortfolioSection({
   // SAVE
   useEffect(() => {
 
-    localStorage.setItem(
-      "portfolio",
-      JSON.stringify(
-        portfolioItems
-      )
-    );
+    const fetchPortfolio =
+    async () => {
 
-  }, [portfolioItems]);
+      const {
+        data,
+        error,
+      } = await supabase
+
+      .from("portfolio")
+      .select("*")
+      .eq("deleted", false)
+      .order("created_at", {ascending:false,});
+      
+      if (error) {
+        console.log(error);
+
+        return;
+
+      }
+
+      setPortfolioItems(
+
+        data.map((item) => ({
+
+          ...item,
+
+          coverImage:
+           item.cover_image,
+
+           images:
+            item.gallery || [],
+        }))
+
+     );
+
+    };
+
+    fetchPortfolio();
+
+  }, []);
 
   // FILTER
   const filteredPortfolio =
@@ -234,7 +236,7 @@ export default function PortfolioSection({
 
   // CREATE
   const publishPortfolio =
-    () => {
+    async () => {
 
       if (
         !portfolioTitle ||
@@ -256,39 +258,87 @@ export default function PortfolioSection({
         portfolioTitle
           .toLowerCase()
           .replaceAll(" ", "-");
+      
+      if (editingPortfolioId) {
 
-      const newPortfolio = {
+        const { error } =
+         await supabase
 
-        id: Date.now(),
+         .from("portfolio")
+         .update({
 
-        slug,
+          title:portfolioTitle,
+          slug,
+          category: portfolioCategory,
+          location: portfolioLocation,
+          description: portfolioDescription,
+          cover_image: coverPreview,
+          gallery: galleryImages,
 
-        title:
-          portfolioTitle,
+         })
+
+         .eq("id", editingPortfolioId);
+
+         if (error) {
+          console.log(error);
+
+          return;
+
+        }
+
+        alert("Portfolio updated");
+
+        return;
         
-        category:
+      }
+
+      const{
+        data,
+        error,
+      } = await supabase
+
+      .from("portfolio")
+      .insert([
+        {
+          title:
+          portfolioTitle,
+
+          slug,
+
+          category:
           portfolioCategory,
 
-        location:
+          location:
           portfolioLocation,
 
-        description:
+          description:
           portfolioDescription,
 
-        coverImage:
+          cover_image:
           coverPreview,
 
-        images:
-          galleryImages || [],
+          gallery:
+            galleryImages,
 
-      };
+            deleted:
+            false,
+            
+        },
+      ])
 
+      .select();
+
+      if(error) {
+        console.log(error);
+        return;
+      }
+     
       setPortfolioItems([
 
+        data[0],
+
         ...(portfolioItems || []),
-
-        newPortfolio,
-
+    
       ]);
 
       // RESET
@@ -530,7 +580,7 @@ export default function PortfolioSection({
                     Math.round(
                       ((i+1) /
                     files.length) *
-                      1000
+                      100
                     )
 
                   );
@@ -707,10 +757,14 @@ export default function PortfolioSection({
               className="border border-black px-8 py-4 uppercase tracking-[0.3em] text-xs hover:bg-black hover:text-white transition duration-500"
             >
 
-              Publish Session
+              {
+                editingPortfolioId
+                ? "Update Session"
+                : "Publish Session"
+              }
 
             </button>
-
+            
           </div>
 
         </div>
@@ -855,6 +909,38 @@ export default function PortfolioSection({
                         ?.editPortfolio && (
 
                         <button
+                        onClick={() => {
+
+                          setEditingPortfolioId(
+                            item.id
+                          );
+
+                          setPortfolioTitle(
+                            item.title
+                          );
+
+                          setPortfolioLocation(
+                            item.location
+                          );
+
+                          setPortfolioDescription(
+                            item.description
+                          );
+
+                          setPortfolioCategory(
+                            item.category
+                          );
+
+                          setCoverPreview(
+                            item.coverImage
+                          );
+
+                          setGalleryImages(
+                            item.images || []
+                          );
+
+                        }}
+
                           className="w-10 h-10 rounded-full border border-black/10 flex items-center justify-center hover:bg-black hover:text-white transition duration-500"
                         >
 
@@ -869,57 +955,46 @@ export default function PortfolioSection({
                         ?.deletePortfolio && (
 
                         <button
-                          onClick={() => {
+                          onClick={async () => {
 
-                            const updatedPortfolio =
+                            const { error } =
+
+                            await supabase
+
+                            .from("portfolio")
+                            .update({deleted: true,
+                              deleted_at:new Date().toISOString(),
+                            })
+                            .eq("id", item.id);
+
+                            if (error) {
+                              console.log(error);
+
+                              return;
+                            }
+
+                            setPortfolioItems(
 
                               portfolioItems.filter(
                                 (p) =>
                                   p.id !==
-                                  item.id
-                              );
-
-                            setPortfolioItems(
-                              updatedPortfolio
-                            );
-
-                            localStorage.setItem(
-
-                              "portfolio",
-
-                              JSON.stringify(
-                                updatedPortfolio
+                                item.id
                               )
-
+                            
                             );
 
-                            const updatedBin = [
-
-                              ...binItems,
-
+                            setBinItems((prev) => [
                               {
-                                ...item,
-                                type:
-                                  "portfolio",
-                                deletedAt:
-                                  Date.now(),
+                                id: item.id,
+                                title:item.title,
+                                type: "portfolio",
+                                coverImage: item.coverImage,
+                                description: item.description,
+                                deleteAt: new Date().toISOString(),
                               },
 
-                            ];
-
-                            setBinItems(
-                              updatedBin
-                            );
-
-                            localStorage.setItem(
-
-                              "bin",
-
-                              JSON.stringify(
-                                updatedBin
-                              )
-
-                            );
+                              ...prev,
+                            ]);
 
                           }}
                           className="w-10 h-10 rounded-full border border-red-200 text-red-500 flex items-center justify-center hover:bg-red-500 hover:text-white transition duration-500"

@@ -10,88 +10,17 @@ import ArticlesSection from "../components/admin/ArticlesSection";
 import PortfolioSection from "../components/admin/PortfolioSection";
 import SettingsSection from "../components/admin/SettingsSection";
 import BinSection from "../components/admin/BinSection";
-
+import { supabase } from "../lib/supabase";
 import journalData from "../data/journalData";
-
-import { galleryData }
-from "../data/galleryData";
+import { galleryData } from "../data/galleryData";
 
 export default function Admin() {
-
-  // USERS
-  const [users, setUsers] =
-    useState([
-
-      {
-        email:
-          "contacto.goldenlightstudio@gmail.com",
-
-        password:
-          "Goldenlight2026.",
-
-        name:
-          "Golden Light Studio",
-
-        role:
-          "owner",
-
-        permissions: {
-          editArticles: true,
-          deleteArticles: true,
-          editPortfolio: true,
-          deletePortfolio: true,
-        },
-      },
-
-      {
-        email:
-          "lorenzoruggeri16@gmail.com",
-
-        password:
-          "Goldenlightstudio1!",
-
-        name:
-          "Lorenzo",
-
-        role:
-          "editor",
-
-        permissions: {
-          editArticles: true,
-          deleteArticles: false,
-          editPortfolio: true,
-          deletePortfolio: false,
-        },
-      },
-
-      {
-        email:
-          "giorgialabrozzi1998@gmail.com",
-
-        password:
-          "Goldenlightstudio1.",
-
-        name:
-          "Giorgia",
-
-        role:
-          "editor",
-
-        permissions: {
-          editArticles: true,
-          deleteArticles: false,
-          editPortfolio: true,
-          deletePortfolio: false,
-        },
-      },
-
-    ]);
-
+  
   // LOGIN
   const [logged, setLogged] =
     useState(false);
 
-  const [email, setEmail] =
+  const [username, setUsername] =
     useState("");
 
   const [password, setPassword] =
@@ -118,102 +47,208 @@ export default function Admin() {
   // BIN
   const [binItems,
     setBinItems] =
-    useState(() => {
+    useState([]);
 
-      const saved =
-        localStorage.getItem(
-          "binItems"
-        );
-
-      return saved
-        ? JSON.parse(saved)
-        : [];
-
-    });
-
+    useEffect(() => {
+      console.log("BIN STATE:", binItems);
+    }, [binItems]);
+      
   // WELCOME SCREEN
   const [showWelcome,
     setShowWelcome] =
-    useState(true);
+    useState(false);
 
   // REAL COUNTS
-  const articlesCount =
+  const [articlesCount,
+  setArticlesCount] =
+  useState(0);
 
-    JSON.parse(
-      localStorage.getItem(
-        "articles"
-      )
-    )?.length ||
+  const [portfolioCount,
+  setPortfolioCount] =
+  useState(0);
 
-    journalData.length;
+    useEffect(() => {
 
-  const portfolioCount =
+        const fetchBinItems =
+          async () => {
 
-    JSON.parse(
-      localStorage.getItem(
-        "portfolio"
-      )
-    )?.length ||
+          // ARTICLES
+            const {
+              data: articles,
+              error: articlesError,
+            } = await supabase
 
-    galleryData.length;
+              .from("articles")
 
-  // SAVE BIN
+              .select("*")
+
+              .eq(
+                "deleted",
+                true
+              );
+
+              //PORTFOLIO
+              const {
+                data: portfolio,
+                error: portfolioError,
+              } = await supabase
+
+               .from("portfolio")
+               .select("*")
+               .eq("deleted", true);
+
+               if (
+                articlesError ||
+                portfolioError
+               ) {
+
+                console.log(
+                  articlesError ||
+                  portfolioError
+                );
+
+                return;
+
+               }
+
+              const formattedArticles =
+
+               articles.map(
+                (article) => ({
+
+                  id: article.id,
+                  title: article.title,
+                  type: "article",
+                  coverImage: article.cover_image,
+                  description: article.excerpt,
+                  deletedAt: article.deleted_at,
+
+                })
+               );
+
+               const formattedPortfolio =
+               
+               portfolio.map(
+                (item) => ({
+
+                  id:
+                   item.id,
+
+                  title:
+                   item.title,
+
+                  type:
+                   "portfolio",
+
+                  coverImage:
+                   item.cover_image,
+
+                  description:
+                   item.description,
+
+                  deletedAt:
+                   item.deleted_at,
+
+                })
+
+               );
+               
+               setBinItems([
+                ...formattedArticles,
+                ...formattedPortfolio,
+               ].sort(
+                (a, b) =>
+                  new Date(b.deletedAt) -
+                  new Date(a.deletedAt)
+               ));
+
+            };
+
+        fetchBinItems();
+
+      }, []);
+
+      useEffect(() => {
+        const fetchCounts =
+        async () => {
+          const{
+            count: articles,
+          } = await supabase
+          .from("articles")
+          .select("*", {count: "exact", head: true})
+          .eq("deleted", false);
+
+          const{
+            count: portfolio,
+          } =await supabase
+          .from("portfolio")
+          .select("*", {count: "exact", head: true})
+          .eq("deleted", false);
+
+          setArticlesCount(
+            articles || 0
+          );
+
+          setPortfolioCount(
+            portfolio || 0
+          );
+
+        };
+
+        fetchCounts();
+
+      }, []);
+        
+      
+  // AUTO DELETE BIN AFTER 20 DAYS
   useEffect(() => {
+    const twentyDays =
+    20* 24* 60* 60* 1000;
 
-    localStorage.setItem(
-      "binItems",
-      JSON.stringify(binItems)
+    const now =
+      Date.now()
+
+    const expiredItems =
+      binItems.filter(
+        (item) => {
+
+          if(!item.deletedAt)
+            return false;
+
+          return (
+            now - 
+            new Date(
+              item.deletedAt
+            ).getTime()
+          ) > twentyDays;
+
+        }
+      );
+
+    if (
+      expiredItems.length === 0
+    ) return;
+
+    setBinItems(
+      binItems.filter(
+        (item) =>
+          !expiredItems.includes(item)
+      )
     );
 
   }, [binItems]);
 
-  // AUTO DELETE BIN AFTER 20 DAYS
-  useEffect(() => {
-
-    const twentyDays =
-
-      20 *
-      24 *
-      60 *
-      60 *
-      1000;
-
-    const now =
-      Date.now();
-
-    const filtered =
-
-      binItems.filter(
-
-        (item) =>
-
-          now - item.deletedAt <
-          twentyDays
-
-      );
-
-    if (
-      filtered.length !==
-      binItems.length
-    ) {
-
-      setBinItems(filtered);
-
-    }
-
-  }, []);
-
   // AUTO LOGIN + REMEMBER EMAIL
   useEffect(() => {
 
-    const savedEmail =
+    const savedUsername =
       localStorage.getItem(
-        "adminEmail"
+        "adminUsername"
       );
 
-    if (savedEmail) {
+    if (savedUsername) {
 
-      setEmail(savedEmail);
+      setUsername(savedUsername);
 
       setRemember(true);
 
@@ -243,7 +278,7 @@ export default function Admin() {
       ) {
 
         setLogged(true);
-
+       
         setCurrentUser(
           JSON.parse(savedUser)
         );
@@ -267,53 +302,99 @@ export default function Admin() {
   // WELCOME TIMER
   useEffect(() => {
 
+    if(!showWelcome)
+      return;
+
     const timer =
       setTimeout(() => {
 
         setShowWelcome(false);
-
       }, 2500);
 
-    return () =>
-      clearTimeout(timer);
-
-  }, []);
+      return () =>
+        clearTimeout(timer);
+      
+    }, [showWelcome]);
 
   // LOGIN
-  const login = () => {
+  const login = async () => {
 
-    const user = users.find(
+    const {
+  data: userRecord,
+  error: userError,
+} = await supabase
 
-      (u) =>
+  .from("login_users")
+  .select("*")
+  .eq(
+    "username",
+    username.trim()
+  );
 
-        u.email === email &&
-        u.password === password
+    if (
+      userError ||
+      !userRecord.length
+    ) {
+      
+    alert("Username not found");
 
-    );
+    return;
+    }
 
-    if (user) {
+    const {data, error,} =
+      await supabase.auth
+        .signInWithPassword({
+          email: userRecord[0].email,
+          password,
+        });
+      
+      if (error) {
+        
+        alert("Incorrect email or password");
 
-      setLogged(true);
+        return;
 
-      setCurrentUser(user);
+      }
+    
+  const { data: adminUser } =
 
-      localStorage.setItem(
-        "adminUser",
-        JSON.stringify(user)
-      );
+      await supabase
+        .from("admin_users")
+        .select("*")
+        .eq("user_id", data.user.id)
+        .single();
+                    
+    if (!adminUser) {
 
-      // REMEMBER EMAIL
+      alert("User not configured");
+
+      return;
+    }
+
+    const user ={
+      name: adminUser.name,
+      role: adminUser.role,
+      permissions: adminUser.permissions,
+      username: adminUser.username,
+    };
+
+    setLogged(true);
+    setShowWelcome(true);
+    setCurrentUser(user);
+    localStorage.setItem("adminUser", JSON.stringify(user));
+
+          // REMEMBER EMAIL
       if (remember) {
 
         localStorage.setItem(
-          "adminEmail",
-          email
+          "adminUsername",
+          username
         );
 
       } else {
 
         localStorage.removeItem(
-          "adminEmail"
+          "adminUsername"
         );
 
       }
@@ -322,11 +403,7 @@ export default function Admin() {
       if (stayLogged) {
 
         const tenDays =
-          10 *
-          24 *
-          60 *
-          60 *
-          1000;
+          10 * 24 * 60 * 60 * 1000;
 
         const expiration =
           Date.now() +
@@ -338,15 +415,7 @@ export default function Admin() {
         );
 
       }
-
-    } else {
-
-      alert(
-        "Incorrect email or password"
-      );
-
-    }
-
+    
   };
 
   // LOGIN PAGE
@@ -371,11 +440,11 @@ export default function Admin() {
           </h1>
 
           <input
-            type="email"
-            placeholder="Email"
-            value={email}
+            type="text"
+            placeholder="Username"
+            value={username}
             onChange={(e) =>
-              setEmail(
+              setUsername(
                 e.target.value
               )
             }
@@ -699,11 +768,7 @@ export default function Admin() {
         {section === "settings" && (
 
           <SettingsSection
-            currentUser={
-              currentUser
-            }
-            users={users}
-            setUsers={setUsers}
+            currentUser={currentUser}
           />
 
         )}

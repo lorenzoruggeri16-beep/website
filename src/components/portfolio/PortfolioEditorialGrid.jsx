@@ -1,15 +1,7 @@
-import {
-  useEffect,
-  useState,
-} from "react";
-
-import {
-  Link,
-} from "react-router-dom";
-
-import {
-  motion,
-} from "framer-motion";
+import {useEffect, useState} from "react";
+import {Link} from "react-router-dom";
+import {motion} from "framer-motion";
+import { supabase } from "../../lib/supabase";
 
 export default function PortfolioEditorialGrid() {
 
@@ -25,28 +17,55 @@ export default function PortfolioEditorialGrid() {
 
   useEffect(() => {
 
-    const savedPortfolio =
-      localStorage.getItem(
-        "portfolio"
-      );
+    const fetchPortfolio =
+     async () => {
 
-    if (savedPortfolio) {
+      const {
+        data,
+        error,
+      } = await supabase
+      
+          .from("portfolio")
 
-      setPortfolioItems(
-        JSON.parse(
-          savedPortfolio
-        )
-      );
+          .select("*")
 
-    console.log(
-  JSON.parse(savedPortfolio)
+          .eq("deleted", false)
+          
+          .order("created_at",{
+            ascending: false,
+          }
+                
+        );
 
-  );
+        console.log("portfolio data:", data);
+        console.log("portfolio error:",error);
 
-    }
+        if (error) {
+          console.log(error);
+          return;
+        }
+        
+        setPortfolioItems(
 
-  }, []);
+          data.map((item) => ({
 
+            ...item,
+
+            coverImage:
+              item.cover_image,
+            
+              images:
+                item.gallery || [],
+
+          }))
+
+        );
+     };
+
+     fetchPortfolio();
+    
+    }, []);
+    
   const groupedPortfolio = {
 
   

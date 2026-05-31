@@ -1,11 +1,8 @@
-import {
-  useEffect,
-  useState,
-} from "react";
+import { useEffect, useState} from "react";
 
-import {
-  motion,
-} from "framer-motion";
+import { motion,} from "framer-motion";
+
+import { supabase } from "../../lib/supabase";
 
 export default function PortfolioHero() {
 
@@ -15,30 +12,36 @@ export default function PortfolioHero() {
 
   useEffect(() => {
 
-    const savedPortfolio =
-      localStorage.getItem(
-        "portfolio"
-      );
+    const fetchPortfolio =
+     async () => {
 
-    if (savedPortfolio) {
+       const {
+         data,
+          error,
+       } = await supabase
 
-      const portfolio =
-        JSON.parse(
-          savedPortfolio
-        );
+          .from("portfolio")
 
-      if (
-        portfolio.length > 0
-      ) {
+          .select("*")
+
+          .eq("deleted", false);
+
+        if (error) {
+
+          console.log(error);
+
+          return;
+
+        }
+
+        if (!data?.length)
+          return;
 
         const images =
 
-          portfolio.map(
+         data.map(
             (item) =>
-
-              item.coverImage ||
-              item.image
-
+              item.cover_image
           );
 
         const randomImage =
@@ -50,17 +53,16 @@ export default function PortfolioHero() {
             )
           ];
 
-        setHeroImage(
+       setHeroImage(
           randomImage
         );
 
         const interval =
+         setInterval(() => {
 
-          setInterval(() => {
+           const nextImage =
 
-            const nextImage =
-
-              images[
+             images[
                 Math.floor(
                   Math.random() *
                   images.length
@@ -76,11 +78,11 @@ export default function PortfolioHero() {
         return () =>
           clearInterval(
             interval
-          );
+         );
 
-      }
+      };
 
-    }
+    fetchPortfolio();
 
   }, []);
 

@@ -3,9 +3,10 @@ import { useParams } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 
-import journalData from "../data/journalData";
-
-import {useEffect, useState} from "react";
+import {
+useEffect,
+  useState
+} from "react";
 
 import { supabase } from "../lib/supabase";
 
@@ -13,29 +14,11 @@ export default function JournalArticle() {
 
   const { slug } = useParams();
 
-  // LOCAL STORAGE ARTICLES
-  const savedArticles =
-
-  JSON.parse(
-    localStorage.getItem(
-      "articles"
-    )
-  ) || [];
-
-  //MERGE ARTICLES
-  const allArticles =[
-
-    ...savedArticles,
-    ...journalData,
-
-  ];
-
-  // FIND ARTICLE
 const [article,
   setArticle] =
   useState(null);
 
-useEffect(() => {
+  useEffect(() => {
 
   const fetchArticle =
     async () => {
@@ -97,17 +80,17 @@ useEffect(() => {
 
   if (!article) {
 
-    return (
+  return (
 
-      <div className="min-h-screen flex items-center justify-center">
+    <div className="min-h-screen flex items-center justify-center">
 
-        Article not found
+      Loading...
 
-      </div>
+    </div>
 
-    );
+  );
 
-  }
+}
 
   return (
 
