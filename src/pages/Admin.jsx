@@ -25,6 +25,64 @@ export default function Admin() {
 
   const [password, setPassword] =
     useState("");
+  
+  const [showForgotPassword, setShowForgotPassword] =
+  useState(false);
+
+  const [setForgotUsername, setShowForgotUsername] =
+  useState(false);
+
+  const [resetUsername, setResetUsername] =
+  useState("");
+
+  const [resetEmail, setResetEmail] =
+  useState("");
+
+  const resetPassword = async () => {
+
+  const { data: user } =
+    await supabase
+
+      .from("login_users")
+      .select("*")
+      .eq("username", resetUsername)
+      .eq("email", resetEmail);
+
+    if (!user?.length) {
+
+      alert(
+        "Username and email do not match"
+      );
+
+    return;
+
+    }
+
+    const { error } =
+      await supabase.auth
+        .resetPasswordForEmail(
+          resetEmail,
+          {
+            redirectTo:
+              window.location.origin +
+              "/reset-password",
+          }
+        );
+
+    if (error) {
+
+      alert(error.message);
+      return;
+
+    }
+
+    alert(
+      "Password reset email sent"
+    );
+
+    setShowForgotPassword(false);
+
+};
 
   // CURRENT USER
   const [currentUser,
@@ -423,6 +481,8 @@ export default function Admin() {
 
     return (
 
+      <>
+
       <main className="min-h-screen bg-[#f8f6f2] flex items-center justify-center px-6">
 
         <div className="max-w-md w-full bg-white border border-black/10 p-10">
@@ -508,12 +568,107 @@ export default function Admin() {
 
           </button>
 
+          <p
+            onClick={() =>
+              setShowForgotUsername(true)
+            }
+            className="text-sm cursor-pointer opacity-60 hover:opacity-100 mt-4">
+            Forgot Username?
+          </p>
+
+          <p
+           onClick={() =>
+            setShowForgotPassword(true)
+           }
+           className=" text-sm cursor-pointer opacity-60 hover:opacity-100 mt-2 ">
+            Forgot Password?
+          </p>
+
         </div>
 
       </main>
 
-    );
-  }
+      {showForgotPassword && (
+
+      <div 
+        className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+
+      <div 
+        className="bg-white p-10 w-[500px] max-w-[90vw]">
+
+        <h3 className="text-3xl mb-6">
+
+         Reset Password
+
+        </h3>
+
+      <input
+        type="text"
+        placeholder="Username"
+        value={resetUsername}
+        onChange={(e) =>
+          setResetUsername(
+            e.target.value
+          )
+        }
+        className="
+          w-full
+          border
+          p-3
+          mb-4
+        "
+      />
+
+      <input
+        type="email"
+        placeholder="Email"
+        value={resetEmail}
+        onChange={(e) =>
+          setResetEmail(
+            e.target.value
+          )
+        }
+        className="
+          w-full
+          border
+          p-3
+          mb-8
+        "
+      />
+
+      <div className="flex gap-4">
+
+        <button
+          onClick={resetPassword}
+          className="border px-4 py-2">
+
+          Send Reset Link
+
+        </button>
+
+        <button
+          onClick={() =>
+            setShowForgotPassword(false)
+          }
+          className="border px-4 py-2">
+
+          Close
+
+        </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    )}
+
+  </>
+
+);
+
+}
 
   return (
 

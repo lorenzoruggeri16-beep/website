@@ -14,6 +14,7 @@ import Contact from "../pages/Contact";
 import Journal from "../pages/Journal";
 import Admin from "../pages/Admin";
 import JournalArticle from "../pages/JournalArticle";
+import ResetPassword from "../pages/ResetPassword";
 
 export default function AppRouter() {
 
@@ -62,7 +63,12 @@ export default function AppRouter() {
         <Route
          path="/admin"
          element={<Admin />}
-      />
+        />
+
+        <Route
+          path="/reset-password"
+          element={<ResetPassword />}
+        />
 
       </Routes>
 
