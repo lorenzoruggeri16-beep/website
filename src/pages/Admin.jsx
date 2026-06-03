@@ -29,13 +29,16 @@ export default function Admin() {
   const [showForgotPassword, setShowForgotPassword] =
   useState(false);
 
-  const [setForgotUsername, setShowForgotUsername] =
+  const [showForgotUsername, setShowForgotUsername] =
   useState(false);
 
   const [resetUsername, setResetUsername] =
   useState("");
 
   const [resetEmail, setResetEmail] =
+  useState("");
+
+  const [usernameEmail, setUsernameEmail] =
   useState("");
 
   const resetPassword = async () => {
@@ -81,6 +84,37 @@ export default function Admin() {
     );
 
     setShowForgotPassword(false);
+
+};
+
+const recoverUsername = async () => {
+
+  const { data, error } =
+    await supabase
+
+      .from("login_users")
+
+      .select("*")
+      .eq("email", usernameEmail);
+
+  if (
+    error ||
+    !data.length
+  ) {
+
+    alert(
+      "Email not found"
+    );
+
+    return;
+
+  }
+
+  alert(
+    `Your username is: ${data[0].username}`
+  );
+
+  setShowForgotUsername(false);
 
 };
 
@@ -661,6 +695,90 @@ export default function Admin() {
       </div>
 
     </div>
+
+    )}
+
+    {showForgotUsername && (
+
+      <div
+        className="
+          fixed
+          inset-0
+          bg-black/40
+          flex
+          items-center
+          justify-center
+          z-50
+        "
+      >
+
+        <div
+          className="
+            bg-white
+            p-10
+            w-[500px]
+            max-w-[90vw]
+          "
+        >
+
+          <h3 className="text-3xl mb-6">
+
+            Recover Username
+
+          </h3>
+
+          <input
+            type="email"
+            placeholder="Email"
+            value={usernameEmail}
+            onChange={(e) =>
+              setUsernameEmail(
+                e.target.value
+              )
+            }
+            className="
+              w-full
+              border
+              p-3
+              mb-8
+            "
+          />
+
+          <div className="flex gap-4">
+
+            <button
+              onClick={recoverUsername}
+              className="
+                border
+                px-4
+                py-2
+              "
+            >
+
+              Find Username
+
+            </button>
+
+            <button
+              onClick={() =>
+                setShowForgotUsername(false)
+              }
+              className="
+                border
+                px-4
+                py-2
+              "
+            >
+
+              Close
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
 
     )}
 
