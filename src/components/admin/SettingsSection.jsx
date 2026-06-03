@@ -13,8 +13,6 @@ export default function SettingsSection({
 
   const [newUsername, setNewUsername] = useState("");
 
-  const [newPassword, setNewPassword] = useState("");
-
   const [users, setUsers] = useState([]);
 
   const [selectedUser, setSelectedUser] = useState(null);
@@ -311,19 +309,7 @@ export default function SettingsSection({
                 }
                 className="w-full border p-3 mb-4"
                 />
-
-                <input
-                type="password"
-                placeholder="Password"
-                value={newPassword}
-                onChange={(e) =>
-                  setNewPassword(
-                    e.target.value
-                  )
-                }
-                className="w-full border p-3 mb-8"
-                />
-
+                
                 <select
                 value={newRole}
                 onChange={(e) =>
@@ -336,11 +322,7 @@ export default function SettingsSection({
                 <option value="editor">
                   Editor
                 </option>
-
-                <option value="owner">
-                  Owner
-                </option>
-
+                
                 </select>
 
                 <div className="flex gap-4">
@@ -352,7 +334,6 @@ export default function SettingsSection({
                     name: newName,
                     email: newEmail,
                     username: newUsername,
-                    password: newPassword,
                     role: newRole,
                     });
                     
