@@ -62,26 +62,7 @@ export default function PortfolioSection({
     setEditingPortfolioId] =
     useState(null);
 
-  const [editTitle,
-    setEditTitle] =
-    useState("");
-
-  const [editLocation,
-    setEditLocation] =
-    useState("");
-
-  const [editDescription,
-    setEditDescription] =
-    useState("");
-
-  const [editCover,
-    setEditCover] =
-    useState("");
-
-  const [editGallery,
-    setEditGallery] =
-    useState([]);
-
+  
   // SEARCH
   const [search,
     setSearch] =
@@ -257,7 +238,9 @@ export default function PortfolioSection({
 
         portfolioTitle
           .toLowerCase()
-          .replaceAll(" ", "-");
+          .trim()
+    .replace(/[^\w\s-]/g, "")
+    .replace(/\s+/g, "-");
       
       if (editingPortfolioId) {
 
@@ -990,7 +973,7 @@ export default function PortfolioSection({
                                 type: "portfolio",
                                 coverImage: item.coverImage,
                                 description: item.description,
-                                deleteAt: new Date().toISOString(),
+                                deletedAt: new Date().toISOString(),
                               },
 
                               ...prev,

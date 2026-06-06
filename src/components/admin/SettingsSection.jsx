@@ -7,6 +7,8 @@ export default function SettingsSection({
 
   const [showAddModal, setShowAddModal] = useState(false);
 
+  const [creatingUser, setCreatingUser] = useState(false);
+
   const [newName, setNewName] = useState("");
 
   const [newEmail, setNewEmail] = useState("");
@@ -18,9 +20,7 @@ export default function SettingsSection({
   const [selectedUser, setSelectedUser] = useState(null);
 
   const [showModal, setShowModal] = useState(false);
-
-  const [newRole, setNewRole] = useState("editor");
-
+  
   useEffect(() => {
 
     fetchUsers();
@@ -64,14 +64,12 @@ export default function SettingsSection({
         selectedUser.permissions,
       })
       .eq("id", selectedUser.id);
-
-      alert("User updated successfully");
-
-      
-        
+                    
     if (error) {
       return;
     }
+
+    alert("User updated successfully");
 
     await fetchUsers();
     setShowModal(false);
@@ -103,7 +101,7 @@ export default function SettingsSection({
         setShowModal(false);
 
       };
-
+      
   if (
     currentUser?.role !==
     "owner"
@@ -309,37 +307,76 @@ export default function SettingsSection({
                 }
                 className="w-full border p-3 mb-4"
                 />
-                
-                <select
-                value={newRole}
-                onChange={(e) =>
-                  setNewRole(
-                    e.target.value
-                  )
-                }
-                className="w-full border p-3 mb-8">
-
-                <option value="editor">
-                  Editor
-                </option>
-                
-                </select>
-
+                                
                 <div className="flex gap-4">
 
                   <button
-                  onClick={() => {
-
-                    console.log({
-                    name: newName,
-                    email: newEmail,
-                    username: newUsername,
-                    role: newRole,
-                    });
+                    onClick={async () => {
                     
-                  }}
+                      const{
+                        data: { session },
+                      } = await supabase.auth.getSession();
+
+                      console.log("SESSION:", session);
+
+                      if (!session) {
+                        console.log("NO SESSION FOUND");
+                        return;
+                      }
+
+                      setCreatingUser(true);
+
+                      const response = await fetch(
+                        "https://nntdmjodnepsavvlbhvp.supabase.co/functions/v1/create-user",
+                        {
+                          method: "POST",
+                          headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${session.access_token}`,
+                          },
+                          body: JSON.stringify({
+                            name: newName,
+                            email: newEmail,
+                            username: newUsername,
+                          }),
+                        }
+                      );
+
+                      const data = await response.json();
+
+                      setCreatingUser(false);
+
+                      console.log("STATUS:", response.status);
+                      console.log("DATA:", data);
+
+                      if (response.ok) {
+
+                      alert(
+                        "User created successfully"
+                      );
+
+                      setNewName("");
+                      setNewEmail("");
+                      setNewUsername("");
+
+                      setShowAddModal(false);
+
+                    await fetchUsers();
+
+                    } else {
+
+                      alert(
+                        "Failed to create user"
+                      );
+
+                    }
+
+                    }}
+                                   
                   className="border px-4 py-2">
-                    Create User
+                    {creatingUser
+                    ? "Creating..."
+                    : "Create User"}
                   </button>
 
                   <button

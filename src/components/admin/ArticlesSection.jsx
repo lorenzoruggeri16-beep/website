@@ -137,7 +137,11 @@ export default function ArticlesSection({
           ?.toLowerCase()
           .includes(
             search.toLowerCase()
-          )
+          ) ||
+
+        article.excerpt
+          ?.toLowerCase()
+          .includes(search.toLocaleLowerCase())
 
       )
 
@@ -189,7 +193,9 @@ export default function ArticlesSection({
 
         articleTitle
           .toLowerCase()
-          .replaceAll(" ", "-");
+          .Trim()
+          .replaceAll(/[^\w\s-]/g,"")
+          .replace(/\s+/g,"");
 
       
 
@@ -768,15 +774,52 @@ console.log(
             
             {/* BUTTON */}
             <button
-              onClick={
-                publishArticle
-              }
+              onClick={publishArticle}
               className="border border-black px-8 py-4 uppercase tracking-[0.3em] text-xs hover:bg-black hover:text-white transition duration-500"
             >
 
-              Publish Article
+              {editingId
+                ? "Update Article"
+                : "Publish Article"}
 
             </button>
+
+            {editingId && (
+
+              <button
+                onClick={() => {
+
+                  setEditingId(null);
+
+                  setArticleTitle("");
+                  setArticleCategory("");
+                  setArticleDescription("");
+                  setArticlePreview("");
+                  setBlocks([]);
+
+                }}
+              className="
+                border
+                border-red-300
+                text-red-500
+                px-8
+                py-4
+                uppercase
+                tracking-[0.3em]
+                text-xs
+                hover:bg-red-500
+                hover:text-white
+                transition
+                duration-500
+                ml-4
+               "
+              >
+
+              Cancel Editing
+
+            </button>
+
+          )}
 
           </div>
 

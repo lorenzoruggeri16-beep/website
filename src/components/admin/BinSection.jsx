@@ -88,7 +88,7 @@ binItems.filter(
 
         binItems.filter(
           (b) =>
-            b.id !== item.id
+            !(b.id === item.id && b.type === item.type)
         )
 
       );
@@ -141,7 +141,7 @@ binItems.filter(
 
         binItems.filter(
           (b) =>
-            b.id !== item.id
+            !(b.id === item.id && b.type === item.type)
         )
 
       );
@@ -300,9 +300,19 @@ binItems.filter(
 
                   {/* DELETE */}
                   <button
-                    onClick={() =>
-                      deleteForever(item)
-                    }
+                    onClick={() => {
+
+                      const confirmed =
+                        window.confirm(
+                          "Delete forever?"
+                        );
+
+                      if (!confirmed)
+                        return;
+
+                      deleteForever(item);
+
+                    }}
                     className="w-10 h-10 rounded-full border border-red-200 text-red-500 flex items-center justify-center hover:bg-red-500 hover:text-white transition duration-500"
                   >
 
