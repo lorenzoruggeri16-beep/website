@@ -358,6 +358,8 @@ export default function Admin() {
         adminUser.permissions,
       username:
         adminUser.username,
+      email:
+        adminUser.email,
     };
 
     setLogged(true);
@@ -499,10 +501,17 @@ export default function Admin() {
             binCount={
             binItems.length
             }
+            setSection={
+              setSection
+            }
+            currentUser={
+              currentUser
+            }
           />
         )}
 
-        {section === "journal" && (
+        {section === "journal" && 
+          currentUser?.permissions?.editArticles && (
 
           <ArticlesSection
             currentUser={
@@ -518,7 +527,8 @@ export default function Admin() {
 
         )}
 
-        {section === "portfolio" && (
+        {section === "portfolio" && 
+          currentUser?.permissions?.editPortfolio && (
 
           <PortfolioSection
             currentUser={

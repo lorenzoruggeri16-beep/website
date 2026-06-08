@@ -65,6 +65,7 @@ export default function AdminSidebar({
 
         </button>
 
+        {currentUser?.permissions?.editArticles &&(
         <button
           onClick={() =>
             setSection("journal")
@@ -79,7 +80,9 @@ export default function AdminSidebar({
           Articles
 
         </button>
+        )}
 
+        {currentUser?.permissions?.editPortfolio && (
         <button
           onClick={() =>
             setSection("portfolio")
@@ -94,6 +97,7 @@ export default function AdminSidebar({
           Portfolio
 
         </button>
+        )}
 
         <button
           onClick={() => {

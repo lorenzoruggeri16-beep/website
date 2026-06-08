@@ -78,6 +78,19 @@ export default function SettingsSection({
 
   const deleteUser = async () => {
 
+      if (selectedUser.role === "owner"){
+        alert("owner accouint cannot be deleted");
+        return;
+      }
+
+      if(
+        selectedUser.email ===
+        currentUser.email
+      ) {
+        alert("You cannot delete your own account");
+        return;
+      }
+
         const confirmDelete =
         window.confirm(
           "Delete this user?"
@@ -232,6 +245,13 @@ export default function SettingsSection({
 
                 <button
                   onClick={() => {
+
+                    if (user.role ==="owner") {
+                      alert(
+                        "Owner permissions cannot be modified"
+                      );
+                      return;
+                    }
 
                     setSelectedUser(user);
                     setShowModal(true);
