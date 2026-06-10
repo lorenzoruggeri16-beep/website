@@ -139,12 +139,19 @@ useEffect(() => {
 
       const { data, error } = await supabase
         .from("portfolio")
-        .select("*")
+        .select(`
+            id,
+            slug,
+            title,
+            location,
+            description,
+            cover_image,
+            gallery
+          `)
         .eq("slug", slug)
         .single();
 
       if (error) {
-        console.log(error);
         return;
       }
 
@@ -156,7 +163,14 @@ useEffect(() => {
 
       const { data: relatedData } = await supabase
         .from("portfolio")
-        .select("*")
+        .select(`
+          id,
+          slug,
+          title,
+          location,
+          cover_image,
+          gallery
+        `)
         .eq("deleted", false)
         .neq("slug", slug)
         .limit(3);
@@ -216,6 +230,7 @@ useEffect(() => {
               portfolio.image
             }
             alt={portfolio.title}
+            fetchPriority="high"
             className="w-full h-full object-cover scale-[1.02]"
           />
 
@@ -539,7 +554,7 @@ useEffect(() => {
 
                   ? "scale-[0.97] opacity-75 blur-[2px]"
 
-                  : "cale-[0.92] opacity-40 blur-[4px]"
+                  : "scale-[0.92] opacity-40 blur-[4px]"
                  }
                 
                  `}
@@ -549,32 +564,34 @@ useEffect(() => {
 
                   
 
-                  <img
+                 <img
                   onClick={() => {
 
                     setActiveImage(index);
                     setLightboxOpen(true);
+
                   }}
 
-                   src={image}
-                   alt=""
-                   className="
-                   
-                   w-full
-                   h-[58vh]
-                   lg:h-[72vh]
-                   
-                   object-cover
-                   
-                   hover:scale-[1.06]
-                   hover:rotate-[0.4deg]
-                   
-                   transition-all
-                   duration-[3000ms]
-                   ease-out
-                   
-                   "
-                   />
+                  src={image}
+                  alt=""
+                  loading="lazy"
+                  className="
+  
+                  w-full
+                  h-[58vh]
+                  lg:h-[72vh]
+
+                  object-cover
+
+                  hover:scale-[1.06]
+                  hover:rotate-[0.4deg]
+
+                  transition-all
+                  duration-[3000ms]
+                  ease-out
+  
+                  "
+                  />
 
                 </div>
 
@@ -637,6 +654,7 @@ useEffect(() => {
                 item.images?.[0]
               }
               alt={item.title}
+              loading="lazy"
               className="
 
                 w-full

@@ -5,9 +5,16 @@ import {
   useState,
 } from "react";
 
+import {
+  useTranslation,
+} from "react-i18next";
+
 import { supabase } from "../../lib/supabase";
 
 export default function FeaturedStory() {
+
+  const { t } =
+    useTranslation();
 
   const [articles,
     setArticles] =
@@ -15,73 +22,71 @@ export default function FeaturedStory() {
 
   useEffect(() => {
 
-  const fetchArticles =
-    async () => {
+    const fetchArticles =
+      async () => {
 
-      const {
-        data,
-        error,
-      } = await supabase
+        const {
+          data,
+          error,
+        } = await supabase
 
-        .from("articles")
+          .from("articles")
 
-        .select("*")
+          .select("*")
 
-        .eq("deleted", false)
+          .eq("deleted", false)
 
-        .order(
-          "created_at",
-          {
-            ascending: false,
-          }
+          .order(
+            "created_at",
+            {
+              ascending: false,
+            }
+          );
+
+        if (error) {
+
+          return;
+
+        }
+
+        const formattedArticles =
+
+          data.map(
+            (article) => ({
+
+              id:
+                article.id,
+
+              slug:
+                article.slug,
+
+              title:
+                article.title,
+
+              category:
+                article.category,
+
+              excerpt:
+                article.excerpt,
+
+              coverImage:
+                article.cover_image,
+
+              blocks:
+                article.blocks,
+
+            })
+          );
+
+        setArticles(
+          formattedArticles
         );
 
-      if (error) {
+      };
 
-        console.log(error);
+    fetchArticles();
 
-        return;
-
-      }
-
-      const formattedArticles =
-
-        data.map(
-          (article) => ({
-
-            id:
-              article.id,
-
-            slug:
-              article.slug,
-
-            title:
-              article.title,
-
-            category:
-              article.category,
-
-            excerpt:
-              article.excerpt,
-
-            coverImage:
-              article.cover_image,
-
-            blocks:
-              article.blocks,
-
-          })
-        );
-
-      setArticles(
-        formattedArticles
-      );
-
-    };
-
-  fetchArticles();
-
-}, []);
+  }, []);
 
   const article =
     articles[0];
@@ -102,8 +107,10 @@ export default function FeaturedStory() {
             src={
               article.coverImage ||
               article.coverImage
-              }
+            }
             alt={article.title}
+            loading="lazy"
+            decoding="async"
             className="
 
               w-full
@@ -125,7 +132,7 @@ export default function FeaturedStory() {
 
           <p className="uppercase tracking-[0.35em] text-xs opacity-40 mb-8">
 
-            Featured Editorial
+            {t("featured_editorial")}
 
           </p>
 
@@ -146,7 +153,7 @@ export default function FeaturedStory() {
             className="uppercase tracking-[0.35em] text-[10px] flex items-center gap-4 hover:opacity-50 transition-all duration-500"
           >
 
-            Read Story
+            {t("read_story")}
 
             <span>→</span>
 

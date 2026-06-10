@@ -6,7 +6,11 @@ import FadeIn from "../components/ui/FadeIn";
 
 import SEO from "../components/SEO";
 
+import { useTranslation } from "react-i18next";
+
 export default function About() {
+
+  const { t } = useTranslation();
 
   return (
 
@@ -26,24 +30,28 @@ export default function About() {
 
           <FadeIn>
 
-            <p className="uppercase tracking-[0.4em] text-xs mb-6">
-              Sobre mí
+            <p className="uppercase tracking-[0.4em] text-xs mb-6 text-[#c6a66a]">
+              {t("about")}
             </p>
 
-            <h1 className="text-6xl md:text-8xl lg:text-[9rem] font-light leading-none">
+            <h1 className="text-5xl md:text-7xl lg:text-[6rem] font-light leading-none">
 
-              Emoción,
-              <br />
-              luz y conexión.
+              {t("about_title_1")}
 
             </h1>
+
+            <p className="max-w-2xl mx-auto mt-10 text-lg md:text-xl opacity-60 leading-relaxed">
+
+              {t("about_subtitle")}
+
+            </p>
 
           </FadeIn>
 
         </section>
 
         {/* Split Portrait Section */}
-        <section className="px-6 md:px-12 pb-40">
+        <section className="px-6 md:px-12 pb-24">
 
           <div className="grid md:grid-cols-[1fr_auto_1fr] gap-16 items-center">
 
@@ -58,7 +66,7 @@ export default function About() {
                   className="w-[320px] h-[320px] object-cover rounded-full mb-9"
                 />
 
-                <div className="relative group inline-block mb-4">
+                <div className="relative group inline-block mb-6">
 
                   <h3 className="name-shine text-3xl font-light text-[#b68d40]">
                     Lorenzo Ruggeri
@@ -66,12 +74,17 @@ export default function About() {
 
                   <span className="shne" />
 
+                  <p className="uppercase tracking-[0.35em] text-[10px] text-[#c6a66a] mt-3 mb-6">
+
+                    Photographer & Creative Director
+
+                  </p>
+
                 </div>
 
-                <p className="uppercase tracking-[0.3em] text-xs opacity-60 max-w-xs min-h-[60px] flex items-start justify-center">
+                <p className="text-base leading-relaxed opacity-85 max-w-sm">
 
-                  Capturando momentos honestos
-                  y emociones reales junto al océano.
+                  {t("about_lorenzo")}
 
                 </p>
 
@@ -97,22 +110,27 @@ export default function About() {
                   className="w-[320px] h-[320px] object-cover rounded-full mb-8"
                 />
 
-                <div className="relative group inline-block mb-4">
+                <div className="relative group inline-block mb-6">
 
                   <h3
-                    className="name-shine text-3xl font-light mb-4 text-[#b68d40]"
+                    className="name-shine text-3xl font-light text-[#b68d40]"
                   >
                     Giorgia Labrozzi
                   </h3>
 
                   <span className="shne" />
 
+                  <p className="uppercase tracking-[0.35em] text-[10px] text-[#c6a66a] mt-3 mb-6">
+
+                    Photographer & Cinematic Storyteller
+
+                  </p>
+
                 </div>
 
-                <p className="uppercase tracking-[0.3em] text-xs opacity-60 max-w-xs">
+                <p className="text-base leading-relaxed opacity-85 max-w-sm">
 
-                  Inspirado por la naturaleza,
-                  el cine y la estética editorial.
+                  {t("about_giorgia")}
 
                 </p>
 
@@ -124,20 +142,22 @@ export default function About() {
 
         </section>
 
-        {/* Brand Philosophy */}
-        <section className="max-w-5xl mx-auto px-6 md:px-12 pb-40">
+        {/* Our Story */}
+        <section className="max-w-5xl mx-auto px-6 md:px-12 pb-24">
 
           <FadeIn>
 
-            <p className="uppercase tracking-[0.4em] text-xs mb-8 text-center">
-              La filosofía
+            <p className="uppercase tracking-[0.45em] text-xs mb-8 text-center text-[#c6a66a]">
+
+              {t("about_story_label")}
+
             </p>
 
-            <h2 className="text-4xl md:text-6xl font-light leading-tight text-center mb-16">
+            <div className="w-16 h-px bg-[#c6a66a] mx-auto mb-10" />
 
-              Crear imágenes atemporales que
-              transmitan emoción auténtica,
-              elegancia y conexión humana.
+            <h2 className="text-4xl md:text-6xl font-light leading-tight text-center mb-10">
+
+              {t("about_story_title")}
 
             </h2>
 
@@ -145,25 +165,60 @@ export default function About() {
 
           <FadeIn delay={0.2}>
 
-            <div className="space-y-10 text-lg leading-relaxed opacity-70 max-w-3xl mx-auto text-center">
+            <div className="space-y-12 text-[18px] leading-[2] opacity-85 max-w-5xl mx-auto text-center">
 
               <p>
-                Golden Light Studio nace de la idea de transformar
-                momentos reales en recuerdos cinematográficos,
-                con una estética limpia, emocional y elegante.
+                {t("about_story_text_1")}
               </p>
 
               <p>
-                Cada sesión está diseñada para sentirse natural,
-                íntima y profundamente humana,
-                creando imágenes que permanezcan vivas con el tiempo.
+                {t("about_story_text_2")}
               </p>
 
               <p>
-                Inspirado por la luz natural,
-                la moda editorial y las historias auténticas,
-                el objetivo es capturar mucho más que fotografías:
-                emociones reales.
+                {t("about_story_text_3")}
+              </p>
+
+            </div>
+
+          </FadeIn>
+
+        </section>
+
+        {/* Philosophy */}
+        <section className="max-w-5xl mx-auto px-6 md:px-12 pb-24">
+
+          <FadeIn>
+
+            <p className="uppercase tracking-[0.45em] text-xs mb-8 text-center text-[#c6a66a]">
+
+                {t("about_philosophy")}
+
+            </p>
+
+            <div className="w-16 h-px bg-[#c6a66a] mx-auto mb-10" />
+
+            <h2 className="text-4xl md:text-6xl font-light leading-tight text-center mb-16">
+
+              {t("about_philosophy_title")}
+
+            </h2>
+
+          </FadeIn>
+
+          <FadeIn delay={0.2}>
+
+            <div className="space-y-8 text-[18px] leading-[1.9] opacity-85 max-w-4xl mx-auto text-center">
+              <p>
+                {t("about_text_1")}
+              </p>
+
+              <p>
+                {t("about_text_2")}
+              </p>
+
+              <p>
+                {t("about_text_3")}
               </p>
 
             </div>

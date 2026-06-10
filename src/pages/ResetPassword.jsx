@@ -33,8 +33,6 @@ useState(false);
             password,
           });
 
-      console.log("update error:", error)
-
       if (error) {
 
         alert(error.message);

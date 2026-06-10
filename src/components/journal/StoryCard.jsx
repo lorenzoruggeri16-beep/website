@@ -18,6 +18,8 @@ export default function StoryCard({ article }) {
             article.image
           }
           alt={article.title}
+          loading="lazy"
+          decoding="async"
           className="
 
             w-full

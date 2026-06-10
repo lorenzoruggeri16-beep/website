@@ -6,7 +6,11 @@ import FadeIn from "../components/ui/FadeIn";
 
 import SEO from "../components/SEO";
 
+import { useTranslation } from "react-i18next";
+
 export default function Contact() {
+
+  const { t } = useTranslation();
 
   return (
 
@@ -22,19 +26,21 @@ export default function Contact() {
         <Navbar />
 
         {/* Hero */}
-        <section className="pt-40 pb-24 px-6 md:px-12 text-center">
+        <section className="pt-28 md:pt-40 pb-16 md:pb-20 px-6 md:px-12 text-center">
 
           <FadeIn>
 
-            <p className="uppercase tracking-[0.4em] text-xs mb-6">
-              Contact
+            <p className="uppercase tracking-[0.45em] text-xs mb-6 text-[#c6a66a]">
+
+              {t("contact_page")}
+
             </p>
 
-            <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-light leading-none">
+            <h1 className="text-5xl md:text-6xl lg:text-[5rem] font-light leading-none">
 
-              Let’s Create
+              {t("contact_title_1")}
               <br />
-              Something Beautiful
+              {t("contact_title_2")}
 
             </h1>
 
@@ -43,41 +49,47 @@ export default function Contact() {
         </section>
 
         {/* Content */}
-        <section className="px-6 md:px-12 pb-40">
+        <section className="px-6 md:px-12 pb-24 md:pb-32">
 
-          <div className="grid md:grid-cols-2 gap-20">
+          <div className="grid md:grid-cols-2 gap-16 md:gap-24 max-w-7xl mx-auto">
 
             {/* Left */}
             <FadeIn>
 
               <div>
 
-                <p className="uppercase tracking-[0.3em] text-xs mb-6">
-                  Inquiries
+                <p className="uppercase tracking-[0.35em] text-xs mb-6 text-[#c6a66a]">
+
+                  {t("contact_inquiries")}
+
                 </p>
 
-                <h2 className="text-5xl md:text-6xl font-light leading-none mb-10">
+                <div className="w-16 h-px bg-[#c6a66a] mb-10" />
 
-                  I can’t wait
+                <h2 className="text-4xl md:text-5xl font-light leading-[1.1] mb-10">
+
+                  Every story begins
                   <br />
-                  to hear your story.
+                  with a conversation.
 
                 </h2>
 
-                <p className="text-lg opacity-70 leading-relaxed max-w-md mb-10">
+                <p className="text-lg opacity-80 leading-[1.9] max-w-md mb-12">
 
-                  For wedding collections, editorial projects,
-                  and destination celebrations worldwide.
+                  Whether you're planning a wedding,
+                  a couples session, a family experience
+                  or an editorial project, we'd love
+                  to hear your vision.
 
                 </p>
 
-                <div className="space-y-4 text-lg">
+                <div className="space-y-5 text-lg">
 
-                  <p>
+                  <p className="opacity-80">
                     hello@goldenlightstudio.com
                   </p>
 
-                  <p>
+                  <p className="opacity-80">
                     Instagram / @goldenlightstudio
                   </p>
 
@@ -93,18 +105,21 @@ export default function Contact() {
               <form
                 action="https://formspree.io/f/mbdbkjvz"
                 method="POST"
-                className="space-y-8"
+                className="space-y-10"
               >
 
                 <div>
 
                   <label className="block uppercase tracking-[0.3em] text-xs mb-3">
-                    Name
+
+                    {t("contact_name")}
+
                   </label>
 
                   <input
                     type="text"
                     name="name"
+                    required
                     className="w-full border-b border-black bg-transparent py-4 outline-none"
                   />
 
@@ -113,12 +128,15 @@ export default function Contact() {
                 <div>
 
                   <label className="block uppercase tracking-[0.3em] text-xs mb-3">
-                    Email
+
+                    {t("contact_email")}
+
                   </label>
 
                   <input
                     type="email"
                     name="email"
+                    required
                     className="w-full border-b border-black bg-transparent py-4 outline-none"
                   />
 
@@ -127,7 +145,34 @@ export default function Contact() {
                 <div>
 
                   <label className="block uppercase tracking-[0.3em] text-xs mb-3">
-                    Event Location
+
+                    Session Type
+
+                  </label>
+
+                  <select
+                    name="session_type"
+                    className="w-full border-b border-black bg-transparent py-4 outline-none"
+                  >
+
+                    <option>Couples</option>
+                    <option>Wedding</option>
+                    <option>Maternity</option>
+                    <option>Family</option>
+                    <option>Editorial</option>
+                    <option>Branding</option>
+                    <option>Other</option>
+
+                  </select>
+
+                </div>
+
+                <div>
+
+                  <label className="block uppercase tracking-[0.3em] text-xs mb-3">
+
+                    {t("contact_location")}
+
                   </label>
 
                   <input
@@ -141,11 +186,13 @@ export default function Contact() {
                 <div>
 
                   <label className="block uppercase tracking-[0.3em] text-xs mb-3">
-                    Your Story
+
+                    {t("contact_story")}
+
                   </label>
 
                   <textarea
-                    rows="5"
+                    rows="6"
                     name="message"
                     className="w-full border-b border-black bg-transparent py-4 outline-none resize-none"
                   />
@@ -154,10 +201,10 @@ export default function Contact() {
 
                 <button
                   type="submit"
-                  className="uppercase tracking-[0.3em] text-sm border border-black px-8 py-4 hover:bg-black hover:text-white transition duration-500"
+                  className="uppercase tracking-[0.35em] text-sm border border-[#c6a66a] px-10 py-4 hover:bg-[#c6a66a] hover:text-white transition duration-500"
                 >
 
-                  Send Inquiry
+                  {t("contact_button")}
 
                 </button>
 

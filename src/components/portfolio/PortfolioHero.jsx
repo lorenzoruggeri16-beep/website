@@ -1,24 +1,25 @@
-import { useEffect, useState} from "react";
-
-import { motion,} from "framer-motion";
-
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { supabase } from "../../lib/supabase";
+import { useTranslation } from "react-i18next";
 
 export default function PortfolioHero() {
 
-  const [heroImage,
-    setHeroImage] =
+  const [heroImage, setHeroImage] =
     useState(null);
+
+  const { t } =
+    useTranslation();
 
   useEffect(() => {
 
     const fetchPortfolio =
-     async () => {
+      async () => {
 
-       const {
-         data,
+        const {
+          data,
           error,
-       } = await supabase
+        } = await supabase
 
           .from("portfolio")
 
@@ -27,8 +28,6 @@ export default function PortfolioHero() {
           .eq("deleted", false);
 
         if (error) {
-
-          console.log(error);
 
           return;
 
@@ -39,7 +38,7 @@ export default function PortfolioHero() {
 
         const images =
 
-         data.map(
+          data.map(
             (item) =>
               item.cover_image
           );
@@ -53,16 +52,16 @@ export default function PortfolioHero() {
             )
           ];
 
-       setHeroImage(
+        setHeroImage(
           randomImage
         );
 
         const interval =
-         setInterval(() => {
+          setInterval(() => {
 
-           const nextImage =
+            const nextImage =
 
-             images[
+              images[
                 Math.floor(
                   Math.random() *
                   images.length
@@ -78,7 +77,7 @@ export default function PortfolioHero() {
         return () =>
           clearInterval(
             interval
-         );
+          );
 
       };
 
@@ -88,28 +87,29 @@ export default function PortfolioHero() {
 
   return (
 
-    <section className="relative h-[92vh] overflow-hidden">
+    <section className="relative h-[65vh] lg:h-[92vh] overflow-hidden">
 
       {/* IMAGE */}
       {heroImage && (
 
         <motion.img
-         key={heroImage}
-         src={heroImage}
-         alt=""
-         initial={{
-          opacity: 0,
-          scale: 1.08,
-         }}
-         animate={{
-          opacity: 1,
-          scale: 1.02,
-         }}
-         transition={{
-          duration: 4,
-          ease: "easeOut",
-         }}
-         className="w-full h-full object-cover"
+          key={heroImage}
+          src={heroImage}
+          alt=""
+          fetchPriority="high"
+          initial={{
+            opacity: 0,
+            scale: 1.08,
+          }}
+          animate={{
+            opacity: 1,
+            scale: 1.02,
+          }}
+          transition={{
+            duration: 4,
+            ease: "easeOut",
+          }}
+          className="w-full h-full object-cover"
         />
 
       )}
@@ -118,7 +118,7 @@ export default function PortfolioHero() {
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/10" />
 
       {/* CONTENT */}
-      <div className="absolute inset-0 flex items-end px-6 lg:px-20 pb-24">
+      <div className="absolute inset-0 flex items-end px-6 lg:px-20 pb-12 lg:pb-24">
 
         <motion.div
           initial={{
@@ -132,32 +132,30 @@ export default function PortfolioHero() {
           transition={{
             duration: 1.2,
           }}
-          className="max-w-6xl"
+          className="max-w-4xl"
         >
 
-          <p className="uppercase tracking-[0.45em] text-xs text-white/70 mb-8">
+          <p className="uppercase tracking-[0.45em] text-xs text-white/70 mb-6 lg:mb-8">
 
             Golden Light Studio
 
           </p>
 
-          <h1 className="text-5xl lg:text-[96px] leading-none font-light text-white max-w-6xl mb-12">
+          <h1 className="text-4xl md:text-5xl lg:text-[56px] leading-[1.08] font-light text-white max-w-3xl mb-8 lg:mb-10">
 
-            Cinematic stories
-            crafted through
-            timeless imagery.
+            {t("portfolio_title_1")}
+            <br />
+            {t("portfolio_title_2")}
+            <br />
+            {t("portfolio_title_3")}
 
           </h1>
 
-          <div className="w-40 h-px bg-[#c6a66a] mb-12" />
+          <div className="w-24 lg:w-40 h-px bg-[#c6a66a] mb-8 lg:mb-10" />
 
-          <p className="text-lg lg:text-2xl leading-relaxed text-white/70 max-w-3xl">
+          <p className="text-base lg:text-xl leading-relaxed text-white/70 max-w-2xl">
 
-            A curated collection of
-            motherhood, couples and
-            editorial photography
-            captured with emotion,
-            movement and natural light.
+            {t("portfolio_text")}
 
           </p>
 

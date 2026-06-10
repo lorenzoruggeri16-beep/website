@@ -4,19 +4,35 @@ export default function SEO({
   title,
   description,
   image = "/images/hero.jpg",
+  url = "https://goldenlightstudio.com",
 }) {
 
   return (
 
     <Helmet>
 
-      <title>
-        {title}
-      </title>
+      {/* Basic SEO */}
+      <title>{title}</title>
 
       <meta
         name="description"
         content={description}
+      />
+
+      <meta
+        name="robots"
+        content="index, follow"
+      />
+
+      <link
+        rel="canonical"
+        href={url}
+      />
+
+      {/* Open Graph */}
+      <meta
+        property="og:type"
+        content="website"
       />
 
       <meta
@@ -35,10 +51,16 @@ export default function SEO({
       />
 
       <meta
-        property="og:type"
-        content="website"
+        property="og:url"
+        content={url}
       />
 
+      <meta
+        property="og:site_name"
+        content="Golden Light Studio"
+      />
+
+      {/* Twitter */}
       <meta
         name="twitter:card"
         content="summary_large_image"
@@ -57,6 +79,12 @@ export default function SEO({
       <meta
         name="twitter:image"
         content={image}
+      />
+
+      {/* Theme */}
+      <meta
+        name="theme-color"
+        content="#f8f6f2"
       />
 
     </Helmet>

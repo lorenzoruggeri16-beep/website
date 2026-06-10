@@ -54,8 +54,6 @@ binItems.filter(
 
         if (error) {
 
-          console.log(error);
-
           return;
 
         }
@@ -77,7 +75,6 @@ binItems.filter(
          .eq("id", item.id);
 
          if(error) {
-          console.log(error);
           return;
          }
          
@@ -113,9 +110,7 @@ binItems.filter(
          .eq("id", item.id);
 
         if (error) {
-
-          console.log(error);
-        
+          
           return;
 
         }
@@ -132,7 +127,7 @@ binItems.filter(
           .eq("id", item.id);
 
           if(error) {
-            console.log(error);
+        
             return;
           }
       }

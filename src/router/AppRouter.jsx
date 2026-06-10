@@ -4,74 +4,131 @@ import {
   useLocation,
 } from "react-router-dom";
 
+import {
+  lazy,
+  Suspense,
+} from "react";
+
 import { AnimatePresence } from "framer-motion";
 
-import Home from "../pages/Home";
-import Portfolio from "../pages/Portfolio";
-import PortfolioDetail from "../pages/PortfolioDetail";
-import About from "../pages/About";
-import Contact from "../pages/Contact";
-import Journal from "../pages/Journal";
-import Admin from "../pages/Admin";
-import JournalArticle from "../pages/JournalArticle";
-import ResetPassword from "../pages/ResetPassword";
+const Home =
+  lazy(() =>
+    import("../pages/Home")
+  );
+
+const Portfolio =
+  lazy(() =>
+    import("../pages/Portfolio")
+  );
+
+const PortfolioDetail =
+  lazy(() =>
+    import("../pages/PortfolioDetail")
+  );
+
+const About =
+  lazy(() =>
+    import("../pages/About")
+  );
+
+const Contact =
+  lazy(() =>
+    import("../pages/Contact")
+  );
+
+const Journal =
+  lazy(() =>
+    import("../pages/Journal")
+  );
+
+const Admin =
+  lazy(() =>
+    import("../pages/Admin")
+  );
+
+const JournalArticle =
+  lazy(() =>
+    import("../pages/JournalArticle")
+  );
+
+const ResetPassword =
+  lazy(() =>
+    import("../pages/ResetPassword")
+  );
 
 export default function AppRouter() {
 
-  const location = useLocation();
+  const location =
+    useLocation();
 
   return (
+
     <AnimatePresence mode="wait">
 
-      <Routes
-        location={location}
-        key={location.pathname}
+      <Suspense
+        fallback={
+          <div className="min-h-screen flex items-center justify-center bg-[#f8f6f2]">
+            Loading...
+          </div>
+        }
       >
 
-        <Route path="/" element={<Home />} />
+        <Routes
+          location={location}
+          key={location.pathname}
+        >
 
-        <Route
-          path="/portfolio"
-          element={<Portfolio />}
-        />
+          <Route
+            path="/"
+            element={<Home />}
+          />
 
-        <Route
-          path="/portfolio/:slug"
-          element={<PortfolioDetail />}
-        />
+          <Route
+            path="/portfolio"
+            element={<Portfolio />}
+          />
 
-        <Route
-          path="/about"
-          element={<About />}
-        />
+          <Route
+            path="/portfolio/:slug"
+            element={<PortfolioDetail />}
+          />
 
-        <Route
-          path="/contact"
-          element={<Contact />}
-        />
+          <Route
+            path="/about"
+            element={<About />}
+          />
 
-        <Route
-         path="/journal"
-         element={<Journal />}
-         />
+          <Route
+            path="/contact"
+            element={<Contact />}
+          />
 
-        <Route
-        path="/journal/:slug"
-        element={<JournalArticle />}
-        />
+          <Route
+            path="/journal"
+            element={<Journal />}
+          />
 
-        <Route
-         path="/studio-control"
-         element={<Admin />}
-        />
+          <Route
+            path="/journal/:slug"
+            element={<JournalArticle />}
+          />
 
-        <Route
-          path="/reset-password"
-          element={<ResetPassword />}
-        />
+          <Route
+            path="/studio-control"
+            element={<Admin />}
+          />
 
-      </Routes>
+          <Route
+            path="/reset-password"
+            element={<ResetPassword />}
+          />
+
+        </Routes>
+
+      </Suspense>
 
     </AnimatePresence>
+
   );
+
 }

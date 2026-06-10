@@ -48,8 +48,7 @@ export default function ArticlesSection({
 
       if (error) {
 
-        console.log(error);
-
+       
         return;
 
       }
@@ -200,11 +199,7 @@ export default function ArticlesSection({
         );
 
       if (error) {
-
-        console.log(
-          error
-        );
-
+        
         return null;
 
       }
@@ -286,10 +281,6 @@ if (
     );
 
   if (imageError) {
-
-    console.log(
-      imageError
-    );
 
     return;
 
@@ -415,9 +406,7 @@ if (
         }  
 
       if (error) {
-
-        console.log(error);
-    
+           
         return;
       }
 
@@ -446,25 +435,9 @@ if (
       );
 setTimeout(() => {
 
-  console.log(
-    "ARTICLES AFTER UPDATE"
-  );
-
-  console.log(
-    articles
-  );
 
 }, 1000);
-
-      console.log(
-  "REFRESHED",
-  refreshedArticles
-);
-
-console.log(
-  "ARTICLES STATE UPDATE"
-);
- 
+    
       // RESET
       setArticleTitle("");
       setArticleCategory("");
@@ -1165,9 +1138,7 @@ console.log(
                             );
 
                         if (error) {
-
-                          console.log(error);
-
+                          
                           return;
                       }
 

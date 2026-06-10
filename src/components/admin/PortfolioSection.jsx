@@ -89,7 +89,6 @@ export default function PortfolioSection({
       .order("created_at", {ascending:false,});
       
       if (error) {
-        console.log(error);
 
         return;
 
@@ -263,8 +262,7 @@ export default function PortfolioSection({
          .eq("id", editingPortfolioId);
 
          if (error) {
-          console.log(error);
-
+       
           return;
 
         }
@@ -312,7 +310,7 @@ export default function PortfolioSection({
       .select();
 
       if(error) {
-        console.log(error);
+     
         return;
       }
      
@@ -951,8 +949,7 @@ export default function PortfolioSection({
                             .eq("id", item.id);
 
                             if (error) {
-                              console.log(error);
-
+                           
                               return;
                             }
 

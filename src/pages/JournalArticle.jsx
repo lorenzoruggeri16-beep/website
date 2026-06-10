@@ -42,8 +42,6 @@ export default function JournalArticle() {
 
         if (error) {
 
-          console.log(error);
-
           return;
 
         }
@@ -116,6 +114,7 @@ export default function JournalArticle() {
           <img
             src={article.coverImage}
             alt={article.title}
+            fetchPriority="high"
             className="w-full h-full object-cover"
           />
 
@@ -186,6 +185,8 @@ export default function JournalArticle() {
                         <img
                           src={block.image}
                           alt=""
+                          loading="lazy"
+                          decoding="async"
                           className="w-full h-auto object-cover"
                         />
 
@@ -219,6 +220,48 @@ export default function JournalArticle() {
               )}
 
             </div>
+
+          </div>
+
+        </section>
+
+        {/* EDITORIAL CTA */}
+        <section className="px-6 lg:px-20 pb-32">
+
+          <div className="max-w-4xl mx-auto text-center">
+
+            <div className="w-24 h-px bg-[#c6a66a] mx-auto mb-12" />
+
+            <p className="uppercase tracking-[0.4em] text-xs text-[#c6a66a] mb-8">
+
+              Continue Exploring
+
+            </p>
+
+            <h2 className="text-4xl lg:text-6xl font-light leading-tight mb-10">
+
+              Every story deserves
+              <br />
+              to be remembered.
+
+            </h2>
+
+            <p className="text-lg opacity-60 leading-relaxed max-w-2xl mx-auto mb-12">
+
+              Discover more editorials, love stories and
+              timeless moments captured through the
+              Golden Light Studio experience.
+
+            </p>
+
+            <a
+              href="/journal"
+              className="uppercase tracking-[0.35em] text-xs border border-[#c6a66a] px-8 py-4 inline-block hover:bg-[#c6a66a] hover:text-white transition-all duration-500"
+            >
+
+              Explore The Journal
+
+            </a>
 
           </div>
 

@@ -2,7 +2,14 @@ import {
   motion,
 } from "framer-motion";
 
+import {
+  useTranslation,
+} from "react-i18next";
+
 export default function JournalHero() {
+
+  const { t } =
+    useTranslation();
 
   return (
 
@@ -37,9 +44,11 @@ export default function JournalHero() {
 
         <h1 className="text-5xl lg:text-[96px] leading-[0.95] font-light mb-10 max-w-4xl">
 
-          Stories captured
-          through light
-          and emotion.
+          {t("journal_title_1")}
+          <br />
+          {t("journal_title_2")}
+          <br />
+          {t("journal_title_3")}
 
         </h1>
 
@@ -47,11 +56,7 @@ export default function JournalHero() {
 
         <p className="text-base lg:text-xl leading-[1.9] opacity-60 max-w-2xl">
 
-          A cinematic journal of
-          motherhood, intimacy,
-          editorial storytelling
-          and timeless moments
-          captured across Tenerife.
+          {t("journal_text")}
 
         </p>
 
@@ -60,4 +65,5 @@ export default function JournalHero() {
     </section>
 
   );
+
 }

@@ -45,8 +45,7 @@ export default function SettingsSection({
       );
 
     if (error) {
-
-      console.log(error);
+   
       return;
 
     }
@@ -118,7 +117,7 @@ export default function SettingsSection({
           .eq("id", selectedUser.id);
 
         if (error) {
-          console.log(error);
+     
           return;
 
         }
@@ -410,10 +409,9 @@ export default function SettingsSection({
                         data: { session },
                       } = await supabase.auth.getSession();
 
-                      console.log("SESSION:", session);
-
+                   
                       if (!session) {
-                        console.log("NO SESSION FOUND");
+               
                         return;
                       }
 
@@ -438,9 +436,6 @@ export default function SettingsSection({
                       const data = await response.json();
 
                       setCreatingUser(false);
-
-                      console.log("STATUS:", response.status);
-                      console.log("DATA:", data);
 
                       if (response.ok) {
 

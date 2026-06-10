@@ -43,8 +43,6 @@ export default function GalleryPreview() {
 
         if (error) {
 
-          console.log(error);
-
           return;
 
         }
