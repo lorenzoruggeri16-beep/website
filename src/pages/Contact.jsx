@@ -4,9 +4,18 @@ import Footer from "../components/layout/Footer";
 import PageTransition from "../components/ui/PageTransition";
 import FadeIn from "../components/ui/FadeIn";
 
+import SEO from "../components/SEO";
+
 export default function Contact() {
+
   return (
+
     <PageTransition>
+
+      <SEO
+        title="Contact Luxury Photographer Tenerife | Golden Light Studio"
+        description="Get in touch with Golden Light Studio. Luxury photography in Tenerife for couples, weddings, motherhood and meaningful life stories."
+      />
 
       <main className="bg-[#f8f6f2] text-black min-h-screen">
 
@@ -81,7 +90,11 @@ export default function Contact() {
             {/* Right */}
             <FadeIn delay={0.2}>
 
-              <form  action="https://formspree.io/f/mbdbkjvz" method="POST" className="space-y-8">
+              <form
+                action="https://formspree.io/f/mbdbkjvz"
+                method="POST"
+                className="space-y-8"
+              >
 
                 <div>
 
@@ -161,5 +174,7 @@ export default function Contact() {
       </main>
 
     </PageTransition>
+
   );
+
 }

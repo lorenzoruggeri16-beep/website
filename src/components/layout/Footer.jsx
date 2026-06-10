@@ -2,7 +2,14 @@ import {
   Link,
 } from "react-router-dom";
 
+import {
+  useTranslation,
+} from "react-i18next";
+
 export default function Footer() {
+
+  const { t } =
+    useTranslation();
 
   return (
 
@@ -27,8 +34,7 @@ export default function Footer() {
         {/* TEXT */}
         <p className="text-[18px] lg:text-sm leading-relaxed opacity-70 max-w-xs mb-6">
 
-          Cinematic photography inspired by emotion,
-          movement and timeless storytelling.
+          {t("hero_subtitle")}
 
         </p>
 
@@ -39,28 +45,28 @@ export default function Footer() {
             to="/portfolio"
             className="hover:text-[#c6a66a] hover:opacity-100 transition-all duration-500"
           >
-            Portfolio
+            {t("portfolio")}
           </Link>
 
           <Link
             to="/journal"
             className="hover:text-[#c6a66a] hover:opacity-100 transition-all duration-500"
           >
-            Journal
+            {t("journal")}
           </Link>
 
           <Link
             to="/about"
             className="hover:text-[#c6a66a] hover:opacity-100 transition-all duration-500"
           >
-            Sobre mí
+            {t("about")}
           </Link>
 
           <Link
             to="/contact"
             className="hover:text-[#c6a66a] hover:opacity-100 transition-all duration-500"
           >
-            Contacto
+            {t("contact")}
           </Link>
 
         </div>

@@ -1,7 +1,11 @@
 import FadeIn from "../ui/FadeIn";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export default function CTASection() {
+
+  const { t } =
+    useTranslation();
 
   return (
 
@@ -32,9 +36,9 @@ export default function CTASection() {
               mb-10
             "
           >
-            Let's create something
+            {t("cta_title_1")}
             <br />
-            timeless together.
+            {t("cta_title_2")}
           </h2>
 
           <p
@@ -47,10 +51,7 @@ export default function CTASection() {
               mb-14
             "
           >
-            Whether you're celebrating a love story,
-            motherhood journey or a meaningful chapter
-            of your life, we're here to transform it
-            into imagery you'll treasure forever.
+            {t("cta_text")}
           </p>
 
           <Link
@@ -72,7 +73,7 @@ export default function CTASection() {
               duration-500
             "
           >
-            Book Your Session
+            {t("cta_button")}
           </Link>
 
         </FadeIn>

@@ -24,6 +24,9 @@ from "../components/layout/Footer";
 import PageTransition
 from "../components/ui/PageTransition";
 
+import SEO from "../components/SEO";
+import { supabase } from "../lib/supabase";
+
 export default function PortfolioDetail() {
 
   const { slug } =
@@ -132,62 +135,42 @@ useEffect(() => {
   // LOAD PORTFOLIO
   useEffect(() => {
 
-    const savedPortfolio =
-      localStorage.getItem(
-        "portfolio"
-      );
+    const fetchPortfolio = async () => {
 
-    if (savedPortfolio) {
+      const { data, error } = await supabase
+        .from("portfolio")
+        .select("*")
+        .eq("slug", slug)
+        .single();
 
-      const portfolioItems =
-        JSON.parse(
-          savedPortfolio
-        );
+      if (error) {
+        console.log(error);
+        return;
+      }
 
-      // CURRENT
-      const foundPortfolio =
+      setPortfolio({
+        ...data,
+        coverImage: data.cover_image,
+        images: data.gallery || [],
+      });
 
-        portfolioItems.find(
-          (item) =>
-
-            (
-              item.slug ||
-
-              item.id
-                .toString()
-
-            ) === slug
-
-        );
-
-      setPortfolio(
-        foundPortfolio
-      );
-
-      // RELATED
-      const related =
-
-        portfolioItems
-          .filter(
-
-            (item) =>
-
-              (
-                item.slug ||
-
-                item.id
-                  .toString()
-
-              ) !== slug
-
-          )
-          .slice(0, 3);
+      const { data: relatedData } = await supabase
+        .from("portfolio")
+        .select("*")
+        .eq("deleted", false)
+        .neq("slug", slug)
+        .limit(3);
 
       setMoreSessions(
-        related
+        (relatedData || []).map((item) => ({
+          ...item,
+          coverImage: item.cover_image,
+          images: item.gallery || [],
+        }))
       );
+    };
 
-    }
+    fetchPortfolio();
 
   }, [slug]);
 
@@ -213,6 +196,12 @@ useEffect(() => {
   return (
 
     <PageTransition>
+
+      <SEO
+        title={`${portfolio.title} | Golden Light Studio`}
+        description={portfolio.description}
+        image={portfolio.coverImage}
+      />
 
       <main className="bg-[#f6f2eb] overflow-hidden">
 

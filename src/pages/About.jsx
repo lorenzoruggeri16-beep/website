@@ -4,9 +4,18 @@ import Footer from "../components/layout/Footer";
 import PageTransition from "../components/ui/PageTransition";
 import FadeIn from "../components/ui/FadeIn";
 
+import SEO from "../components/SEO";
+
 export default function About() {
+
   return (
+
     <PageTransition>
+
+      <SEO
+        title="About Golden Light Studio | Luxury Photographer Tenerife"
+        description="Meet the photographers behind Golden Light Studio. Creating timeless fine art and cinematic photography in Tenerife inspired by emotion, light and authentic human connection."
+      />
 
       <main className="bg-[#f8f6f2] text-black min-h-screen">
 
@@ -50,12 +59,14 @@ export default function About() {
                 />
 
                 <div className="relative group inline-block mb-4">
-                 <h3 className="name-shine text-3xl font-light text-[#b68d40]">
-                   Lorenzo Ruggeri
-                 </h3>
 
-                 <span ClassName="shne" />
-                </div> 
+                  <h3 className="name-shine text-3xl font-light text-[#b68d40]">
+                    Lorenzo Ruggeri
+                  </h3>
+
+                  <span className="shne" />
+
+                </div>
 
                 <p className="uppercase tracking-[0.3em] text-xs opacity-60 max-w-xs min-h-[60px] flex items-start justify-center">
 
@@ -85,16 +96,20 @@ export default function About() {
                   alt=""
                   className="w-[320px] h-[320px] object-cover rounded-full mb-8"
                 />
-                <div ClassName="relative group inline-block mb-4">
-                 <h3 
-                  className="name-shine text-3xl font-light mb-4 text-[#b68d40]">
-                   Giorgia Labrozzi
-                 </h3>
 
-                  <span ClassName="shne" />
+                <div className="relative group inline-block mb-4">
+
+                  <h3
+                    className="name-shine text-3xl font-light mb-4 text-[#b68d40]"
+                  >
+                    Giorgia Labrozzi
+                  </h3>
+
+                  <span className="shne" />
+
                 </div>
 
-                <p className="uppercase tracking-[0.3em] text-xs opacity-60 max-w-xs ">
+                <p className="uppercase tracking-[0.3em] text-xs opacity-60 max-w-xs">
 
                   Inspirado por la naturaleza,
                   el cine y la estética editorial.
@@ -162,5 +177,7 @@ export default function About() {
       </main>
 
     </PageTransition>
+
   );
+
 }

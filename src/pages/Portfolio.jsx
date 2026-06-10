@@ -10,11 +10,18 @@ import PortfolioEditorialGrid from "../components/portfolio/PortfolioEditorialGr
 
 import PortfolioStrip from "../components/portfolio/PortfolioStrip";
 
+import SEO from "../components/SEO";
+
 export default function Portfolio() {
 
   return (
 
     <PageTransition>
+
+      <SEO
+        title="Luxury Photography Portfolio Tenerife | Golden Light Studio"
+        description="Discover a curated collection of luxury photography sessions in Tenerife. Couples, weddings, motherhood and timeless storytelling through a fine art and cinematic approach."
+      />
 
       <main className="bg-[#f6f2eb] overflow-hidden">
 
@@ -33,4 +40,5 @@ export default function Portfolio() {
     </PageTransition>
 
   );
+
 }
