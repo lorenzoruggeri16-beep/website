@@ -61,7 +61,7 @@ export default function AppRouter() {
         />
 
         <Route
-         path="/admin"
+         path="/studio-control"
          element={<Admin />}
         />
 

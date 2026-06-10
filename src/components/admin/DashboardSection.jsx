@@ -2,13 +2,11 @@ export default function DashboardSection({
 articlesCount,
 portfolioCount,
 binCount = 0,
+usersCount = 0,
+recentUsers = [],
 setSection,
 currentUser,
 }) {
-
-const totalContent =
-articlesCount +
-portfolioCount;
 
 return (
 
@@ -85,15 +83,21 @@ return (
 
       <p className="uppercase tracking-[0.3em] text-xs opacity-40 mb-6">
 
-        Total Content
+        Users
 
       </p>
 
       <h3 className="text-6xl font-light">
 
-        {totalContent}
+        {usersCount}
 
       </h3>
+
+      <p className="text-sm opacity-40 mt-4">
+
+        Team members
+
+      </p>
 
     </div>
 
@@ -162,6 +166,74 @@ return (
           Open Bin
         </button>
         )}
+
+    </div>
+
+    {/* RECENT ACTIVITY */}
+
+    <div className="bg-white border border-black/5 p-12 mt-12">
+
+      <p className="uppercase tracking-[0.3em] text-xs opacity-40 mb-6">
+
+        Recent Activity
+
+      </p>
+
+      {recentUsers.length === 0 ? (
+
+        <p className="opacity-40">
+
+          No recent activity
+
+        </p>
+
+      ) : (
+
+        <div className="space-y-4">
+
+          {recentUsers.map((user) => (
+
+            <div
+              key={user.id}
+              className="
+                flex
+                items-center
+                justify-between
+                border-b
+                border-black/5
+                pb-4
+              "
+            >
+
+            <div>
+
+              <p className="text-lg font-light">
+
+                {user.name}
+
+              </p>
+
+              <p className="text-sm opacity-40">
+
+                User added
+
+              </p>
+
+            </div>
+
+            <span className="text-xs uppercase tracking-[0.2em] opacity-30">
+
+              #{user.id}
+
+            </span>
+
+          </div>
+
+          ))}
+
+        </div>
+
+      )}
 
     </div>
 

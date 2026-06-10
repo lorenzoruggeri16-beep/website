@@ -17,6 +17,7 @@ import AdminSidebar from "../components/admin/AdminSidebar";
 import Notification from "../components/admin/Notification";
 import RecoverUsername from "../components/admin/RecoverUsername";
 import ResetPassword from "../components/admin/ResetPassword";
+import MediaLibrarySection from "../components/admin/MediaLibrarySection";
 
 export default function Admin() {
 
@@ -80,6 +81,14 @@ export default function Admin() {
     setPortfolioCount] =
     useState(0);
 
+  const [usersCount,
+    setUsersCount] =
+    useState(0);
+
+  const [recentUsers,
+    setRecentUsers] =
+    useState([]);
+    
   // FETCH BIN
   useEffect(() => {
 
@@ -171,12 +180,35 @@ export default function Admin() {
         })
         .eq("deleted", false);
 
+      const{
+      count: users,
+      } = await supabase
+        .from("admin_users")
+        .select("*", {
+          count: "exact",
+          head: true,
+        });
+
+      const {
+        data: latestUsers,
+       } = await supabase
+        .from("admin_users")
+        .select("*")
+        .order("id", {
+          ascending: false,
+        })
+         .limit(5);
+
       setArticlesCount(
         articles || 0
       );
 
       setPortfolioCount(
         portfolio || 0
+      );
+
+      setUsersCount(
+        users || 0
       );
 
     };
@@ -501,6 +533,12 @@ export default function Admin() {
             binCount={
             binItems.length
             }
+            usersCount={
+              usersCount
+            }
+            recentUsers={
+              recentUsers
+            }
             setSection={
               setSection
             }
@@ -544,6 +582,13 @@ export default function Admin() {
 
         )}
 
+        {section === "media" && 
+        currentUser?.role === "owner" && (
+
+          <MediaLibrarySection />
+
+        )}
+
         {section === "bin" && (
 
           <BinSection
@@ -562,6 +607,7 @@ export default function Admin() {
 
           <SettingsSection
             currentUser={currentUser}
+            setNotification={setNotification}
           />
 
         )}

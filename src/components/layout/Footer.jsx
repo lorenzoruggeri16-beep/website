@@ -43,10 +43,10 @@ export default function Footer() {
           </Link>
 
           <Link
-            to="/portfolio"
+            to="/journal"
             className="hover:text-[#c6a66a] hover:opacity-100 transition-all duration-500"
           >
-            Sessions
+            Journal
           </Link>
 
           <Link
@@ -69,28 +69,23 @@ export default function Footer() {
         <div className="flex flex-wrap justify-center gap-4 lg:gap-6 uppercase tracking-[0.22em] text-[12px] opacity-70 mb-2">
 
           <a
-            href="#"
+            href="https://www.instagram.com/goldenlightstudio.es/"
+            target="_blank"
+            rel="noopener noreferrer"
             className="hover:text-[#c6a66a] hover:opacity-100 transition-all duration-500"
           >
             Instagram
           </a>
 
-          <a
-            href="#"
+          <Link
+            to="/contact"
             className="hover:text-[#c6a66a] hover:opacity-100 transition-all duration-500"
           >
-            Facebook
-          </a>
+            WhatsApp
+          </Link>
 
           <a
-            href="#"
-            className="hover:text-[#c6a66a] hover:opacity-100 transition-all duration-500"
-          >
-            Linkedin
-          </a>
-
-          <a
-            href="#"
+            href="mailto:contacto.goldenlightstudio@gmail.com"
             className="hover:text-[#c6a66a] hover:opacity-100 transition-all duration-500"
           >
             Email

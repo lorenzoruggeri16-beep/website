@@ -7,6 +7,8 @@ import {
   Pencil,
   Trash2,
   SlidersHorizontal,
+  X,
+  Eye,
 } from "lucide-react";
 
 import { supabase }
@@ -172,6 +174,57 @@ export default function ArticlesSection({
     setEditingId] =
     useState(null);
   
+  const [showEditor,
+    setShowEditor] =
+    useState(false);
+
+  const uploadImage = async (
+    file
+  ) => {
+
+      const fileName =
+
+        `${Date.now()}-${file.name}`;
+
+      const {
+        error,
+      } = await supabase
+
+        .storage
+
+        .from("journal")
+
+        .upload(
+          fileName,
+          file
+        );
+
+      if (error) {
+
+        console.log(
+          error
+        );
+
+        return null;
+
+      }
+
+      const {
+        data,
+      } = supabase
+
+        .storage
+
+        .from("journal")
+
+        .getPublicUrl(
+          fileName
+        );
+
+      return data.publicUrl;
+
+  };
+  
   const publishArticle =
   async () => {
     
@@ -193,7 +246,7 @@ export default function ArticlesSection({
 
         articleTitle
           .toLowerCase()
-          .Trim()
+          .trim()
           .replaceAll(/[^\w\s-]/g,"")
           .replace(/\s+/g,"");
 
@@ -454,7 +507,60 @@ console.log(
       <div className="grid lg:grid-cols-12 gap-20 w-full items-start">
 
         {/* LEFT */}
+
+        {showEditor && (
+
         <div className="lg:col-span-4 max-w-[500px] bg-white border border-black/10 p-10">
+
+          <div className="flex items-center justify-between mb-8">
+
+            <h3 className="text-2xl font-light">
+
+              {editingId
+                ? "Edit Article"
+                : "New Article"}
+
+            </h3>
+
+            <button
+              onClick={() => {
+
+                setShowEditor(false);
+
+                setEditingId(null);
+
+                setArticleTitle("");
+
+                setArticleCategory("");
+
+                setArticleDescription("");
+
+                setArticlePreview("");
+
+                setBlocks([]);
+
+              }}
+              className="
+                w-10
+                h-10
+                flex
+                items-center
+                justify-center
+                border
+                border-red-300/60
+                text-red-400
+                hover:bg-red-500
+                hover:text-white
+                transition
+                duration-500
+                "
+              >
+
+              <X size={18} /> 
+
+            </button>
+
+          </div>
 
           <div className="space-y-5">
 
@@ -675,35 +781,26 @@ console.log(
                          type="file"
                          accept="image/*"
                          className="hidden"
-                         onChange={(e) => {
+                         onChange={async (e) => {
 
                           const file =
                           e.target.files[0]
 
                           if (file) {
 
-                            const reader =
-                            new FileReader();
+                            const imageUrl =
+                              await uploadImage(file);
 
-                            reader.onloadend =
-                            () => {
+                              if (!imageUrl)
+                              return;
+                            const updatedBlocks =
+                            [...blocks];
 
-                              const updatedBlocks =
-                              [...blocks];
+                            updatedBlocks[index]
+                            .image = 
+                            imageUrl;
 
-                              updatedBlocks[index]
-                              .image =
-                              reader.result;
-
-                              setBlocks(
-                                updatedBlocks
-                              );
-
-                            };
-
-                            reader.readAsDataURL(
-                              file
-                            );
+                            setBlocks(updatedBlocks);
 
                           }
 
@@ -825,6 +922,8 @@ console.log(
 
         </div>
 
+        )}
+
         {/* RIGHT */}
         <div className="lg:col-span-8 w-full">
 
@@ -880,15 +979,63 @@ console.log(
 
           </div>
 
+          <div className="mb-8">
+
+            <button
+              onClick={() => {
+
+                setEditingId(null);
+
+                setArticleTitle("");
+
+                setArticleCategory("");
+
+                setArticleDescription("");
+
+                setArticlePreview("");
+
+                setBlocks([]);
+
+                setShowEditor(true);
+
+              }}
+              className="
+                border
+                border-black
+                px-8
+                py-4
+                uppercase
+                tracking-[0.3em]
+                text-xs
+                hover:bg-black
+                hover:text-white
+                transition
+                "
+              >
+
+              New Article
+
+            </button>
+
+          </div>
+
           {/* ARTICLES */}
-          <div className="flex gap-8 overflow-x-auto pb-6">
+          <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-8">
 
             {filteredArticles.map(
               (article) => (
 
                 <div
                   key={article.id}
-                  className="bg-white min-w-[420px] overflow-hidden border border-black/5"
+                className="
+                bg-white
+                overflow-hidden
+                border
+                border-black/5
+                hover:-translate-y-1
+                hover:shadow-xl
+                transition
+                duration-500"
                 >
 
                   {/* IMAGE */}
@@ -926,6 +1073,37 @@ console.log(
                     {/* ACTIONS */}
                     <div className="flex gap-3">
 
+                      {/*PREVIEW*/}
+                      <button
+                        onClick={() => {
+
+                          window.open(
+                            `/journal/${article.slug}`,
+                            "_blank"
+                          );
+
+                        }}
+                        className="
+                          w-10
+                          h-10
+                          rounded-full
+                          border
+                          border-[#c6a66a]/30
+                          text-[#c6a66a]
+                          flex
+                          items-center
+                          justify-center
+                          hover:bg-[#c6a66a]
+                          hover:text-white
+                          transition
+                          duration-500
+                          "
+                      >
+
+                        <Eye size={15} />
+
+                      </button>
+
                       {/* EDIT */}
                       {currentUser?.permissions
                         ?.editArticles && (
@@ -934,32 +1112,22 @@ console.log(
                         
 
                          onClick={() => {
-                          
-                           setEditingId(
-                           article.id
-                          );
-                                                          
-                           setArticleTitle(
-                           article.title
-                         );
-                        
-                           setArticleCategory(
-                           article.category
-                          );
 
-                           setArticleDescription(
-                            article.excerpt
-                         );
+                          setEditingId(article.id);
 
-                           setArticlePreview(
-                           article.coverImage
-                         );
+                          setArticleTitle(article.title);
 
-                           setBlocks(
-                            article.blocks || []
-                          );
+                          setArticleCategory(article.category);
 
-                          }}
+                          setArticleDescription(article.excerpt);
+
+                          setArticlePreview(article.coverImage);
+
+                          setBlocks(article.blocks || []);
+
+                          setShowEditor(true);
+
+                        }}
 
                            className="w-10 h-10 rounded-full border border-black/10 flex items-center justify-center hover:bg-black hover:text-white transition duration-500"
                           >

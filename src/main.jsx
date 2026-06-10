@@ -8,6 +8,8 @@ import App from "./App";
 
 import "./index.css";
 
+import "./i18n";
+
 const lenis = new Lenis();
 
 function raf(time) {

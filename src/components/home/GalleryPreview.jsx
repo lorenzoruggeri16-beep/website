@@ -1,52 +1,221 @@
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import FadeIn from "../ui/FadeIn";
-
-const images = [
-  "/images/gallery-1.jpg",
-  "/images/gallery-2.jpg",
-  "/images/gallery-3.jpg",
-  "/images/gallery-4.jpg",
-];
+import { supabase } from "../../lib/supabase";
 
 export default function GalleryPreview() {
+
+  const { t } =
+    useTranslation();
+
+  const [stories,
+    setStories] =
+    useState([]);
+
+  useEffect(() => {
+
+    const fetchStories =
+      async () => {
+
+        const {
+          data,
+          error,
+        } = await supabase
+
+          .from("portfolio")
+
+          .select("*")
+
+          .eq(
+            "deleted",
+            false
+          )
+
+          .order(
+            "created_at",
+            {
+              ascending: false,
+            }
+          )
+
+          .limit(3);
+
+        if (error) {
+
+          console.log(error);
+
+          return;
+
+        }
+
+        setStories(data);
+
+      };
+
+    fetchStories();
+
+  }, []);
+
   return (
-    <section className="bg-[#f8f6f2] px-6 md:px-12 pb-32">
 
-      {/* Heading */}
-      <FadeIn className="mb-20 text-center">
+    <section className="bg-[#f8f6f2] px-6 md:px-12 py-20">
 
-        <p className="uppercase tracking-[0.4em] text-xs mb-4">
-          Portfolio
-        </p>
+      <div className="max-w-7xl mx-auto">
 
-        <h2 className="text-5xl md:text-7xl font-light">
-          Recent Stories
-        </h2>
+        {/* Heading */}
+        <FadeIn className="mb-20 text-center">
 
-      </FadeIn>
-
-      {/* Gallery */}
-      <div className="columns-1 md:columns-2 gap-6 space-y-6">
-
-        {images.map((image, index) => (
-
-          <FadeIn
-            key={index}
-            delay={index * 0.1}
-            className="overflow-hidden"
+          <p
+            className="
+              uppercase
+              tracking-[0.5em]
+              text-[11px]
+              opacity-60
+              mb-6
+            "
           >
+            {t("featured_stories")}
+          </p>
 
-            <img
-              src={image}
-              alt=""
-              className="w-full object-cover hover:scale-[1.04] hover:opacity-90"
-            />
+          <p
+            className="
+              max-w-2xl
+              mx-auto
+              text-lg
+              leading-relaxed
+              opacity-70
+            "
+          >
+            {t("featured_description")}
+          </p>
 
-          </FadeIn>
+        </FadeIn>
 
-        ))}
+        {/* GRID */}
+        <div className="grid md:grid-cols-3 gap-8">
+
+          {stories.map((item, index) => (
+
+            <FadeIn
+              key={item.id}
+              delay={index * 0.15}
+            >
+
+              <Link
+                to={`/portfolio/${item.slug || item.id}`}
+                className="group block"
+              >
+
+                {/* IMAGE */}
+                <div className="overflow-hidden bg-black">
+
+                  <img
+                    src={item.cover_image}
+                    alt={item.title}
+                    className="
+                      w-full
+                      h-[520px]
+                      object-cover
+                      transition-all
+                      duration-[2500ms]
+                      group-hover:scale-[1.04]
+                    "
+                  />
+
+                </div>
+
+                {/* CONTENT */}
+                <div className="pt-8">
+
+                  <p
+                    className="
+                      uppercase
+                      tracking-[0.35em]
+                      text-[10px]
+                      opacity-40
+                      mb-4
+                    "
+                  >
+                    {item.location}
+                  </p>
+
+                  <h3
+                    className="
+                      text-3xl
+                      font-light
+                      leading-tight
+                      mb-6
+                    "
+                  >
+                    {item.title}
+                  </h3>
+
+                  <div
+                    className="
+                      w-16
+                      h-px
+                      bg-[#c6a66a]
+                      mb-6
+                    "
+                  />
+
+                  <span
+                    className="
+                      uppercase
+                      tracking-[0.35em]
+                      text-[11px]
+                      hover:tracking-[0.45em]
+                      transition-all
+                      duration-500
+                    "
+                  >
+                    {t("view_story")}
+                  </span>
+
+                </div>
+
+              </Link>
+
+            </FadeIn>
+
+          ))}
+
+        </div>
+
+        {/* CTA */}
+        <FadeIn
+          delay={0.4}
+          className="text-center mt-20"
+        >
+
+          <Link
+            to="/portfolio"
+            className="
+              inline-flex
+              items-center
+              border
+              border-black
+              px-8
+              py-4
+              uppercase
+              tracking-[0.3em]
+              text-xs
+              hover:bg-black
+              hover:text-white
+              transition-all
+              duration-500
+            "
+          >
+            {t("view_portfolio")}
+          </Link>
+
+        </FadeIn>
 
       </div>
 
     </section>
+
   );
+
 }

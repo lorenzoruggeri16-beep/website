@@ -99,6 +99,24 @@ export default function AdminSidebar({
         </button>
         )}
 
+        {currentUser?.role === "owner" && (
+        <button
+            onClick={() =>
+              setSection("media")
+            }
+            className={`block text-left text-lg transition-all duration-300 ${
+              section === "media"
+                ? "opacity-100 translate-x-2"
+                : "opacity-40 hover:opacity-80"
+              }`}
+          >
+
+              Media Library
+
+          </button>
+          
+        )}
+
         <button
           onClick={() => {
 

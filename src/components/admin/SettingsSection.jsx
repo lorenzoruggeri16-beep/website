@@ -3,6 +3,7 @@ import { supabase } from "../../lib/supabase";
 
 export default function SettingsSection({
   currentUser,
+  setNotification,
 }) {
 
   const [showAddModal, setShowAddModal] = useState(false);
@@ -69,7 +70,11 @@ export default function SettingsSection({
       return;
     }
 
-    alert("User updated successfully");
+    setNotification({
+      message:
+        "User updated successfully",
+      type: "success",
+    });
 
     await fetchUsers();
     setShowModal(false);
@@ -79,7 +84,11 @@ export default function SettingsSection({
   const deleteUser = async () => {
 
       if (selectedUser.role === "owner"){
-        alert("owner accouint cannot be deleted");
+        setNotification({
+          message:
+            "Owner account cannot be deleted",
+          type: "warning",
+        });
         return;
       }
 
@@ -87,7 +96,11 @@ export default function SettingsSection({
         selectedUser.email ===
         currentUser.email
       ) {
-        alert("You cannot delete your own account");
+        setNotification({
+          message:
+            "You cannot delete your own account",
+          type: "warning",
+        });
         return;
       }
 
@@ -168,36 +181,52 @@ export default function SettingsSection({
 
         </p>
 
+        <p className="uppercase tracking-[0.3em] text-xs opacity-40 mt-4">
+
+          {users.length} Team Members
+
+        </p>
+
       </div>
 
       {/* ADD USER */}
 
-      <button
+      <div
         onClick={() =>
           setShowAddModal(true)
         }
         className="
+          bg-white
           border
-          border-black
-          px-6
-          py-4
-          mb-10
-          uppercase
-          tracking-[0.2em]
-          text-xs
-          hover:bg-black
-          hover:text-white
+          border-black/5
+          p-10
+          cursor-pointer
+          hover-translate-y-1
+          hover:shadow-xl
           transition
+          duration-500
+          flex
+          flex-col
+          justify-center
+          items-center
+          min-h-[180px]
         "
       >
+        <span className="text-5xl font-light mb-4">
+          +
+        </span>
+
+        <p className="uppercase tracking-[0.3em] text-xs opacity-50">
 
         + Add User
 
-      </button>
+        </p>
+
+      </div>
 
       {/* USERS */}
 
-      <div className="grid md:grid-cols-2 gap-6">
+      <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
 
         {users
           .filter(
@@ -212,14 +241,16 @@ export default function SettingsSection({
                 bg-white
                 border
                 border-black/5
-                p-8
+                p-10
+                min-h-[220px]
+                hover:-translate-y-1
                 hover:shadow-xl
                 transition
-                duration-300
+                duration-500
               "
             >
 
-              <div className="flex justify-between items-start">
+              <div className="flex flex-col h-full">
 
                 <div>
 
@@ -235,42 +266,84 @@ export default function SettingsSection({
 
                   </p>
 
+                  <div className="mt-6 space-y-2">
+
                   <p className="text-xs uppercase tracking-[0.2em] opacity-40 mt-4">
 
-                    {user.role}
+                    permissions
 
                   </p>
 
+                  <div className="text-sm space-y-1 opacity-70">
+                     <p>
+                      Articles {
+                        user.permissions?.editArticles
+                          ? "✓"
+                          : "✕"
+                      }
+                      </p>
+
+                      <p>
+                        Portfolio {
+                          user.permissions?.editPortfolio
+                            ? "✓"
+                            : "✕"
+                        }
+                      </p>
+
+                      <p>
+                        Delete {
+                          user.permissions?.deleteArticles ||
+                          user.permissions?.deletePortfolio
+                            ? "✓"
+                            : "✕"
+                        }
+                      </p>
+
+                    </div>
+
+                  </div>
+
                 </div>
 
-                <button
-                  onClick={() => {
+                <div className="mt-auto pt-8">
 
-                    if (user.role ==="owner") {
-                      alert(
-                        "Owner permissions cannot be modified"
-                      );
+                  <button
+                    onClick={() => {
+
+                    if (user.role === "owner") {
+
+                      setNotification({
+                        message:
+                          "Owner permissions cannot be modified",
+                        type: "error",
+                      });
+
                       return;
-                    }
 
-                    setSelectedUser(user);
-                    setShowModal(true);
+                      }
 
-                  }}
-                  className="
-                    border
-                    border-black/10
-                    px-4
-                    py-2
-                    hover:bg-black
-                    hover:text-white
-                    transition
-                  "
-                >
+                      setSelectedUser(user);
+                      setShowModal(true);
 
-                  ✏ Edit
+                    }}
+                    className="
+                      w-full
+                      border
+                      border-black/10
+                      py-3
+                      hover:bg-black
+                      hover:text-white
+                      transition
+                      duration-500
+                      "
+                    >
 
-                </button>
+                      Manage
+
+                  </button>
+
+                </div>
 
               </div>
 
@@ -371,9 +444,11 @@ export default function SettingsSection({
 
                       if (response.ok) {
 
-                      alert(
-                        "User created successfully"
-                      );
+                      setNotification({
+                        message:
+                          "User created successfully",
+                        type: "success",
+                      });
 
                       setNewName("");
                       setNewEmail("");
@@ -385,9 +460,11 @@ export default function SettingsSection({
 
                     } else {
 
-                      alert(
-                        "Failed to create user"
-                      );
+                     setNotification({
+                        message:
+                          "Failed to create user",
+                        type: "error",
+                      }); 
 
                     }
 
