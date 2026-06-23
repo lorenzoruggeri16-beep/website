@@ -6,11 +6,11 @@ export default function StoryCard({ article }) {
 
     <Link
       to={`/journal/${article.slug}`}
-      className="group block"
+      className="group block transition-all duration-700"
     >
 
       {/* IMAGE */}
-      <div className="overflow-hidden mb-8 h-[520px] bg-[#e8e0d4]">
+      <div className="overflow-hidden mb-6 h-[460px] bg-[#e8e0d4]">
 
         <img
           src={
@@ -37,21 +37,21 @@ export default function StoryCard({ article }) {
       </div>
 
       {/* CATEGORY */}
-      <p className="uppercase tracking-[0.35em] text-xs opacity-40 mb-5">
+      <p className="uppercase tracking-[0.35em] text-xs text-[#c6a66a] mb-4">
 
         {article.category}
 
       </p>
 
       {/* TITLE */}
-      <h3 className="text-3xl lg:text-4xl font-light leading-[1.1] mb-6">
+      <h3 className="text-2xl lg:text-[34px] font-light leading-[1.15] mb-5 transition-all duration-500 group-hover:text-[#c6a66a]">
 
         {article.title}
 
       </h3>
 
       {/* EXCERPT */}
-      <p className="text-lg opacity-60 leading-relaxed max-w-xl">
+      <p className="text-base lg:text-lg opacity-60 leading-[1.9] max-w-xl">
 
         {article.excerpt}
 

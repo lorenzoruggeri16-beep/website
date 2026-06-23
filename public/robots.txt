@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: /studio-control
 
-Sitemap: https://goldenlightstudio.com/sitemap.xml
+Sitemap: https://goldenlightstudio.netlify.app/sitemap.xml

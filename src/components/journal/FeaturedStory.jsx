@@ -96,68 +96,78 @@ export default function FeaturedStory() {
 
   return (
 
-    <section className="px-6 lg:px-20 pb-32">
+    <section className="px-6 lg:px-20 pb-16">
 
-      <div className="grid lg:grid-cols-[1.1fr_0.9fr] items-center gap-16">
+      <div className="max-w-7xl mx-auto">
 
-        {/* IMAGE */}
-        <div className="h-[620px] lg:h-[780px] overflow-hidden bg-[#e8e0d4]">
+        <p className="uppercase tracking-[0.4em] text-xs text-[#c6a66a] mb-8">
 
-          <img
-            src={
-              article.coverImage ||
-              article.coverImage
-            }
-            alt={article.title}
-            loading="lazy"
-            decoding="async"
-            className="
+          {t("featured_editorial")}
 
-              w-full
-              h-full
-              object-cover
+        </p>
 
-              hover:scale-[1.02]
+        <div className="grid lg:grid-cols-[1.15fr_0.85fr] items-center gap-12 lg:gap-20">
 
-              transition-all
-              duration-[2500ms]
+          {/* IMAGE */}
+          <div className="h-[420px] lg:h-[600px] overflow-hidden bg-[#e8e0d4]">
 
-            "
-          />
+            <img
+              src={
+                article.coverImage
+              }
+              alt={article.title}
+              fetchPriority="high"
+              className="
 
-        </div>
+                w-full
+                h-full
+                object-cover
 
-        {/* CONTENT */}
-        <div className="flex flex-col justify-center max-w-xl">
+                hover:scale-[1.02]
 
-          <p className="uppercase tracking-[0.35em] text-xs opacity-40 mb-8">
+                transition-all
+                duration-[2500ms]
 
-            {t("featured_editorial")}
+              "
+            />
 
-          </p>
+          </div>
 
-          <h2 className="text-4xl lg:text-6xl font-light leading-[1.05] mb-8">
+          {/* CONTENT */}
+          <div className="flex flex-col justify-center max-w-xl">
 
-            {article.title}
+            <p className="uppercase tracking-[0.35em] text-xs text-[#c6a66a] mb-6">
 
-          </h2>
+              {article.category}
 
-          <p className="text-base lg:text-lg opacity-60 leading-[1.9] mb-10 max-w-lg">
+            </p>
 
-            {article.excerpt}
+            <h2 className="text-3xl lg:text-[52px] font-light leading-[1.05] mb-6">
 
-          </p>
+              {article.title}
 
-          <Link
-            to={`/journal/${article.slug}`}
-            className="uppercase tracking-[0.35em] text-[10px] flex items-center gap-4 hover:opacity-50 transition-all duration-500"
-          >
+            </h2>
 
-            {t("read_story")}
+            <div className="w-20 h-px bg-[#c6a66a] mb-8" />
 
-            <span>→</span>
+            <p className="text-base lg:text-lg opacity-60 leading-[1.9] mb-10">
 
-          </Link>
+              {article.excerpt}
+
+            </p>
+
+            <Link
+              to={`/journal/${article.slug}`}
+              className="uppercase tracking-[0.35em] text-[11px] flex items-center gap-4 hover:text-[#c6a66a] transition-all duration-500"
+            >
+
+              {t("read_story")}
+
+              <span>→</span>
+
+            </Link>
+
+          </div>
 
         </div>
 

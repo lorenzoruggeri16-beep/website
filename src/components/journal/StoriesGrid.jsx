@@ -90,20 +90,20 @@ export default function StoriesGrid() {
 
   return (
 
-    <section className="px-6 lg:px-20 pb-32">
+    <section className="px-6 lg:px-20 pb-24">
 
       {/* TOP */}
-      <div className="flex items-center justify-between mb-20">
+      <div className="flex items-end justify-between mb-12">
 
         <div>
 
-          <p className="uppercase tracking-[0.35em] text-xs opacity-40 mb-5">
+          <p className="uppercase tracking-[0.4em] text-xs text-[#c6a66a] mb-4">
 
             {t("editorial_archive")}
 
           </p>
 
-          <h2 className="text-5xl lg:text-7xl font-light">
+          <h2 className="text-4xl lg:text-[56px] font-light leading-none">
 
             {t("latest_stories")}
 
@@ -111,12 +111,12 @@ export default function StoriesGrid() {
 
         </div>
 
-        <div className="hidden lg:block w-40 h-px bg-[#c6a66a]" />
+        <div className="hidden lg:block w-32 h-px bg-[#c6a66a]" />
 
       </div>
 
       {/* GRID */}
-      <div className="grid lg:grid-cols-2 gap-16">
+      <div className="grid lg:grid-cols-2 gap-14 lg:gap-20">
 
         {articles.slice(1).map(
           (article) => (
