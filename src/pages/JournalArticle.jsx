@@ -90,6 +90,7 @@ export default function JournalArticle() {
           article.excerpt ||
           "Editorial photography stories, inspiration and guidance from Golden Light Studio."
         }
+        url="/journal"
         image={article.coverImage}
       />
 

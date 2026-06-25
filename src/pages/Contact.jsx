@@ -19,6 +19,7 @@ export default function Contact() {
       <SEO
         title="Contact Luxury Photographer Tenerife | Golden Light Studio"
         description="Get in touch with Golden Light Studio. Luxury photography in Tenerife for couples, weddings, motherhood and meaningful life stories."
+        url="/contact"
       />
 
       <main className="bg-[#f8f6f2] text-black min-h-screen">

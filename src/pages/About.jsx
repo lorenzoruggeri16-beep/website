@@ -19,6 +19,7 @@ export default function About() {
       <SEO
         title="About Golden Light Studio | Luxury Photographer Tenerife"
         description="Meet the photographers behind Golden Light Studio. Creating timeless fine art and cinematic photography in Tenerife inspired by emotion, light and authentic human connection."
+        url="/about"
       />
 
       <main className="bg-[#f8f6f2] text-black min-h-screen">

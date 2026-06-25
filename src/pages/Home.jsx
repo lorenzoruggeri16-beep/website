@@ -21,6 +21,7 @@ export default function Home() {
       <SEO
         title="Luxury Photographer Tenerife | Golden Light Studio"
         description="Golden Light Studio is a luxury photographer in Tenerife creating timeless imagery for couples, weddings, motherhood and families through a refined fine art and cinematic approach."
+        url="/"
       />
 
       <main>

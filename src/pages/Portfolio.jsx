@@ -21,6 +21,7 @@ export default function Portfolio() {
       <SEO
         title="Luxury Photography Portfolio Tenerife | Golden Light Studio"
         description="Discover a curated collection of luxury photography sessions in Tenerife. Couples, weddings, motherhood and timeless storytelling through a fine art and cinematic approach."
+        url="/portfolio"
       />
 
       <main className="bg-[#f6f2eb] overflow-hidden">
