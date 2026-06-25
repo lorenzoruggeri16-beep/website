@@ -45,13 +45,13 @@ export default function Navbar() {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 md:px-12 py-8 transition-all duration-500 ${
+        className={`fixed top-0 left-0 w-full z-50 flex justify-between items-center px-8 lg:px-14 py-4 transition-all duration-500 ${
           darkMode
             ? "text-black bg-[#f8f6f2]/80 backdrop-blur-md"
             : "text-white bg-transparent"
         }`}
       >
-        <Link to="/" className="flex items-center gap-4">
+        <Link to="/" className="flex items-center gap-3">
           <img
             src={
               darkMode
@@ -59,21 +59,31 @@ export default function Navbar() {
                 : "/images/logo-white.png"
             }
             alt="Golden Light Studio"
-            className="h-10 w-auto"
+            className="h-9 w-auto"
           />
 
-          <span className="uppercase tracking-[0.35em] text-lg">
+          <span 
+          className={`uppercase tracking-[0.45em] text-[15px] font-light transition-colors duration-500 ${
+            darkMode ? "text-black" : "text-white"
+          }`}
+          style={
+            !darkMode
+              ? { textShadow: "0 2px 8px rgba(0,0,0,0.85)" }
+              : undefined
+            }
+          >
             Golden Light Studio
           </span>
         </Link>
 
         {/* Desktop */}
-        <div className="hidden md:flex items-center gap-8 uppercase text-xs tracking-[0.25em]">
+        <div className="hidden md:flex items-center gap-10 uppercase text-[11px] tracking-[0.28em]">
 
           <Link
             to="/portfolio"
             onClick={() => setLanguageOpen(false)}
-            className="hover:opacity-60 transition"
+            aria-label="Change language"
+            className="relative hover:text-[#c6a66a] transition-colors duration-300"
           >
             {t("portfolio")}
           </Link>
@@ -81,7 +91,8 @@ export default function Navbar() {
           <Link
             to="/journal"
             onClick={() => setLanguageOpen(false)}
-            className="hover:opacity-60 transition"
+            aria-label="Change language"
+            className="relative hover:text-[#c6a66a] transition-colors duration-300"
           >
             {t("journal")}
           </Link>
@@ -89,7 +100,8 @@ export default function Navbar() {
           <Link
             to="/about"
             onClick={() => setLanguageOpen(false)}
-            className="hover:opacity-60 transition"
+            aria-label="Change language"
+            className="relative hover:text-[#c6a66a] transition-colors duration-300"
           >
             {t("about")}
           </Link>
@@ -97,7 +109,8 @@ export default function Navbar() {
           <Link
             to="/contact"
             onClick={() => setLanguageOpen(false)}
-            className="hover:opacity-60 transition"
+            aria-label="Change language"
+            className="relative hover:text-[#c6a66a] transition-colors duration-300"
           >
             {t("contact")}
           </Link>
@@ -110,10 +123,10 @@ export default function Navbar() {
             className="
               border
               border-[#c6a66a]
-              px-5
-              py-3
-              text-[11px]
-              tracking-[0.35em]
+              px-6
+              py-[11px]
+              text-[10px]
+              tracking-[0.38em]
               uppercase
               hover:bg-[#c6a66a]
               hover:text-white
@@ -148,7 +161,11 @@ export default function Navbar() {
                   absolute
                   top-10
                   right-0
-                  min-w-[180px]
+                  min-w-[190px]
+                  rounded-sm
+                  backdrop-blur-md
+                  hover:bg-[#c6a66a]
+                  hover:text-white
                   bg-white
                   text-black
                   border
@@ -210,6 +227,7 @@ export default function Navbar() {
         <button
           onClick={() => setOpen(true)}
           className="md:hidden"
+          aria-label="Open menu"
         >
           <Menu size={28} />
         </button>
@@ -218,12 +236,12 @@ export default function Navbar() {
       {/* Mobile Menu */}
       {open && (
         <div className="fixed inset-0 bg-[#111] z-[100] text-white flex flex-col">
-          <div className="flex justify-between items-center px-6 py-8">
+          <div className="flex justify-between items-center px-6 py-5">
             <h2 className="uppercase tracking-[0.35em] text-lg">
               Golden Light
             </h2>
 
-            <button onClick={() => setOpen(false)}>
+            <button onClick={() => setOpen(false)} aria-label="Close menu">
               <X size={30} />
             </button>
           </div>
@@ -289,7 +307,7 @@ export default function Navbar() {
             {/* Mobile Language Switcher */}
             <div className="flex  items-center gap-4">
               <button
-                onClick={() => changeLanguage("es")}>
+                onClick={() => changeLanguage("es")} aria-label="Spanish">
                 <img
                   src="/images/flags/es.svg.avif"
                   alt="Español"
@@ -301,7 +319,7 @@ export default function Navbar() {
                 />
               </button>
 
-              <button onClick={() => changeLanguage("it")}>
+              <button onClick={() => changeLanguage("it")} aria-label="Italian">
                 <img
                 src="/images/flags/it.svg.webp"
                 alt="Italiano"
@@ -313,7 +331,7 @@ export default function Navbar() {
                 />
               </button>
 
-              <button onClick={() => changeLanguage("en")}>
+              <button onClick={() => changeLanguage("en")} aria-label="English">
                 <img
                 src="/images/flags/gb.svg.avif"
                 alt="English"

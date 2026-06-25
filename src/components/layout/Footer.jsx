@@ -100,7 +100,7 @@ export default function Footer() {
         </div>
 
         {/* COPYRIGHT */}
-        <p className="text-[12px] lg:text-[9px] opacity-25 mt-1">
+        <p className="text-[12px] lg:text-[9px] text-white/60 mt-1">
 
           © 2026 Golden Light Studio
 

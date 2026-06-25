@@ -95,7 +95,7 @@ export default function PortfolioHero() {
         <motion.img
           key={heroImage}
           src={heroImage}
-          alt=""
+          alt="Luxury photography portfolio by Golden Light Studio in Tenerife"
           fetchPriority="high"
           initial={{
             opacity: 0,
@@ -115,10 +115,10 @@ export default function PortfolioHero() {
       )}
 
       {/* OVERLAY */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/10" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/40 to-black/35" />
 
       {/* CONTENT */}
-      <div className="absolute inset-0 flex items-end px-6 lg:px-20 pb-12 lg:pb-24">
+      <div className="absolute inset-0 flex items-end px-6 lg:px-20 pb-16 lg:pb-28">
 
         <motion.div
           initial={{
@@ -135,7 +135,7 @@ export default function PortfolioHero() {
           className="max-w-4xl"
         >
 
-          <p className="uppercase tracking-[0.45em] text-xs text-white/70 mb-6 lg:mb-8">
+          <p className="uppercase tracking-[0.45em] text-sm text-white">
 
             Golden Light Studio
 
@@ -153,7 +153,7 @@ export default function PortfolioHero() {
 
           <div className="w-24 lg:w-40 h-px bg-[#c6a66a] mb-8 lg:mb-10" />
 
-          <p className="text-base lg:text-xl leading-relaxed text-white/70 max-w-2xl">
+          <p className="text-base lg:text-xl leading-relaxed text-white max-w-2xl">
 
             {t("portfolio_text")}
 

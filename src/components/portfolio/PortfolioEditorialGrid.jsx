@@ -96,6 +96,9 @@ export default function PortfolioEditorialGrid() {
     <section className="px-0 py-0 bg-[#f6f2eb]">
 
       <div className="px-6 lg:px-20 pb-32">
+        <h2 className="sr-only">ç
+          {t("portfolio_gallery")}
+        </h2>
 
         {/* CATEGORY NAV */}
         <div className="flex justify-center">
@@ -136,7 +139,7 @@ export default function PortfolioEditorialGrid() {
 
                       ? "opacity-100"
 
-                      : "opacity-30 hover:opacity-60"
+                      : "opacity-60 hover:opacity-100"
 
                   }
                 `}
@@ -251,11 +254,11 @@ export default function PortfolioEditorialGrid() {
 
                   <div className="w-16 h-px bg-[#c6a66a] mb-6" />
 
-                  <button className="uppercase tracking-[0.35em] text-[11px] hover:tracking-[0.45em] transition-all duration-500">
+                  <span className="uppercase tracking-[0.35em] text-[11px] hover:tracking-[0.45em] transition-all duration-500">
 
                     {t("view_story")}
 
-                  </button>
+                  </span>
 
                 </div>
 
