@@ -54,8 +54,10 @@ export default function CTASection() {
             {t("cta_text")}
           </p>
 
-          <Link
-            to="/contact"
+          <a
+            href="https://calendly.com/contacto-goldenlightstudio/golden-light-session"
+            target="_blank"
+            rel="noopener noreferrer"
             className="
               inline-flex
               items-center
@@ -74,7 +76,7 @@ export default function CTASection() {
             "
           >
             {t("cta_button")}
-          </Link>
+          </a>
 
         </FadeIn>
 

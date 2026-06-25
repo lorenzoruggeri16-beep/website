@@ -1,14 +1,42 @@
 import { Helmet } from "react-helmet-async";
+import { SITE } from "../config/site";
 
 export default function SEO({
   title,
-  description,
-  image = "/images/hero.jpg",
-  url = "https://goldenlightstudio.com",
+  description = SITE.description,
+  image = SITE.image,
+  url = "",
+  type = "website",
 }) {
+  const canonicalUrl = url
+    ? `${SITE.url}${url}`
+    : SITE.url;
+
+  const imageUrl = image.startsWith("http")
+    ? image
+    : `${SITE.url}${image}`;
+
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "PhotographyBusiness",
+    name: SITE.name,
+    image: imageUrl,
+    url: SITE.url,
+    description: SITE.description,
+    email: SITE.email,
+    telephone: SITE.phone,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Tenerife",
+      addressRegion: "Canary Islands",
+      addressCountry: "ES",
+    },
+    sameAs: [
+      SITE.instagram,
+    ],
+  };
 
   return (
-
     <Helmet>
 
       {/* Basic SEO */}
@@ -20,19 +48,37 @@ export default function SEO({
       />
 
       <meta
+        name="keywords"
+        content="
+        Tenerife Photographer,
+        Wedding Photographer Tenerife,
+        Couple Photographer Tenerife,
+        Family Photographer Tenerife,
+        Luxury Photography,
+        Golden Light Studio
+        "
+      />
+
+      <meta
+        name="author"
+        content={SITE.name}
+      />
+
+      <meta
         name="robots"
-        content="index, follow"
+        content="index,follow"
       />
 
       <link
         rel="canonical"
-        href={url}
+        href={canonicalUrl}
       />
 
       {/* Open Graph */}
+
       <meta
         property="og:type"
-        content="website"
+        content={type}
       />
 
       <meta
@@ -47,20 +93,26 @@ export default function SEO({
 
       <meta
         property="og:image"
-        content={image}
+        content={imageUrl}
       />
 
       <meta
         property="og:url"
-        content={url}
+        content={canonicalUrl}
       />
 
       <meta
         property="og:site_name"
-        content="Golden Light Studio"
+        content={SITE.name}
+      />
+
+      <meta
+        property="og:locale"
+        content="en_GB"
       />
 
       {/* Twitter */}
+
       <meta
         name="twitter:card"
         content="summary_large_image"
@@ -78,17 +130,22 @@ export default function SEO({
 
       <meta
         name="twitter:image"
-        content={image}
+        content={imageUrl}
       />
 
       {/* Theme */}
+
       <meta
         name="theme-color"
         content="#f8f6f2"
       />
 
+      {/* Structured Data */}
+
+      <script type="application/ld+json">
+        {JSON.stringify(schema)}
+      </script>
+
     </Helmet>
-
   );
-
 }

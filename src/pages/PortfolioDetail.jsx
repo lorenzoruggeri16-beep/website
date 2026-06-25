@@ -63,6 +63,10 @@ export default function PortfolioDetail() {
   setActiveImage] =
   useState(0);
 
+  const [wheelAccumulator,
+     setWheelAccumulator] = 
+     useState(0);
+
   useEffect(() => {
 
     const handleEscape =
@@ -485,21 +489,22 @@ useEffect(() => {
            });
           }}
 
-           onWheel={(e) => {
+          onWheel={(e) => {
+            if (!emblaApi) return;
 
-            if (!emblaApi)
-              return;
+            const threshold = 120;
+            const next = wheelAccumulator + e.deltaY;
 
-            if (e.deltaY > 0) {
-
+            if (next > threshold) {
               emblaApi.scrollNext();
-            } else {
-
+              setWheelAccumulator(0);
+            } else if (next < -threshold) {
               emblaApi.scrollPrev();
-
+              setWheelAccumulator(0);
+            } else {
+            setWheelAccumulator(next);
             }
-
-           }}
+          }}
 
            className="overflow-hidden px-6 lg:px-20 scrollbar-hide"
            >

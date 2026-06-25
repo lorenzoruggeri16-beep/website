@@ -69,6 +69,7 @@ export default function Navbar() {
 
         {/* Desktop */}
         <div className="hidden md:flex items-center gap-8 uppercase text-xs tracking-[0.25em]">
+
           <Link
             to="/portfolio"
             onClick={() => setLanguageOpen(false)}
@@ -101,6 +102,29 @@ export default function Navbar() {
             {t("contact")}
           </Link>
 
+          {/* BOOK BUTTON */}
+          <a
+            href="https://calendly.com/contacto-goldenlightstudio/golden-light-session"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="
+              border
+              border-[#c6a66a]
+              px-5
+              py-3
+              text-[11px]
+              tracking-[0.35em]
+              uppercase
+              hover:bg-[#c6a66a]
+              hover:text-white
+              transition-all
+              duration-500
+            "
+          >
+            Book a Session
+          </a>
+
+          {/* Language */}
           <div className="relative">
             <button
               onClick={() =>
@@ -134,9 +158,7 @@ export default function Navbar() {
                 "
               >
                 <button
-                  onClick={() =>
-                    changeLanguage("es")
-                  }
+                  onClick={() => changeLanguage("es")}
                   className="
                     w-full
                     text-left
@@ -151,9 +173,7 @@ export default function Navbar() {
                 </button>
 
                 <button
-                  onClick={() =>
-                    changeLanguage("it")
-                  }
+                  onClick={() => changeLanguage("it")}
                   className="
                     w-full
                     text-left
@@ -168,9 +188,7 @@ export default function Navbar() {
                 </button>
 
                 <button
-                  onClick={() =>
-                    changeLanguage("en")
-                  }
+                  onClick={() => changeLanguage("en")}
                   className="
                     w-full
                     text-left
@@ -242,6 +260,72 @@ export default function Navbar() {
             >
               {t("contact")}
             </Link>
+
+            {/* Mobile Book Button */}
+            <a
+              href="https://calendly.com/contacto-goldenlightstudio/golden-light-session"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={closeMenus}
+              className="
+                mt-2
+                border
+                border-[#c6a66a]
+                px-8
+                py-4
+                uppercase
+                tracking-[0.35em]
+                text-base
+                text-[#c6a66a]
+                hover:bg-[#c6a66a]
+                hover:text-white
+                transition-all
+                duration-500
+              "
+            >
+              Book a Session
+            </a>
+
+            {/* Mobile Language Switcher */}
+            <div className="flex  items-center gap-4">
+              <button
+                onClick={() => changeLanguage("es")}>
+                <img
+                  src="/images/flags/es.svg.avif"
+                  alt="Español"
+                  className={`w-6 h-6 transition-all duration-300 ${
+                  i18n.language === "es"
+                    ? "opacity-100 scale-110"
+                    : "opacity-40 hover:opacity-100"
+                  }`}
+                />
+              </button>
+
+              <button onClick={() => changeLanguage("it")}>
+                <img
+                src="/images/flags/it.svg.webp"
+                alt="Italiano"
+                className={`w-6 h-6 transition-all duration-300 ${
+                    i18n.language === "it"
+                    ? "opacity-100 scale-110"
+                    : "opacity-40 hover:opacity-100"
+                }`}
+                />
+              </button>
+
+              <button onClick={() => changeLanguage("en")}>
+                <img
+                src="/images/flags/gb.svg.avif"
+                alt="English"
+                className={`w-6 h-6 transition-all duration-300 ${
+                  i18n.language === "en"
+                    ? "opacity-100 scale-110"
+                    : "opacity-40 hover:opacity-100"
+                }`}
+                />
+              </button>
+            </div>
+
           </div>
         </div>
       )}
