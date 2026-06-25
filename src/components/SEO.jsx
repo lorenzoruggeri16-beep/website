@@ -5,12 +5,10 @@ export default function SEO({
   title,
   description = SITE.description,
   image = SITE.image,
-  url = "",
+  url = "/",
   type = "website",
 }) {
-  const canonicalUrl = url
-    ? `${SITE.url}${url}`
-    : SITE.url;
+  const canonicalUrl = new URL(url, SITE.url).toString();
 
   const imageUrl = image.startsWith("http")
     ? image
@@ -21,8 +19,8 @@ export default function SEO({
     "@type": "PhotographyBusiness",
     name: SITE.name,
     image: imageUrl,
-    url: SITE.url,
-    description: SITE.description,
+    url: canonicalUrl,
+    description: description,
     email: SITE.email,
     telephone: SITE.phone,
     address: {
@@ -31,9 +29,7 @@ export default function SEO({
       addressRegion: "Canary Islands",
       addressCountry: "ES",
     },
-    sameAs: [
-      SITE.instagram,
-    ],
+    sameAs: [SITE.instagram],
   };
 
   return (
