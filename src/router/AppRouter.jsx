@@ -9,6 +9,8 @@ import {
   Suspense,
 } from "react";
 
+import Loader from "../components/ui/Loader";
+
 import { AnimatePresence } from "framer-motion";
 
 const Home =
@@ -51,6 +53,11 @@ const JournalArticle =
     import("../pages/JournalArticle")
   );
 
+const NotFound =
+  lazy(() =>
+    import("../pages/NotFound")
+  );
+
 const ResetPassword =
   lazy(() =>
     import("../pages/ResetPassword")
@@ -66,11 +73,7 @@ export default function AppRouter() {
     <AnimatePresence mode="wait">
 
       <Suspense
-        fallback={
-          <div className="min-h-screen flex items-center justify-center bg-[#f8f6f2]">
-            Loading...
-          </div>
-        }
+        fallback={<Loader />}
       >
 
         <Routes
@@ -121,6 +124,11 @@ export default function AppRouter() {
           <Route
             path="/reset-password"
             element={<ResetPassword />}
+          />
+
+          <Route
+            path="*"
+            element={<NotFound />}
           />
 
         </Routes>

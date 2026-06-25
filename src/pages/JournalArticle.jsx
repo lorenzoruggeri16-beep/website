@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import SEO from "../components/SEO";
+import Loader from "../components/ui/Loader";
 
 import {
   useEffect,
@@ -77,19 +78,7 @@ export default function JournalArticle() {
 
   }, [slug]);
 
-  if (!article) {
-
-    return (
-
-      <div className="min-h-screen flex items-center justify-center">
-
-        Loading...
-
-      </div>
-
-    );
-
-  }
+  if (!article) return <Loader />;
 
   return (
 

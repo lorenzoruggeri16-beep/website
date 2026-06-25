@@ -26,6 +26,7 @@ from "../components/ui/PageTransition";
 
 import SEO from "../components/SEO";
 import { supabase } from "../lib/supabase";
+import Loader from "../components/ui/Loader";
 
 export default function PortfolioDetail() {
 
@@ -193,23 +194,7 @@ useEffect(() => {
   }, [slug]);
 
   // LOADING
-  if (!portfolio) {
-
-    return (
-
-      <main className="min-h-screen bg-[#f6f2eb] flex items-center justify-center">
-
-        <p className="uppercase tracking-[0.35em] text-xs opacity-40">
-
-          Loading Session...
-
-        </p>
-
-      </main>
-
-    );
-
-  }
+  if (!portfolio) return <Loader />;
 
   return (
 

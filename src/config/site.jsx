@@ -7,7 +7,7 @@ export const SITE = {
     "Luxury photography experiences in Tenerife. Weddings, couples, families and editorial sessions captured with timeless elegance.",
 
   image:
-    "https://goldenlightstudio.netlify.app/images/hero.jpg",
+    "https://goldenlightstudio.netlify.app/images/seo/og-image.png",
 
   email: "contacto.goldenlightstudio@gmail.com",
 
