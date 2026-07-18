@@ -287,7 +287,7 @@ useEffect(() => {
             <div className="lg:col-span-8">
 
               <p className="text-xl lg:text-[34px] font-light leading-[1.8] max-w-3xl">
-                  
+
                 {portfolio.description}
 
               </p>
@@ -802,7 +802,7 @@ useEffect(() => {
             className="
             
             max-w-[90vw]
-            max-h-[90vw]
+            max-h-[90vh]
 
             object-contain
 
