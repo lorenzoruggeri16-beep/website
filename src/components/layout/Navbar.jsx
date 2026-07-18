@@ -45,7 +45,7 @@ export default function Navbar() {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 w-full z-50 flex justify-between items-center px-8 lg:px-14 py-4 transition-all duration-500 ${
+        className={`fixed top-0 left-0 w-full z-50 flex justify-between items-center px-8 lg:px-14 py-5 transition-all duration-500 ${
           darkMode
             ? "text-black bg-[#f8f6f2]/80 backdrop-blur-md"
             : "text-white bg-transparent"
@@ -59,11 +59,11 @@ export default function Navbar() {
                 : "/images/logo-white.png"
             }
             alt="Golden Light Studio"
-            className="h-9 w-auto"
+            className="h-10 w-auto"
           />
 
           <span 
-          className={`uppercase tracking-[0.45em] text-[15px] font-light transition-colors duration-500 ${
+          className={`uppercase tracking-[0.36em] text-[16px] font-light transition-colors duration-500 ${
             darkMode ? "text-black" : "text-white"
           }`}
           style={
@@ -77,7 +77,7 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop */}
-        <div className="hidden md:flex items-center gap-10 uppercase text-[11px] tracking-[0.28em]">
+        <div className="hidden md:flex items-center gap-11 uppercase text-[13px] tracking-[0.22em]">
 
           <Link
             to="/portfolio"
@@ -123,10 +123,10 @@ export default function Navbar() {
             className="
               border
               border-[#c6a66a]
-              px-6
-              py-[11px]
-              text-[10px]
-              tracking-[0.38em]
+              px-7
+              py-3
+              text-[11px]
+              tracking-[0.28em]
               uppercase
               hover:bg-[#c6a66a]
               hover:text-white

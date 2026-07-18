@@ -1,4 +1,5 @@
 import { useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
@@ -11,10 +12,15 @@ import {
 } from "react";
 
 import { supabase } from "../lib/supabase";
+import {
+  getImageAltText,
+  localizeContent,
+} from "../lib/localizedContent";
 
 export default function JournalArticle() {
 
   const { slug } = useParams();
+  const { i18n } = useTranslation();
 
   const [article,
     setArticle] =
@@ -47,6 +53,8 @@ export default function JournalArticle() {
 
         }
 
+        const localized = localizeContent(data, i18n.language);
+
         setArticle({
 
           id:
@@ -56,19 +64,25 @@ export default function JournalArticle() {
             data.slug,
 
           title:
-            data.title,
+            localized.title,
 
           category:
-            data.category,
+            localized.category,
 
           excerpt:
-            data.excerpt,
+            localized.excerpt,
 
           coverImage:
             data.cover_image,
 
           blocks:
-            data.blocks,
+            localized.blocks,
+
+          seo:
+            localized.seo,
+
+          imageAltText:
+            localized.imageAltText,
 
         });
 
@@ -76,7 +90,7 @@ export default function JournalArticle() {
 
     fetchArticle();
 
-  }, [slug]);
+  }, [slug, i18n.language]);
 
   if (!article) return <Loader />;
 
@@ -85,8 +99,9 @@ export default function JournalArticle() {
     <>
 
       <SEO
-        title={`${article.title} | Golden Light Studio`}
+        title={article.seo?.title || `${article.title} | Golden Light Studio`}
         description={
+          article.seo?.description ||
           article.excerpt ||
           "Editorial photography stories, inspiration and guidance from Golden Light Studio."
         }
@@ -103,7 +118,7 @@ export default function JournalArticle() {
 
           <img
             src={article.coverImage}
-            alt={article.title}
+            alt={getImageAltText(article, article.coverImage, i18n.language, article.title)}
             fetchPriority="high"
             className="w-full h-full object-cover"
           />
@@ -174,7 +189,7 @@ export default function JournalArticle() {
 
                         <img
                           src={block.image}
-                          alt=""
+                          alt={getImageAltText(article, block.image, i18n.language, article.title)}
                           loading="lazy"
                           decoding="async"
                           className="w-full h-auto object-cover"

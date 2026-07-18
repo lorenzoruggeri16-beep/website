@@ -13,10 +13,12 @@ import {
 
 import { supabase }
 from "../../lib/supabase";
+import { generateJournalContent } from "../../services/journalAi";
+
+const createJournalFileName = (file) => `${crypto.randomUUID()}-${file.name}`;
 
 export default function ArticlesSection({
   currentUser,
-  binItems,
   setBinItems,
 }) {
 
@@ -183,7 +185,7 @@ export default function ArticlesSection({
 
       const fileName =
 
-        `${Date.now()}-${file.name}`;
+        createJournalFileName(file);
 
       const {
         error,
@@ -258,7 +260,7 @@ if (
 ) {
 
   const imageName =
-    `${Date.now()}-${articleTitle}`;
+    createJournalFileName({ name: articleTitle });
 
   const imageBlob =
     await fetch(
@@ -303,12 +305,8 @@ if (
 
 }
 
-      const newArticle = {
+      let newArticle = {
         
-        id:
-        editingId ||
-        Date.now(),
-
         slug,
 
         title:
@@ -325,10 +323,15 @@ if (
 
         blocks,
 
-        createdAt:
-         Date.now(),
-
       };
+
+      try {
+        newArticle = await generateJournalContent(newArticle);
+      } catch (generationError) {
+        console.error(generationError);
+        alert(generationError.message);
+        return;
+      }
 
       //INSERT DATABASE
       let error;
@@ -360,6 +363,15 @@ if (
 
         blocks:
           newArticle.blocks,
+
+        translations:
+          newArticle.translations,
+
+        seo:
+          newArticle.seo,
+
+        image_alt_text:
+          newArticle.imageAltText,
 
         })
 
@@ -396,6 +408,15 @@ if (
 
           blocks:
             newArticle.blocks,
+
+          translations:
+            newArticle.translations,
+
+          seo:
+            newArticle.seo,
+
+          image_alt_text:
+            newArticle.imageAltText,
 
           },
         ]);

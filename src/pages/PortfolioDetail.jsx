@@ -27,11 +27,17 @@ from "../components/ui/PageTransition";
 import SEO from "../components/SEO";
 import { supabase } from "../lib/supabase";
 import Loader from "../components/ui/Loader";
+import { useTranslation } from "react-i18next";
+import {
+  getImageAltText,
+  localizeContent,
+} from "../lib/localizedContent";
 
 export default function PortfolioDetail() {
 
   const { slug } =
     useParams();
+  const { i18n } = useTranslation();
 
   const [portfolio,
     setPortfolio] =
@@ -144,15 +150,7 @@ useEffect(() => {
 
       const { data, error } = await supabase
         .from("portfolio")
-        .select(`
-            id,
-            slug,
-            title,
-            location,
-            description,
-            cover_image,
-            gallery
-          `)
+        .select("*")
         .eq("slug", slug)
         .single();
 
@@ -160,38 +158,44 @@ useEffect(() => {
         return;
       }
 
+      const localized = localizeContent(data, i18n.language);
+
       setPortfolio({
         ...data,
+        title: localized.title,
+        location: localized.location,
+        description: localized.description,
+        seo: localized.seo,
+        imageAltText: localized.imageAltText,
         coverImage: data.cover_image,
         images: data.gallery || [],
       });
 
       const { data: relatedData } = await supabase
         .from("portfolio")
-        .select(`
-          id,
-          slug,
-          title,
-          location,
-          cover_image,
-          gallery
-        `)
+        .select("*")
         .eq("deleted", false)
         .neq("slug", slug)
         .limit(3);
 
       setMoreSessions(
-        (relatedData || []).map((item) => ({
+        (relatedData || []).map((item) => {
+          const localized = localizeContent(item, i18n.language);
+
+          return ({
           ...item,
+          title: localized.title,
+          location: localized.location,
           coverImage: item.cover_image,
           images: item.gallery || [],
-        }))
+          });
+        })
       );
     };
 
     fetchPortfolio();
 
-  }, [slug]);
+  }, [slug, i18n.language]);
 
   // LOADING
   if (!portfolio) return <Loader />;
@@ -201,8 +205,8 @@ useEffect(() => {
     <PageTransition>
 
       <SEO
-        title={`${portfolio.title} | Golden Light Studio`}
-        description={portfolio.description}
+        title={portfolio.seo?.title || `${portfolio.title} | Golden Light Studio`}
+        description={portfolio.seo?.description || portfolio.description}
         image={portfolio.coverImage}
       />
 
@@ -218,7 +222,7 @@ useEffect(() => {
               portfolio.coverImage ||
               portfolio.image
             }
-            alt={portfolio.title}
+            alt={getImageAltText(portfolio, portfolio.coverImage, i18n.language, portfolio.title)}
             fetchPriority="high"
             className="w-full h-full object-cover scale-[1.02]"
           />

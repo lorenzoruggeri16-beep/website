@@ -3,10 +3,14 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import FadeIn from "../ui/FadeIn";
 import { supabase } from "../../lib/supabase";
+import {
+  getImageAltText,
+  localizeContent,
+} from "../../lib/localizedContent";
 
 export default function GalleryPreview() {
 
-  const { t } =
+  const { t, i18n } =
     useTranslation();
 
   const [stories,
@@ -47,13 +51,18 @@ export default function GalleryPreview() {
 
         }
 
-        setStories(data);
+        setStories(
+          data.map((item) => ({
+            ...item,
+            ...localizeContent(item, i18n.language),
+          }))
+        );
 
       };
 
     fetchStories();
 
-  }, []);
+  }, [i18n.language]);
 
   return (
 
@@ -110,7 +119,7 @@ export default function GalleryPreview() {
 
                   <img
                     src={item.cover_image}
-                    alt={item.title}
+                    alt={getImageAltText(item, item.cover_image, i18n.language, item.title)}
                     className="
                       w-full
                       h-[520px]

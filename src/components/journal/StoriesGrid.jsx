@@ -10,10 +10,11 @@ import {
 } from "react-i18next";
 
 import { supabase } from "../../lib/supabase";
+import { localizeContent } from "../../lib/localizedContent";
 
 export default function StoriesGrid() {
 
-  const { t } =
+  const { t, i18n } =
     useTranslation();
 
   const [articles,
@@ -52,7 +53,10 @@ export default function StoriesGrid() {
         const formattedArticles =
 
           data.map(
-            (article) => ({
+            (article) => {
+              const localized = localizeContent(article, i18n.language);
+
+              return ({
 
               id:
                 article.id,
@@ -61,21 +65,22 @@ export default function StoriesGrid() {
                 article.slug,
 
               title:
-                article.title,
+                localized.title,
 
               category:
-                article.category,
+                localized.category,
 
               excerpt:
-                article.excerpt,
+                localized.excerpt,
 
               coverImage:
                 article.cover_image,
 
               blocks:
-                article.blocks,
+                localized.blocks,
 
-            })
+              });
+            }
           );
 
         setArticles(
@@ -86,7 +91,7 @@ export default function StoriesGrid() {
 
     fetchArticles();
 
-  }, []);
+  }, [i18n.language]);
 
   return (
 

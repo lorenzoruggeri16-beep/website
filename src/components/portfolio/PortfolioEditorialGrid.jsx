@@ -3,21 +3,18 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { supabase } from "../../lib/supabase";
 import { useTranslation } from "react-i18next";
+import { localizeContent } from "../../lib/localizedContent";
 
 export default function PortfolioEditorialGrid() {
 
-  const { t } =
+  const { t, i18n } =
     useTranslation();
 
-  const [portfolioItems,
-    setPortfolioItems] =
+  const [portfolioItems, setPortfolioItems] =
     useState([]);
 
-  const [activeCategory,
-    setActiveCategory] =
-    useState(
-      "Portrait Sessions"
-    );
+  const [activeCategory, setActiveCategory] =
+    useState("Portrait Sessions");
 
   useEffect(() => {
 
@@ -46,9 +43,16 @@ export default function PortfolioEditorialGrid() {
 
         setPortfolioItems(
 
-          data.map((item) => ({
+          data.map((item) => {
+            const localized = localizeContent(item, i18n.language);
+
+            return ({
 
             ...item,
+
+            title: localized.title,
+            location: localized.location,
+            description: localized.description,
 
             coverImage:
               item.cover_image,
@@ -56,7 +60,8 @@ export default function PortfolioEditorialGrid() {
             images:
               item.gallery || [],
 
-          }))
+            });
+          })
 
         );
 
@@ -64,9 +69,16 @@ export default function PortfolioEditorialGrid() {
 
     fetchPortfolio();
 
-  }, []);
+  }, [i18n.language]);
 
   const groupedPortfolio = {
+
+     Hospitality: 
+      portfolioItems.filter(
+        (item) => 
+          item.category === 
+          "Hospitality"
+      ),
 
     Weddings:
       portfolioItems.filter(
@@ -107,6 +119,7 @@ export default function PortfolioEditorialGrid() {
 
             {[
               "Portrait Sessions",
+              "Hospitality",
               "Weddings",
               "Events",
             ].map((category) => (
@@ -147,6 +160,9 @@ export default function PortfolioEditorialGrid() {
 
                 {category === "Portrait Sessions" &&
                   t("category_portraits")}
+
+                {category === "Hospitality" &&
+                  t("category_hospitality")}
 
                 {category === "Weddings" &&
                   t("category_weddings")}
