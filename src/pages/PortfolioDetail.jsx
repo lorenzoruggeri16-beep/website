@@ -783,6 +783,7 @@ useEffect(() => {
           flex
           items-center
           justify-center
+          p-6 lg:p-10
           
           "
 
