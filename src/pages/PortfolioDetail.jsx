@@ -253,7 +253,7 @@ useEffect(() => {
 
               </p>
 
-              <h1 className="text-6xl lg:text-[140px] leading-none font-light text-white max-w-6xl">
+              <h1 className="text-5xl lg:text-[100px] leading-[0.95] font-light text-white max-w-5xl">
 
                 {portfolio.title}
 
@@ -266,14 +266,14 @@ useEffect(() => {
         </section>
 
         {/* INTRO */}
-        <section className="px-6 lg:px-20 pt-6 pb-10">
+        <section className="px-6 lg:px-20 py-24 lg:py-32">
 
           <div className="grid lg:grid-cols-12 gap-20">
 
             {/* LEFT */}
             <div className="lg:col-span-4">
 
-              <p className="uppercase tracking-[0.35em] text-xs opacity-40 mb-8">
+              <p className="uppercase tracking-[0.35em] text-sm opacity-50 mb-10">
 
                 Cinematic Session
 
@@ -286,8 +286,8 @@ useEffect(() => {
             {/* RIGHT */}
             <div className="lg:col-span-8">
 
-              <p className="text-2xl lg:text-4xl font-light leading-relaxed opacity-80 max-w-4xl">
-
+              <p className="text-xl lg:text-[34px] font-light leading-[1.8] max-w-3xl">
+                  
                 {portfolio.description}
 
               </p>
