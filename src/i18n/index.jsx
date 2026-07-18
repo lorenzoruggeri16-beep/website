@@ -118,7 +118,7 @@ const resources = {
         "Enviar consulta",
 
       category_portraits: "Sesiones de retrato",
-      category_hospitality: "Hospitality",
+      category_commercial: "Comercial",
       category_weddings: "Bodas",
       category_events: "Eventos",
 
@@ -332,7 +332,7 @@ const resources = {
         "Invia richiesta",
 
       category_portraits: "Sessioni ritratto",
-      category_hospitality: "Hospitality",
+      category_commercial: "Commerciale",
       category_weddings: "Matrimoni",
       category_events: "Eventi",
 
@@ -546,7 +546,7 @@ const resources = {
         "Send Inquiry",
 
       category_portraits: "Portrait Sessions",
-      category_hospitality: "Hospitality",
+      category_commercial: "Commercial",
       category_weddings: "Weddings",
       category_events: "Events",
 

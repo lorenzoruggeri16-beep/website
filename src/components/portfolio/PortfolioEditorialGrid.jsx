@@ -73,11 +73,11 @@ export default function PortfolioEditorialGrid() {
 
   const groupedPortfolio = {
 
-     Hospitality: 
+     Commercial: 
       portfolioItems.filter(
         (item) => 
           item.category === 
-          "Hospitality"
+          "Commercial"
       ),
 
     Weddings:
@@ -119,7 +119,7 @@ export default function PortfolioEditorialGrid() {
 
             {[
               "Portrait Sessions",
-              "Hospitality",
+              "Commercial",
               "Weddings",
               "Events",
             ].map((category) => (
@@ -161,8 +161,8 @@ export default function PortfolioEditorialGrid() {
                 {category === "Portrait Sessions" &&
                   t("category_portraits")}
 
-                {category === "Hospitality" &&
-                  t("category_hospitality")}
+                {category === "Commercial" &&
+                  t("category_commercial")}
 
                 {category === "Weddings" &&
                   t("category_weddings")}

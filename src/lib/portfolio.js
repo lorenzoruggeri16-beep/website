@@ -1,6 +1,6 @@
 export const PORTFOLIO_CATEGORIES = [
   "Portrait Sessions",
-  "Hospitality",
+  "Commercial",
   "Weddings",
   "Events",
 ];
