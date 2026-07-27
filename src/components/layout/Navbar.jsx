@@ -142,9 +142,9 @@ export default function Navbar() {
                 duration-300
               "
             >
-              {i18n.language === "es" && "ðŸ‡ªðŸ‡¸"}
-              {i18n.language === "it" && "ðŸ‡®ðŸ‡¹"}
-              {i18n.language === "en" && "ðŸ‡¬ðŸ‡§"}
+              {i18n.language === "es" && "🇪🇸"}
+              {i18n.language === "it" && "🇮🇹"}
+              {i18n.language === "en" && "🇬🇧"}
             </button>
 
             {languageOpen && (
@@ -178,7 +178,7 @@ export default function Navbar() {
                     transition
                   "
                 >
-                  ðŸ‡ªðŸ‡¸ EspaÃ±ol
+                  🇪🇸 Español
                 </button>
 
                 <button
@@ -193,7 +193,7 @@ export default function Navbar() {
                     transition
                   "
                 >
-                  ðŸ‡®ðŸ‡¹ Italiano
+                  "🇮🇹 Italiano"
                 </button>
 
                 <button
@@ -208,7 +208,7 @@ export default function Navbar() {
                     transition
                   "
                 >
-                  ðŸ‡¬ðŸ‡§ English
+                  🇬🇧 English
                 </button>
               </div>
             )}
