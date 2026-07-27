@@ -1,4 +1,4 @@
-import {
+﻿import {
   Link,
 } from "react-router-dom";
 
@@ -99,10 +99,17 @@ export default function Footer() {
 
         </div>
 
+        <button
+          type="button"
+          onClick={() => window.dispatchEvent(new Event("gls:open-consent-settings"))}
+          className="mb-3 text-[11px] uppercase tracking-[0.18em] text-white/60 underline underline-offset-4 hover:text-[#c6a66a]"
+        >
+          Cookie settings
+        </button>
         {/* COPYRIGHT */}
         <p className="text-[12px] lg:text-[9px] text-white/60 mt-1">
 
-          © 2026 Golden Light Studio
+          Â© 2026 Golden Light Studio
 
         </p>
 

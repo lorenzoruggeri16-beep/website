@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet-async";
+﻿import { Helmet } from "react-helmet-async";
 import { SITE } from "../config/site";
 
 export default function SEO({
@@ -7,6 +7,7 @@ export default function SEO({
   image = SITE.image,
   url = "/",
   type = "website",
+  noIndex = false,
 }) {
   const canonicalUrl = new URL(url, SITE.url).toString();
 
@@ -62,7 +63,7 @@ export default function SEO({
 
       <meta
         name="robots"
-        content="index,follow"
+        content={noIndex ? "noindex,follow" : "index,follow"}
       />
 
       <link

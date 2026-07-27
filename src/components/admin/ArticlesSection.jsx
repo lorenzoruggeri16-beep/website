@@ -1,4 +1,4 @@
-import {
+﻿import {
   useState,
   useEffect,
 } from "react";
@@ -252,7 +252,7 @@ export default function ArticlesSection({
       let imageUrl =
          articlePreview;
 
-// Upload solo se è una nuova immagine
+// Upload solo se Ã¨ una nuova immagine
 if (
   articlePreview.startsWith(
     "data:image"
@@ -329,8 +329,7 @@ if (
         newArticle = await generateJournalContent(newArticle);
       } catch (generationError) {
         console.error(generationError);
-        alert(generationError.message);
-        return;
+        alert("AI content generation failed. The article will be published without generated translations, SEO and alt text.");
       }
 
       //INSERT DATABASE

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { supabase } from "../../lib/supabase";
 
 export default function SettingsSection({
@@ -28,7 +28,7 @@ export default function SettingsSection({
 
   }, []);
 
-  const fetchUsers = async () => {
+  async function fetchUsers() {
 
     const {
       data,
@@ -52,7 +52,7 @@ export default function SettingsSection({
 
     setUsers(data);
 
-  };
+  }
 
   const saveUser = async () => {
        
@@ -277,16 +277,16 @@ export default function SettingsSection({
                      <p>
                       Articles {
                         user.permissions?.editArticles
-                          ? "✓"
-                          : "✕"
+                          ? "âœ“"
+                          : "âœ•"
                       }
                       </p>
 
                       <p>
                         Portfolio {
                           user.permissions?.editPortfolio
-                            ? "✓"
-                            : "✕"
+                            ? "âœ“"
+                            : "âœ•"
                         }
                       </p>
 
@@ -294,8 +294,8 @@ export default function SettingsSection({
                         Delete {
                           user.permissions?.deleteArticles ||
                           user.permissions?.deletePortfolio
-                            ? "✓"
-                            : "✕"
+                            ? "âœ“"
+                            : "âœ•"
                         }
                       </p>
 
@@ -433,7 +433,7 @@ export default function SettingsSection({
                         }
                       );
 
-                      const data = await response.json();
+                      await response.json().catch(() => null);
 
                       setCreatingUser(false);
 

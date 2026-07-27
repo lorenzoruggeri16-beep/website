@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+﻿import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import Navbar from "../components/layout/Navbar";
@@ -105,7 +105,7 @@ export default function JournalArticle() {
           article.excerpt ||
           "Editorial photography stories, inspiration and guidance from Golden Light Studio."
         }
-        url="/journal"
+        url={`/journal/${article.slug}`}
         image={article.coverImage}
       />
 

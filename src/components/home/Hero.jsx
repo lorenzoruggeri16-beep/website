@@ -1,4 +1,4 @@
-import {
+﻿import {
   motion,
   useScroll,
   useTransform,
@@ -6,6 +6,14 @@ import {
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+
+const HERO_WORDS = [
+  "LOVE STORIES",
+  "MOTHERHOOD",
+  "COUPLE STORIES",
+  "DESTINATION WEDDINGS",
+  "FAMILY STORIES",
+];
 
 export default function Hero() {
 
@@ -21,13 +29,7 @@ export default function Hero() {
     [0, 150]
   );
 
-  const words = [
-    "LOVE STORIES",
-    "MOTHERHOOD",
-    "COUPLE STORIES",
-    "DESTINATION WEDDINGS",
-    "FAMILY STORIES",
-  ];
+  const words = HERO_WORDS;
 
   const [text, setText] =
     useState("");
@@ -116,6 +118,7 @@ export default function Hero() {
     text,
     isDeleting,
     wordIndex,
+    words,
   ]);
 
   return (

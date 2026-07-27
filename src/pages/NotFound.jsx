@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+﻿import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
 import Navbar from "../components/layout/Navbar";
@@ -12,6 +12,7 @@ export default function NotFound() {
         title="404 | Golden Light Studio"
         description="The page you are looking for doesn't exist."
         url="/404"
+        noIndex
       />
 
       <main className="bg-[#f6f2eb] min-h-screen overflow-hidden">

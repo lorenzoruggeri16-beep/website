@@ -1,4 +1,5 @@
-User-agent: *
+﻿User-agent: *
 Disallow: /studio-control
+Disallow: /reset-password
 
-Sitemap: https://goldenlightstudio.netlify.app/sitemap.xml
+Sitemap: https://goldenlightstudio.es/sitemap.xml

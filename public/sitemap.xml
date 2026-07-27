@@ -1,25 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
-  <url>
-    <loc>https://goldenlightstudio.netlify.app/</loc>
-  </url>
-
-  <url>
-    <loc>https://goldenlightstudio.netlify.app/portfolio</loc>
-  </url>
-
-  <url>
-    <loc>https://goldenlightstudio.netlify.app/about</loc>
-  </url>
-
-  <url>
-    <loc>https://goldenlightstudio.netlify.app/journal</loc>
-  </url>
-
-  <url>
-    <loc>https://goldenlightstudio.netlify.app/contact</loc>
-  </url>
-
+  <url><loc>https://goldenlightstudio.es/</loc></url>
+  <url><loc>https://goldenlightstudio.es/portfolio</loc></url>
+  <url><loc>https://goldenlightstudio.es/about</loc></url>
+  <url><loc>https://goldenlightstudio.es/journal</loc></url>
+  <url><loc>https://goldenlightstudio.es/contact</loc></url>
 </urlset>

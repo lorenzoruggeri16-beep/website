@@ -1,4 +1,4 @@
-import {
+﻿import {
   useEffect,
   useState,
 } from "react";
@@ -208,6 +208,7 @@ useEffect(() => {
         title={portfolio.seo?.title || `${portfolio.title} | Golden Light Studio`}
         description={portfolio.seo?.description || portfolio.description}
         image={portfolio.coverImage}
+        url={`/portfolio/${portfolio.slug}`}
       />
 
       <main className="bg-[#f6f2eb] overflow-hidden">
@@ -348,7 +349,7 @@ useEffect(() => {
   "
 >
 
-  ←
+  â†
 
 </button>
 
@@ -396,7 +397,7 @@ useEffect(() => {
   "
 >
 
-  →
+  â†’
 
 </button>
 
@@ -869,7 +870,7 @@ useEffect(() => {
 
              >
 
-              ✕
+              âœ•
 
              </button>
 
@@ -907,7 +908,7 @@ useEffect(() => {
               "
               >
 
-                 ←
+                 â†
 
               </button>
 
@@ -948,7 +949,7 @@ useEffect(() => {
               "
             >
 
-               →
+               â†’
 
                </button>
 

@@ -1,4 +1,4 @@
-import { supabase } from "../../lib/supabase";
+﻿import { supabase } from "../../lib/supabase";
 
 export default function AdminSidebar({
   section,
@@ -15,14 +15,6 @@ export default function AdminSidebar({
     setLogged(false);
 
     setCurrentUser(null);
-
-    localStorage.removeItem(
-      "adminExpiration"
-    );
-
-    localStorage.removeItem(
-      "adminUser"
-    );
 
   };
 

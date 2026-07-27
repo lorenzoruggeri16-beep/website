@@ -1,15 +1,16 @@
-import { Link, useLocation } from "react-router-dom";
+﻿import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
+  const [hasScrolled, setHasScrolled] = useState(false);
   const [languageOpen, setLanguageOpen] = useState(false);
 
   const location = useLocation();
   const { t, i18n } = useTranslation();
+  const darkMode = location.pathname !== "/" || hasScrolled;
 
   const changeLanguage = (lang) => {
     i18n.changeLanguage(lang);
@@ -18,25 +19,16 @@ export default function Navbar() {
   };
 
   useEffect(() => {
-    if (location.pathname !== "/") {
-      setDarkMode(true);
-      return;
-    }
+    if (location.pathname !== "/") return undefined;
 
     const handleScroll = () => {
       const heroHeight = window.innerHeight * 0.8;
-      setDarkMode(window.scrollY > heroHeight);
+      setHasScrolled(window.scrollY > heroHeight);
     };
 
-    handleScroll();
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [location]);
-
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [location.pathname]);
   const closeMenus = () => {
     setOpen(false);
     setLanguageOpen(false);
@@ -150,9 +142,9 @@ export default function Navbar() {
                 duration-300
               "
             >
-              {i18n.language === "es" && "🇪🇸"}
-              {i18n.language === "it" && "🇮🇹"}
-              {i18n.language === "en" && "🇬🇧"}
+              {i18n.language === "es" && "ðŸ‡ªðŸ‡¸"}
+              {i18n.language === "it" && "ðŸ‡®ðŸ‡¹"}
+              {i18n.language === "en" && "ðŸ‡¬ðŸ‡§"}
             </button>
 
             {languageOpen && (
@@ -186,7 +178,7 @@ export default function Navbar() {
                     transition
                   "
                 >
-                  🇪🇸 Español
+                  ðŸ‡ªðŸ‡¸ EspaÃ±ol
                 </button>
 
                 <button
@@ -201,7 +193,7 @@ export default function Navbar() {
                     transition
                   "
                 >
-                  🇮🇹 Italiano
+                  ðŸ‡®ðŸ‡¹ Italiano
                 </button>
 
                 <button
@@ -216,7 +208,7 @@ export default function Navbar() {
                     transition
                   "
                 >
-                  🇬🇧 English
+                  ðŸ‡¬ðŸ‡§ English
                 </button>
               </div>
             )}
@@ -310,7 +302,7 @@ export default function Navbar() {
                 onClick={() => changeLanguage("es")} aria-label="Spanish">
                 <img
                   src="/images/flags/es.svg.avif"
-                  alt="Español"
+                  alt="EspaÃ±ol"
                   className={`w-6 h-6 transition-all duration-300 ${
                   i18n.language === "es"
                     ? "opacity-100 scale-110"

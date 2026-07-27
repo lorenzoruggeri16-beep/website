@@ -1,9 +1,10 @@
-import {
+﻿import {
   useState,
   useEffect,
 } from "react";
 
 import { supabase } from "../lib/supabase";
+import SEO from "../components/SEO";
 
 import WelcomeScreen from "../components/admin/WelcomeScreen";
 import DashboardSection from "../components/admin/DashboardSection";
@@ -15,10 +16,18 @@ import BinSection from "../components/admin/BinSection";
 import LoginForm from "../components/admin/LoginForm";
 import AdminSidebar from "../components/admin/AdminSidebar";
 import Notification from "../components/admin/Notification";
-import RecoverUsername from "../components/admin/RecoverUsername";
 import ResetPassword from "../components/admin/ResetPassword";
 import MediaLibrarySection from "../components/admin/MediaLibrarySection";
 
+async function fetchAdminProfile(userId) {
+  const { data, error } = await supabase
+    .from("admin_users")
+    .select("name, role, permissions, username, email")
+    .eq("user_id", userId)
+    .single();
+
+  return error || !data ? null : data;
+}
 export default function Admin() {
 
   // NOTIFICATION
@@ -39,23 +48,12 @@ export default function Admin() {
     setShowForgotPassword] =
     useState(false);
 
-  const [showForgotUsername,
-    setShowForgotUsername] =
-    useState(false);
+  const [remember, setRemember] = useState(() => Boolean(localStorage.getItem("adminUsername")));
 
   // USER
   const [currentUser,
     setCurrentUser] =
     useState(null);
-
-  // LOGIN OPTIONS
-  const [remember,
-    setRemember] =
-    useState(false);
-
-  const [stayLogged,
-    setStayLogged] =
-    useState(false);
 
   // SECTION
   const [section,
@@ -211,67 +209,52 @@ export default function Admin() {
         users || 0
       );
 
+      setRecentUsers(latestUsers || []);
+
     };
 
     fetchCounts();
 
   }, []);
 
-  // AUTO LOGIN
+  // SESSION RESTORE: Supabase Auth is the sole authorization source.
   useEffect(() => {
+    let active = true;
 
-    const savedUsername =
-      localStorage.getItem(
-        "adminUsername"
-      );
-
-    if (savedUsername) {
-
-      setUsername(savedUsername);
-      setRemember(true);
-
-    }
-
-    const expiration =
-      localStorage.getItem(
-        "adminExpiration"
-      );
-
-    const savedUser =
-      localStorage.getItem(
-        "adminUser"
-      );
-
-    if (
-      expiration &&
-      savedUser
-    ) {
-
-      const now =
-        Date.now();
-
-      if (
-        now <
-        Number(expiration)
-      ) {
-
-        setLogged(true);
-
-        setCurrentUser(
-          JSON.parse(savedUser)
-        );
-
-        setNotification({
-          message: "Session restored",
-          type: "success",
-        });
-
+    const syncSession = async (session) => {
+      if (!session) {
+        if (active) {
+          setLogged(false);
+          setCurrentUser(null);
+        }
+        return;
       }
 
-    }
+      const profile = await fetchAdminProfile(session.user.id);
+      if (!active) return;
 
+      if (!profile) {
+        await supabase.auth.signOut();
+        setLogged(false);
+        setCurrentUser(null);
+        setNotification({ message: "Account not authorized for Studio Control", type: "error" });
+        return;
+      }
+
+      setCurrentUser(profile);
+      setLogged(true);
+    };
+
+    supabase.auth.getSession().then(({ data }) => syncSession(data.session));
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      syncSession(session);
+    });
+
+    return () => {
+      active = false;
+      listener.subscription.unsubscribe();
+    };
   }, []);
-
   // WELCOME TIMER
   useEffect(() => {
 
@@ -308,140 +291,38 @@ export default function Admin() {
 
   // LOGIN
   const login = async () => {
-
-    const {
-      data: userRecord,
-      error: userError,
-    } = await supabase
-      .from("login_users")
-      .select("*")
-      .eq(
-        "username",
-        username.trim()
-      );
-
-    if (
-      userError ||
-      !userRecord?.length
-    ) {
-
-      setNotification({
-        message:
-          "Username not found",
-        type: "error",
-      });
-
-      return;
-
-    }
-
-    const {
-      data,
-      error,
-    } =
-      await supabase.auth
-        .signInWithPassword({
-          email:
-            userRecord[0].email,
-          password,
-        });
-
-    if (error) {
-
-      setNotification({
-        message:
-          "Incorrect username or password",
-        type: "error",
-      });
-
-      return;
-
-    }
-
-    const {
-      data: adminUser,
-    } = await supabase
-      .from("admin_users")
-      .select("*")
-      .eq(
-        "user_id",
-        data.user.id
-      )
-      .single();
-
-    if (!adminUser) {
-
-      setNotification({
-        message:
-          "User not configured",
-        type: "error",
-      });
-
-      return;
-
-    }
-
-    const user = {
-      name:
-        adminUser.name,
-      role:
-        adminUser.role,
-      permissions:
-        adminUser.permissions,
-      username:
-        adminUser.username,
-      email:
-        adminUser.email,
-    };
-
-    setLogged(true);
-    setShowWelcome(true);
-    setCurrentUser(user);
-
-    setNotification({
-      message: `Welcome back, ${user.name}`,
-      type: "success",
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: username.trim(),
+      password,
     });
 
-    localStorage.setItem(
-      "adminUser",
-      JSON.stringify(user)
-    );
-
-    if (remember) {
-
-      localStorage.setItem(
-        "adminUsername",
-        username
-      );
-
+    if (error || !data.user) {
+      setNotification({ message: "Incorrect email or password", type: "error" });
+      return;
     }
 
-    if (stayLogged) {
-
-      const expiration =
-        Date.now() +
-        10 *
-          24 *
-          60 *
-          60 *
-          1000;
-
-      localStorage.setItem(
-        "adminExpiration",
-        expiration.toString()
-      );
-
+    const user = await fetchAdminProfile(data.user.id);
+    if (!user) {
+      await supabase.auth.signOut();
+      setNotification({ message: "Account not authorized for Studio Control", type: "error" });
+      return;
     }
 
+    setCurrentUser(user);
+    setLogged(true);
+    setShowWelcome(true);
+    setNotification({ message: `Welcome back, ${user.name}`, type: "success" });
+
+    if (remember) localStorage.setItem("adminUsername", username.trim());
+    else localStorage.removeItem("adminUsername");
   };
-
     // LOGIN SCREEN
   if (!logged) {
 
     return (
 
       <>
+        <SEO title="Studio Control | Golden Light Studio" noIndex />
 
         <Notification
           message={notification?.message}
@@ -455,26 +336,13 @@ export default function Admin() {
           setPassword={setPassword}
           remember={remember}
           setRemember={setRemember}
-          stayLogged={stayLogged}
-          setStayLogged={setStayLogged}
           login={login}
-          setShowForgotUsername={
-            setShowForgotUsername
-          }
           setShowForgotPassword={
             setShowForgotPassword
           }
         />
 
-        <RecoverUsername
-          open={showForgotUsername}
-          onClose={() =>
-            setShowForgotUsername(false)
-          }
-          setNotification={
-            setNotification
-          }
-        />
+
 
         <ResetPassword
           open={showForgotPassword}
@@ -495,6 +363,7 @@ export default function Admin() {
   return (
 
     <main className="min-h-screen bg-[#f5f2ec] flex">
+      <SEO title="Studio Control | Golden Light Studio" noIndex />
 
       <Notification
         message={notification?.message}
