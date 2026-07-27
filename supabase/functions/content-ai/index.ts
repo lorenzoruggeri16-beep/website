@@ -146,7 +146,7 @@ Deno.serve(async (request) => {
   if (contentLength > MAX_REQUEST_BYTES) return json(request, { error: "REQUEST_TOO_LARGE", requestId }, 413);
 
   const url = Deno.env.get("SUPABASE_URL");
-  const key = Deno.env.get("SUPABASE_ANON_KEY") || Deno.env.get("SUPABASE_PUBLISHABLE_KEY");
+  const key = Deno.env.get("SUPABASE_PUBLISHABLE_KEY") || Deno.env.get("SUPABASE_ANON_KEY");
   const geminiApiKey = Deno.env.get("GEMINI_API_KEY");
   const authorization = request.headers.get("Authorization");
   if (!url || !key || !geminiApiKey) return json(request, { error: "FUNCTION_NOT_CONFIGURED", requestId }, 500);
