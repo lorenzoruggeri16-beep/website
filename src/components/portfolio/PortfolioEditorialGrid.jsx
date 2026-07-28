@@ -246,6 +246,8 @@ export default function PortfolioEditorialGrid() {
                       item.image
                     }
                     alt={item.title}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-[420px] object-cover group-hover:scale-[1.04] transition duration-[2500ms]"
                   />
 

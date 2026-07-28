@@ -120,6 +120,8 @@ export default function GalleryPreview() {
                   <img
                     src={item.cover_image}
                     alt={getImageAltText(item, item.cover_image, i18n.language, item.title)}
+                    loading="lazy"
+                    decoding="async"
                     className="
                       w-full
                       h-[520px]

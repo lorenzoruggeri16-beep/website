@@ -1,4 +1,5 @@
 ﻿import {
+  AnimatePresence,
   motion,
   useScroll,
   useTransform,
@@ -16,265 +17,84 @@ const HERO_WORDS = [
 ];
 
 export default function Hero() {
-
-  const { t } =
-    useTranslation();
-
-  const { scrollY } =
-    useScroll();
-
-  const y = useTransform(
-    scrollY,
-    [0, 500],
-    [0, 150]
-  );
-
-  const words = HERO_WORDS;
-
-  const [text, setText] =
-    useState("");
-
-  const [wordIndex,
-    setWordIndex] =
-    useState(0);
-
-  const [isDeleting,
-    setIsDeleting] =
-    useState(false);
+  const { t } = useTranslation();
+  const { scrollY } = useScroll();
+  const y = useTransform(scrollY, [0, 500], [0, 150]);
+  const [wordIndex, setWordIndex] = useState(0);
 
   useEffect(() => {
+    const rotation = window.setInterval(() => {
+      setWordIndex((current) => (current + 1) % HERO_WORDS.length);
+    }, 3600);
 
-    const currentWord =
-      words[wordIndex];
-
-    const timeout =
-      setTimeout(() => {
-
-        if (!isDeleting) {
-
-          const nextText =
-            currentWord.substring(
-              0,
-              text.length + 1
-            );
-
-          setText(nextText);
-
-          if (
-            nextText ===
-            currentWord
-          ) {
-
-            setTimeout(() => {
-
-              setIsDeleting(
-                true
-              );
-
-            }, 1800);
-
-          }
-
-        } else {
-
-          const nextText =
-            currentWord.substring(
-              0,
-              text.length - 1
-            );
-
-          setText(nextText);
-
-          if (
-            nextText === ""
-          ) {
-
-            setIsDeleting(
-              false
-            );
-
-            setWordIndex(
-              (prev) =>
-                (prev + 1) %
-                words.length
-            );
-
-          }
-
-        }
-
-      },
-      isDeleting
-        ? 50
-        : 120
-      );
-
-    return () =>
-      clearTimeout(
-        timeout
-      );
-
-  }, [
-    text,
-    isDeleting,
-    wordIndex,
-    words,
-  ]);
+    return () => window.clearInterval(rotation);
+  }, []);
 
   return (
-
     <section className="relative h-screen overflow-hidden">
-
-      {/* Background */}
       <motion.img
         src="/images/hero.jpg"
         alt="Golden Light Studio"
         style={{ y }}
-        className="absolute inset-0 w-full h-[120%] object-cover"
+        fetchPriority="high"
+        decoding="async"
+        className="absolute inset-0 h-[120%] w-full object-cover"
       />
 
-      {/* Overlay */}
       <div className="absolute inset-0 bg-black/45" />
 
-      {/* Content */}
-      <div className="relative z-10 h-full flex flex-col justify-center items-center text-center text-white px-6">
-
+      <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center text-white">
         <motion.p
-          initial={{
-            opacity: 0,
-            y: 20,
-          }}
-          animate={{
-            opacity: 1,
-            y: 0,
-          }}
-          transition={{
-            duration: 1,
-          }}
-          className="
-            uppercase
-            tracking-[0.6em]
-            text-[11px]
-            md:text-xs
-            mb-8
-            opacity-80
-          "
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+          className="mb-8 text-[11px] uppercase tracking-[0.6em] opacity-80 md:text-xs"
         >
           {t("hero_subtitle")}
         </motion.p>
 
-        <div className="h-[120px] md:h-[180px] lg:h-[220px] flex items-center justify-center">
-
-          <motion.h1
-            initial={{
-              opacity: 0,
-              y: 40,
-            }}
-            animate={{
-              opacity: 1,
-              y: 0,
-            }}
-            transition={{
-              duration: 1.2,
-            }}
-            className="
-              text-5xl
-              md:text-8xl
-              lg:text-[10rem]
-              font-light
-              leading-none
-              text-center
-            "
-          >
-            {text}
-
-            <span className="animate-pulse text-[#c6a66a] ml-1">
-              |
-            </span>
-
-          </motion.h1>
-
+        <div className="flex h-[132px] items-center justify-center md:h-[180px] lg:h-[220px]">
+          <AnimatePresence mode="wait">
+            <motion.h1
+              key={wordIndex}
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -18 }}
+              transition={{ duration: 0.55, ease: "easeOut" }}
+              className="max-w-[94vw] text-center text-5xl font-light leading-[0.98] md:text-8xl lg:text-[10rem]"
+            >
+              {HERO_WORDS[wordIndex]}
+            </motion.h1>
+          </AnimatePresence>
         </div>
 
         <motion.p
-          initial={{
-            opacity: 0,
-          }}
-          animate={{
-            opacity: 1,
-          }}
-          transition={{
-            delay: 0.6,
-            duration: 1,
-          }}
-          className="
-            max-w-xl
-            mt-8
-            text-sm
-            md:text-base
-            tracking-[0.08em]
-            opacity-80
-            leading-relaxed
-          "
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6, duration: 1 }}
+          className="mt-8 max-w-xl text-sm leading-relaxed tracking-[0.08em] opacity-80 md:text-base"
         >
           {t("intro_text")}
         </motion.p>
 
         <motion.div
-          initial={{
-            opacity: 0,
-          }}
-          animate={{
-            opacity: 1,
-          }}
-          transition={{
-            delay: 1,
-          }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1 }}
           className="mt-12"
         >
-
           <Link
             to="/portfolio"
-            className="
-              border
-              border-white
-              px-8
-              py-4
-              uppercase
-              tracking-[0.3em]
-              text-xs
-              hover:bg-white
-              hover:text-black
-              transition-all
-              duration-500
-            "
+            className="border border-white px-8 py-4 text-xs uppercase tracking-[0.3em] transition-all duration-500 hover:bg-white hover:text-black"
           >
             {t("view_portfolio")}
           </Link>
-
         </motion.div>
-
       </div>
 
-      {/* Scroll Indicator */}
-      <div
-        className="
-          absolute
-          bottom-10
-          left-1/2
-          -translate-x-1/2
-          text-white
-          text-[10px]
-          tracking-[0.4em]
-          uppercase
-          opacity-70
-        "
-      >
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 text-[10px] uppercase tracking-[0.4em] text-white opacity-70">
         Scroll
       </div>
-
     </section>
-
   );
-
 }
