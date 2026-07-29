@@ -252,7 +252,7 @@ export default function ArticlesSection({
       let imageUrl =
          articlePreview;
 
-// Upload solo se Ã¨ una nuova immagine
+// Upload only when this is a new image
 if (
   articlePreview.startsWith(
     "data:image"
@@ -473,7 +473,7 @@ setTimeout(() => {
     <div className="max-w-[1600px] mx-auto">
 
       {/* HEADER */}
-      <div className="mb-20">
+      <div className="mb-10 sm:mb-16 lg:mb-20">
 
         <p className="uppercase tracking-[0.3em] text-xs opacity-50 mb-6">
 
@@ -481,7 +481,7 @@ setTimeout(() => {
 
         </p>
 
-        <h2 className="text-6xl font-light mb-6">
+        <h2 className="mb-5 text-4xl font-light sm:mb-6 sm:text-5xl lg:text-6xl">
 
           Journal
 
@@ -497,13 +497,13 @@ setTimeout(() => {
 
       </div>
 
-      <div className="grid lg:grid-cols-12 gap-20 w-full items-start">
+      <div className="grid gap-10 lg:grid-cols-12 lg:gap-20 w-full items-start">
 
         {/* LEFT */}
 
         {showEditor && (
 
-        <div className="lg:col-span-4 max-w-[500px] bg-white border border-black/10 p-10">
+        <div className="w-full border border-black/10 bg-white p-6 sm:p-8 lg:col-span-4 lg:max-w-[500px] lg:p-10">
 
           <div className="flex items-center justify-between mb-8">
 
@@ -1013,7 +1013,7 @@ setTimeout(() => {
           </div>
 
           {/* ARTICLES */}
-          <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-8">
+          <div className="grid gap-5 sm:grid-cols-2 sm:gap-8 xl:grid-cols-3">
 
             {filteredArticles.map(
               (article) => (

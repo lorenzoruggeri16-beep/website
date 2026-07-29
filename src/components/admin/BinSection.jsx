@@ -157,7 +157,7 @@ binItems.filter(
 
         </p>
 
-        <h2 className="text-6xl font-light mb-6">
+        <h2 className="mb-5 text-4xl font-light sm:mb-6 sm:text-5xl lg:text-6xl">
 
           Bin
 

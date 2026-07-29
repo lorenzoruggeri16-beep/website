@@ -36,7 +36,7 @@ export default function Notification({
         top-8
         right-8
         z-[9999]
-        min-w-[320px]
+        min-w-[calc(100vw-2.5rem)] sm:min-w-[320px]
         max-w-[450px]
         bg-white
         border-l-4

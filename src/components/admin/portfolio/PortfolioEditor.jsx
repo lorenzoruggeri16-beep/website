@@ -51,7 +51,7 @@ export default function PortfolioEditor({
   const isEditing = Boolean(form.id);
 
   return (
-    <aside className="lg:col-span-4 max-w-[500px] bg-white border border-black/10 p-10 rounded-sm">
+    <aside className="w-full border border-black/10 bg-white p-6 sm:p-8 lg:col-span-4 lg:max-w-[500px] lg:p-10 rounded-sm">
       <div className="mb-8 flex items-start justify-between gap-4">
         <div>
           <p className="uppercase tracking-[0.3em] text-[10px] opacity-45 mb-3">
@@ -85,7 +85,7 @@ export default function PortfolioEditor({
 
         <input
           type="text"
-          placeholder="LocalitÃ "
+          placeholder="Localit\u00e0"
           value={form.location}
           onChange={(event) => onChange("location", event.target.value)}
           className="w-full border-b border-black bg-transparent py-4 outline-none"
@@ -146,7 +146,7 @@ export default function PortfolioEditor({
             )}
 
             {form.gallery.length > 0 && (
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
                 {form.gallery.map((image, index) => (
                   <div key={image} className="group relative">
                     <img

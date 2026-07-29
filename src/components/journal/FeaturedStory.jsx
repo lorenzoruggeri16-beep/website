@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 
 import {
   useEffect,
@@ -101,7 +102,7 @@ export default function FeaturedStory() {
 
   return (
 
-    <section className="px-6 lg:px-20 pb-16">
+    <section className="px-6 pb-16 sm:px-8 sm:pb-20 lg:px-20">
 
       <div className="max-w-7xl mx-auto">
 
@@ -114,7 +115,7 @@ export default function FeaturedStory() {
         <div className="grid lg:grid-cols-[1.15fr_0.85fr] items-center gap-12 lg:gap-20">
 
           {/* IMAGE */}
-          <div className="h-[420px] lg:h-[600px] overflow-hidden bg-[#e8e0d4]">
+          <div className="h-[320px] sm:h-[420px] lg:h-[600px] overflow-hidden bg-[#e8e0d4]">
 
             <img
               src={
@@ -147,7 +148,7 @@ export default function FeaturedStory() {
 
             </p>
 
-            <h2 className="text-3xl lg:text-[52px] font-light leading-[1.05] mb-6">
+            <h2 className="text-3xl sm:text-4xl lg:text-[52px] font-light leading-[1.05] mb-6">
 
               {article.title}
 
@@ -168,7 +169,7 @@ export default function FeaturedStory() {
 
               {t("read_story")}
 
-              <span>→</span>
+              <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" />
 
             </Link>
 

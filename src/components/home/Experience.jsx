@@ -29,7 +29,7 @@ export default function Experience() {
 
   return (
 
-    <section className="bg-[#f8f6f2] py-24 md:py-28 px-6 md:px-12">
+    <section className="bg-[#f8f6f2] px-6 py-20 sm:px-8 sm:py-24 md:px-12 md:py-28">
 
       <div className="max-w-6xl mx-auto">
 
@@ -50,7 +50,8 @@ export default function Experience() {
 
           <h2
             className="
-              text-5xl
+              text-4xl
+              sm:text-5xl
               md:text-7xl
               font-light
               text-center
@@ -68,10 +69,11 @@ export default function Experience() {
               max-w-3xl
               mx-auto
               text-center
-              text-lg
-              leading-relaxed
-              opacity-70
-              mb-24
+              text-base
+                    sm:text-lg
+                    leading-relaxed
+                    opacity-70
+              mb-14 sm:mb-20 md:mb-24
             "
           >
             {t("experience_text")}
@@ -79,7 +81,7 @@ export default function Experience() {
 
         </FadeIn>
 
-        <div className="space-y-16">
+        <div className="space-y-12 sm:space-y-16">
 
           {values.map((item, index) => (
 
@@ -92,7 +94,8 @@ export default function Experience() {
                 className="
                   border-t
                   border-black/10
-                  pt-12
+                  pt-8
+                  sm:pt-12
                   grid
                   md:grid-cols-[120px_1fr_2fr]
                   gap-8
@@ -113,7 +116,8 @@ export default function Experience() {
 
                 <h3
                   className="
-                    text-3xl
+                    text-2xl
+                    sm:text-3xl
                     md:text-5xl
                     font-light
                   "

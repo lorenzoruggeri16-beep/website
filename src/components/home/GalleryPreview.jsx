@@ -66,12 +66,12 @@ export default function GalleryPreview() {
 
   return (
 
-    <section className="bg-[#f8f6f2] px-6 md:px-12 py-20">
+    <section className="bg-[#f8f6f2] px-6 py-16 sm:px-8 sm:py-20 md:px-12">
 
       <div className="max-w-7xl mx-auto">
 
         {/* Heading */}
-        <FadeIn className="mb-20 text-center">
+        <FadeIn className="mb-12 text-center sm:mb-16 lg:mb-20">
 
           <p
             className="
@@ -124,7 +124,9 @@ export default function GalleryPreview() {
                     decoding="async"
                     className="
                       w-full
-                      h-[520px]
+                      h-[380px]
+                      sm:h-[460px]
+                      lg:h-[520px]
                       object-cover
                       transition-all
                       duration-[2500ms]
@@ -151,7 +153,8 @@ export default function GalleryPreview() {
 
                   <h3
                     className="
-                      text-3xl
+                      text-2xl
+                      sm:text-3xl
                       font-light
                       leading-tight
                       mb-6
@@ -195,7 +198,7 @@ export default function GalleryPreview() {
         {/* CTA */}
         <FadeIn
           delay={0.4}
-          className="text-center mt-20"
+          className="mt-14 text-center sm:mt-20"
         >
 
           <Link

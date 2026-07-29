@@ -43,7 +43,7 @@ export default function PortfolioHero() {
   const activeImage = heroImages[activeImageIndex];
 
   return (
-    <section className="relative h-[68svh] min-h-[500px] overflow-hidden lg:h-[92vh] lg:min-h-0">
+    <section className="relative h-[62svh] min-h-[440px] overflow-hidden lg:h-[92vh] lg:min-h-0">
       <AnimatePresence mode="sync">
         {activeImage && (
           <motion.img
@@ -73,7 +73,7 @@ export default function PortfolioHero() {
           <p className="mb-4 text-[10px] uppercase tracking-[0.38em] text-white/80">
             Golden Light Studio
           </p>
-          <h1 className="text-[clamp(2.5rem,11vw,3.65rem)] font-light leading-[0.94] text-white">
+          <h1 className="text-[clamp(2.35rem,10vw,3.45rem)] font-light leading-[0.94] text-white">
             {t("portfolio_title_1")}
           </h1>
           <div className="my-6 h-px w-16 bg-[#c6a66a]" />

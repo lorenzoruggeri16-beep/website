@@ -362,7 +362,7 @@ export default function Admin() {
 
   return (
 
-    <main className="min-h-screen bg-[#f5f2ec] flex">
+    <main className="min-h-screen bg-[#f5f2ec] flex flex-col lg:flex-row">
       <SEO title="Studio Control | Golden Light Studio" noIndex />
 
       <Notification
@@ -388,7 +388,7 @@ export default function Admin() {
         setCurrentUser={setCurrentUser}
       />
 
-      <section className="flex-1 p-16 overflow-y-auto">
+      <section className="min-w-0 flex-1 overflow-y-auto p-5 sm:p-8 lg:p-16">
 
         {section === "dashboard" && (
 

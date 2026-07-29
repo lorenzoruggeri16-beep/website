@@ -114,7 +114,7 @@ export default function JournalArticle() {
         <Navbar />
 
         {/* HERO */}
-        <section className="relative h-screen overflow-hidden">
+        <section className="relative h-[72svh] min-h-[500px] overflow-hidden sm:h-[78svh] lg:h-screen lg:min-h-0">
 
           <img
             src={article.coverImage}
@@ -125,21 +125,21 @@ export default function JournalArticle() {
 
           <div className="absolute inset-0 bg-black/30" />
 
-          <div className="absolute bottom-20 left-6 lg:left-20 text-white max-w-4xl">
+          <div className="absolute bottom-12 left-5 sm:bottom-16 sm:left-8 lg:bottom-20 lg:left-20 text-white max-w-4xl">
 
-            <p className="uppercase tracking-[0.35em] text-xs opacity-70 mb-6">
+            <p className="uppercase tracking-[0.28em] text-[10px] opacity-70 mb-4 sm:tracking-[0.35em] sm:text-xs sm:mb-6">
 
               {article.category}
 
             </p>
 
-            <h1 className="text-5xl lg:text-8xl font-light leading-[0.95] mb-8">
+            <h1 className="text-[clamp(2.55rem,10vw,4rem)] sm:text-6xl lg:text-8xl font-light leading-[0.95] mb-5 sm:mb-8">
 
               {article.title}
 
             </h1>
 
-            <p className="text-lg lg:text-2xl opacity-80 leading-relaxed max-w-2xl">
+            <p className="max-w-xl text-base leading-relaxed opacity-80 sm:text-lg lg:max-w-2xl lg:text-2xl">
 
               {article.excerpt}
 
@@ -150,11 +150,11 @@ export default function JournalArticle() {
         </section>
 
         {/* CONTENT */}
-        <section className="px-6 lg:px-20 py-24">
+        <section className="px-5 py-16 sm:px-8 sm:py-20 lg:px-20 lg:py-24">
 
           <div className="max-w-3xl mx-auto">
 
-            <div className="space-y-20">
+            <div className="space-y-12 sm:space-y-16 lg:space-y-20">
 
               {article.blocks?.map(
                 (block, index) => {
@@ -166,7 +166,7 @@ export default function JournalArticle() {
 
                       <p
                         key={index}
-                        className="text-xl leading-[2] opacity-70 whitespace-pre-line"
+                        className="text-base leading-[1.9] sm:text-lg lg:text-xl lg:leading-[2] opacity-70 whitespace-pre-line"
                       >
 
                         {block.content}
@@ -208,7 +208,7 @@ export default function JournalArticle() {
 
                       <blockquote
                         key={index}
-                        className="text-3xl lg:text-5xl font-light leading-[1.4] opacity-80 italic border-l border-[#c6a66a] pl-10 py-4"
+                        className="border-l border-[#c6a66a] py-3 pl-5 text-2xl font-light italic leading-[1.35] opacity-80 sm:pl-8 sm:text-3xl lg:py-4 lg:pl-10 lg:text-5xl lg:leading-[1.4]"
                       >
 
                         {block.content}
@@ -231,11 +231,11 @@ export default function JournalArticle() {
         </section>
 
         {/* EDITORIAL CTA */}
-        <section className="px-6 lg:px-20 pb-32">
+        <section className="px-5 pb-20 sm:px-8 sm:pb-24 lg:px-20 lg:pb-32">
 
           <div className="max-w-4xl mx-auto text-center">
 
-            <div className="w-24 h-px bg-[#c6a66a] mx-auto mb-12" />
+            <div className="mx-auto mb-8 h-px w-16 bg-[#c6a66a] sm:mb-12 sm:w-24" />
 
             <p className="uppercase tracking-[0.4em] text-xs text-[#c6a66a] mb-8">
 
@@ -243,7 +243,7 @@ export default function JournalArticle() {
 
             </p>
 
-            <h2 className="text-4xl lg:text-6xl font-light leading-tight mb-10">
+            <h2 className="text-3xl sm:text-4xl lg:text-6xl font-light leading-tight mb-10">
 
               Every story deserves
               <br />
@@ -251,7 +251,7 @@ export default function JournalArticle() {
 
             </h2>
 
-            <p className="text-lg opacity-60 leading-relaxed max-w-2xl mx-auto mb-12">
+            <p className="text-base opacity-60 leading-relaxed sm:text-lg max-w-2xl mx-auto mb-12">
 
               Discover more editorials, love stories and
               timeless moments captured through the

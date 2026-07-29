@@ -218,7 +218,7 @@ useEffect(() => {
         <Navbar />
 
         {/* HERO */}
-        <section className="relative h-screen overflow-hidden">
+        <section className="relative h-[76svh] min-h-[520px] overflow-hidden sm:h-[82svh] lg:h-screen lg:min-h-0">
 
           <img
             src={
@@ -234,7 +234,7 @@ useEffect(() => {
           <div className="absolute inset-0 bg-black/25" />
 
           {/* TEXT */}
-          <div className="absolute bottom-0 left-0 w-full px-6 lg:px-20 pb-24 z-10">
+          <div className="absolute bottom-0 left-0 z-10 w-full px-5 pb-12 sm:px-8 sm:pb-16 lg:px-20 lg:pb-24">
 
             <motion.div
               initial={{
@@ -250,13 +250,13 @@ useEffect(() => {
               }}
             >
 
-              <p className="uppercase tracking-[0.45em] text-xs text-white/70 mb-8">
+              <p className="uppercase tracking-[0.28em] text-[10px] text-white/70 mb-5 sm:tracking-[0.45em] sm:text-xs sm:mb-8">
 
                 {portfolio.location}
 
               </p>
 
-              <h1 className="text-5xl lg:text-[100px] leading-[0.95] font-light text-white max-w-5xl">
+              <h1 className="text-[clamp(2.65rem,11vw,4rem)] sm:text-6xl lg:text-[100px] leading-[0.95] font-light text-white max-w-5xl">
 
                 {portfolio.title}
 
@@ -269,27 +269,27 @@ useEffect(() => {
         </section>
 
         {/* INTRO */}
-        <section className="px-6 lg:px-20 py-24 lg:py-32">
+        <section className="px-5 py-16 sm:px-8 sm:py-20 lg:px-20 lg:py-32">
 
-          <div className="grid lg:grid-cols-12 gap-20">
+          <div className="grid gap-10 lg:grid-cols-12 lg:gap-20">
 
             {/* LEFT */}
             <div className="lg:col-span-4">
 
-              <p className="uppercase tracking-[0.35em] text-sm opacity-50 mb-10">
+              <p className="uppercase tracking-[0.28em] text-[11px] opacity-50 mb-6 sm:tracking-[0.35em] sm:text-sm lg:mb-10">
 
                 Cinematic Session
 
               </p>
 
-              <div className="w-32 h-px bg-[#c6a66a] mb-10" />
+              <div className="mb-6 h-px w-20 bg-[#c6a66a] lg:mb-10 lg:w-32" />
 
             </div>
 
             {/* RIGHT */}
             <div className="lg:col-span-8">
 
-              <p className="text-xl lg:text-[34px] font-light leading-[1.8] max-w-3xl">
+              <p className="text-lg sm:text-xl lg:text-[34px] font-light leading-[1.65] lg:leading-[1.8] max-w-3xl">
 
                 {portfolio.description}
 
@@ -302,105 +302,29 @@ useEffect(() => {
         </section>
 
         {/* CINEMATIC GALLERY */}
-        <section className="pb-32 overflow-hidden">
+        <section className="overflow-hidden pb-20 sm:pb-24 lg:pb-32">
 
         {!lightboxOpen && (
 
           <>
           {/* LEFT ARROW */}
 <button
-  onClick={() =>
-    emblaApi?.scrollPrev()
-  }
-  className="
-
-    absolute
-    left-2 lg:left-8
-
-    top-[58%]
-    -translate-y-1/2
-
-    z-40
-
-    w-14
-    h-14
-
-    lg:w-16
-    lg:h-16
-
-    rounded-full
-
-    backdrop-blur-md
-    bg-white/10
-
-    border
-    border-white/20
-
-    text-white
-
-    flex
-    items-center
-    justify-center
-
-    hover:bg-black
-    hover:scale-110
-
-    transition-all
-    duration-500
-
-  "
+  type="button"
+  onClick={() => emblaApi?.scrollPrev()}
+  aria-label="Previous image"
+  className="absolute left-3 top-1/2 z-40 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white backdrop-blur-md transition-all duration-500 hover:scale-105 hover:bg-black sm:flex lg:left-8 lg:h-16 lg:w-16"
 >
-
-  â†
-
+  <ChevronLeft size={30} strokeWidth={1.5} aria-hidden="true" />
 </button>
 
 {/* RIGHT ARROW */}
 <button
-  onClick={() =>
-    emblaApi?.scrollNext()
-  }
-  className="
-
-    absolute
-    right-2 lg:right-8
-
-    top-[58%]
-    -translate-y-1/2
-
-    z-40
-
-    w-14
-    h-14
-
-    lg:w-16
-    lg:h-16
-
-    rounded-full
-
-    backdrop-blur-md
-    bg-white/10
-
-    border
-    border-white/20
-
-    text-white
-
-    flex
-    items-center
-    justify-center
-
-    hover:bg-black
-    hover:scale-110
-
-    transition-all
-    duration-500
-
-  "
+  type="button"
+  onClick={() => emblaApi?.scrollNext()}
+  aria-label="Next image"
+  className="absolute right-3 top-1/2 z-40 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white backdrop-blur-md transition-all duration-500 hover:scale-105 hover:bg-black sm:flex lg:right-8 lg:h-16 lg:w-16"
 >
-
-  â†’
-
+  <ChevronRight size={30} strokeWidth={1.5} aria-hidden="true" />
 </button>
 
 </>
@@ -498,7 +422,7 @@ useEffect(() => {
             }
           }}
 
-           className="overflow-hidden px-6 lg:px-20 scrollbar-hide"
+           className="overflow-hidden px-5 sm:px-8 lg:px-20 scrollbar-hide"
            >
             <div className="flex gap-3">
 
@@ -533,7 +457,8 @@ useEffect(() => {
 
                 flex-shrink-0
                  
-                 w-[78vw]
+                 w-[82vw]
+                 sm:w-[58vw]
                  md:w-[42vw]
                  lg:w-[24vw]
                  
@@ -575,7 +500,9 @@ useEffect(() => {
                   className="
   
                   w-full
-                  h-[58vh]
+                  h-[52svh]
+                  min-h-[360px]
+                  sm:h-[58vh]
                   lg:h-[72vh]
 
                   object-cover
@@ -604,9 +531,9 @@ useEffect(() => {
 
 
         {/* MORE SESSIONS */}
-        <section className="px-6 lg:px-20 pb-12">
+        <section className="px-5 pb-16 sm:px-8 lg:px-20">
 
-          <div className="flex items-center justify-between mb-12">
+          <div className="flex items-center justify-between mb-8 sm:mb-12">
 
             <div>
 
@@ -616,7 +543,7 @@ useEffect(() => {
 
               </p>
 
-              <h2 className="text-4xl lg:text-5xl font-light">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light">
 
                 More Sessions
 
@@ -630,14 +557,14 @@ useEffect(() => {
 
           <div className="overflow-x-auto scrollbar-hide">
 
-  <div className="flex gap-6 min-w-max pb-4">
+  <div className="flex gap-4 sm:gap-6 min-w-max pb-4">
 
     {moreSessions.map((item) => (
 
       <Link
         key={item.id}
         to={`/portfolio/${item.slug || item.id}`}
-        className="group flex-shrink-0 w-[240px]"
+        className="group flex-shrink-0 w-[220px] sm:w-[240px]"
       >
 
         <article>
@@ -655,7 +582,7 @@ useEffect(() => {
               className="
 
                 w-full
-                h-[320px]
+                h-[290px] sm:h-[320px]
 
                 object-cover
 
@@ -698,8 +625,8 @@ useEffect(() => {
 
         flex-shrink-0
 
-        w-[240px]
-        h-[320px]
+        w-[220px] sm:w-[240px]
+        h-[290px] sm:h-[320px]
 
         border
         border-black/10

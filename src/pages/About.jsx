@@ -27,7 +27,7 @@ export default function About() {
         <Navbar />
 
         {/* Hero */}
-        <section className="pt-40 pb-32 px-6 md:px-12 text-center">
+        <section className="px-6 pb-20 pt-28 sm:px-8 sm:pb-24 sm:pt-32 md:px-12 md:pb-32 md:pt-40 text-center">
 
           <FadeIn>
 
@@ -35,13 +35,13 @@ export default function About() {
               {t("about")}
             </p>
 
-            <h1 className="text-5xl md:text-7xl lg:text-[6rem] font-light leading-none">
+            <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-[6rem] font-light leading-none">
 
               {t("about_title_1")}
 
             </h1>
 
-            <p className="max-w-2xl mx-auto mt-10 text-lg md:text-xl opacity-60 leading-relaxed">
+            <p className="max-w-2xl mx-auto mt-7 text-base sm:mt-10 sm:text-lg md:text-xl opacity-60 leading-relaxed">
 
               {t("about_subtitle")}
 
@@ -52,19 +52,19 @@ export default function About() {
         </section>
 
         {/* Split Portrait Section */}
-        <section className="px-6 md:px-12 pb-24">
+        <section className="px-6 pb-16 sm:px-8 sm:pb-20 md:px-12 md:pb-24">
 
-          <div className="grid md:grid-cols-[1fr_auto_1fr] gap-16 items-center">
+          <div className="grid gap-12 md:grid-cols-[1fr_auto_1fr] md:gap-16 items-center">
 
             {/* LEFT */}
             <FadeIn>
 
-              <div className="flex flex-col items-center text-center -translate-y-9 pt-2">
+              <div className="flex flex-col items-center text-center pt-2 md:-translate-y-9">
 
                 <img
                   src="/images/about-left.jpg"
                   alt=""
-                  className="w-[320px] h-[320px] object-cover rounded-full mb-9"
+                  className="aspect-square h-auto w-full max-w-[320px] object-cover rounded-full mb-9"
                 />
 
                 <div className="relative group inline-block mb-6">
@@ -103,12 +103,12 @@ export default function About() {
             {/* RIGHT */}
             <FadeIn delay={0.2}>
 
-              <div className="flex flex-col items-center text-center -translate-y-12 pt-2">
+              <div className="flex flex-col items-center text-center pt-2 md:-translate-y-12">
 
                 <img
                   src="/images/about-right.jpg"
                   alt=""
-                  className="w-[320px] h-[320px] object-cover rounded-full mb-8"
+                  className="aspect-square h-auto w-full max-w-[320px] object-cover rounded-full mb-8"
                 />
 
                 <div className="relative group inline-block mb-6">
@@ -156,7 +156,7 @@ export default function About() {
 
             <div className="w-16 h-px bg-[#c6a66a] mx-auto mb-10" />
 
-            <h2 className="text-4xl md:text-6xl font-light leading-tight text-center mb-10">
+            <h2 className="text-3xl sm:text-4xl md:text-6xl font-light leading-tight text-center mb-10">
 
               {t("about_story_title")}
 
@@ -166,7 +166,7 @@ export default function About() {
 
           <FadeIn delay={0.2}>
 
-            <div className="space-y-12 text-[18px] leading-[2] opacity-85 max-w-5xl mx-auto text-center">
+            <div className="space-y-8 text-base leading-[1.85] sm:space-y-12 sm:text-[18px] sm:leading-[2] opacity-85 max-w-5xl mx-auto text-center">
 
               <p>
                 {t("about_story_text_1")}
@@ -199,7 +199,7 @@ export default function About() {
 
             <div className="w-16 h-px bg-[#c6a66a] mx-auto mb-10" />
 
-            <h2 className="text-4xl md:text-6xl font-light leading-tight text-center mb-16">
+            <h2 className="mb-12 text-3xl font-light leading-tight text-center sm:mb-16 sm:text-4xl md:text-6xl">
 
               {t("about_philosophy_title")}
 
@@ -209,7 +209,7 @@ export default function About() {
 
           <FadeIn delay={0.2}>
 
-            <div className="space-y-8 text-[18px] leading-[1.9] opacity-85 max-w-4xl mx-auto text-center">
+            <div className="space-y-7 text-base leading-[1.8] sm:space-y-8 sm:text-[18px] sm:leading-[1.9] opacity-85 max-w-4xl mx-auto text-center">
               <p>
                 {t("about_text_1")}
               </p>

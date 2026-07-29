@@ -97,7 +97,7 @@ useState(false);
         
 
         <h1 className="
-        text-5xl
+        text-4xl sm:text-5xl
         font-light
         mb-4
         text-center

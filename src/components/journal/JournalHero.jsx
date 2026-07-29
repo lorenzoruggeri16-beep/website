@@ -13,7 +13,7 @@ export default function JournalHero() {
 
   return (
 
-    <section className="relative min-h-[48vh] flex items-center px-6 lg:px-20 pt-28 pb-6 overflow-hidden">
+    <section className="relative flex min-h-[52vh] items-end overflow-hidden px-6 pb-12 pt-28 sm:px-8 md:items-center md:pb-10 lg:min-h-[48vh] lg:px-20 lg:pt-28">
 
       {/* BACKGROUND */}
       <div className="absolute inset-0 bg-[#f6f2eb]" />
@@ -36,13 +36,13 @@ export default function JournalHero() {
         className="relative z-10 max-w-4xl"
       >
 
-        <p className="uppercase tracking-[0.45em] text-xs text-[#c6a66a] mb-6">
+        <p className="uppercase tracking-[0.3em] text-[10px] sm:tracking-[0.45em] sm:text-xs text-[#c6a66a] mb-6">
 
           Golden Light Studio
 
         </p>
 
-        <h1 className="text-4xl md:text-5xl lg:text-[56px] leading-[1.05] font-light mb-8 max-w-3xl">
+        <h1 className="text-4xl sm:text-5xl md:text-5xl lg:text-[56px] leading-[1.05] font-light mb-6 max-w-3xl sm:mb-8">
 
           {t("journal_title_1")}
           <br />
@@ -52,7 +52,7 @@ export default function JournalHero() {
 
         </h1>
 
-        <div className="w-24 h-px bg-[#c6a66a] mb-8" />
+        <div className="mb-6 h-px w-16 bg-[#c6a66a] sm:mb-8 sm:w-24" />
 
         <p className="text-base lg:text-lg leading-[1.9] opacity-60 max-w-xl">
 

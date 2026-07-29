@@ -136,7 +136,7 @@ export default function SettingsSection({
 
       <div className="max-w-3xl">
 
-        <h2 className="text-5xl font-light mb-6">
+        <h2 className="mb-5 text-3xl font-light sm:mb-6 sm:text-4xl lg:text-5xl">
 
           Access Restricted
 
@@ -168,7 +168,7 @@ export default function SettingsSection({
 
         </p>
 
-        <h2 className="text-6xl font-light mb-6">
+        <h2 className="mb-5 text-4xl font-light sm:mb-6 sm:text-5xl lg:text-6xl">
 
           Settings
 
@@ -211,7 +211,7 @@ export default function SettingsSection({
           min-h-[180px]
         "
       >
-        <span className="text-5xl font-light mb-4">
+        <span className="mb-4 text-4xl font-light sm:text-5xl">
           +
         </span>
 
@@ -277,16 +277,14 @@ export default function SettingsSection({
                      <p>
                       Articles {
                         user.permissions?.editArticles
-                          ? "âœ“"
-                          : "âœ•"
+                          ? "\u2713" : "\u2715"
                       }
                       </p>
 
                       <p>
                         Portfolio {
                           user.permissions?.editPortfolio
-                            ? "âœ“"
-                            : "âœ•"
+                            ? "\u2713" : "\u2715"
                         }
                       </p>
 
@@ -294,8 +292,7 @@ export default function SettingsSection({
                         Delete {
                           user.permissions?.deleteArticles ||
                           user.permissions?.deletePortfolio
-                            ? "âœ“"
-                            : "âœ•"
+                            ? "\u2713" : "\u2715"
                         }
                       </p>
 
@@ -467,8 +464,7 @@ export default function SettingsSection({
                                    
                   className="border px-4 py-2">
                     {creatingUser
-                    ? "Creating..."
-                    : "Create User"}
+                    ? "\u2713" : "\u2715"}
                   </button>
 
                   <button

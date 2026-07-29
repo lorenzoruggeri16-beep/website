@@ -8,7 +8,7 @@ export default function CTASection() {
 
   return (
 
-    <section className="bg-[#11110f] text-white px-6 md:px-12 py-32">
+    <section className="bg-[#11110f] px-6 py-20 text-white sm:px-8 sm:py-24 md:px-12 md:py-32">
 
       <div className="max-w-5xl mx-auto text-center">
 
@@ -28,11 +28,12 @@ export default function CTASection() {
 
           <h2
             className="
-              text-5xl
+              text-4xl
+              sm:text-5xl
               md:text-7xl
               font-light
               leading-[1.1]
-              mb-10
+              mb-8 sm:mb-10
             "
           >
             {t("cta_title_1")}
@@ -44,10 +45,11 @@ export default function CTASection() {
             className="
               max-w-2xl
               mx-auto
-              text-lg
+              text-base
+              sm:text-lg
               leading-relaxed
               opacity-70
-              mb-14
+              mb-10 sm:mb-14
             "
           >
             {t("cta_text")}
@@ -63,8 +65,10 @@ export default function CTASection() {
               border
               border-[#c6a66a]
               text-[#c6a66a]
-              px-10
-              py-5
+              px-8
+              py-4
+              sm:px-10
+              sm:py-5
               uppercase
               tracking-[0.35em]
               text-xs

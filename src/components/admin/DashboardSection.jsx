@@ -18,20 +18,20 @@ return (
 
   </p>
 
-  <h2 className="text-6xl font-light mb-4">
+  <h2 className="mb-4 text-4xl font-light sm:text-5xl lg:text-6xl">
 
     Welcome back.
   </h2>
 
-  <p className="opacity-50 mb-16 max-w-xl">
+  <p className="mb-10 max-w-xl opacity-50 sm:mb-16">
 
     Manage your articles, portfolio projects and administrative content from a single workspace.
 
   </p>
 
-  <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-8 mb-12">
+  <div className="grid mb-10 grid gap-4 sm:grid-cols-2 sm:gap-6 lg:gap-8 xl:grid-cols-4 xl:mb-12">
 
-    <div className="bg-white border border-black/5 p-8 hover:-translate-y-1 hover:shadow-xl transition duration-500">
+    <div className="border border-black/5 bg-white p-5 sm:p-8 hover:-translate-y-1 hover:shadow-xl transition duration-500">
 
       <p className="uppercase tracking-[0.3em] text-xs opacity-40 mb-6">
 
@@ -39,7 +39,7 @@ return (
 
       </p>
 
-      <h3 className="text-6xl font-light">
+      <h3 className="text-4xl font-light sm:text-5xl lg:text-6xl">
 
         {articlesCount}
 
@@ -47,7 +47,7 @@ return (
 
     </div>
 
-    <div className="bg-white border border-black/5 p-8 hover:-translate-y-1 hover:shadow-xl transition duration-500">
+    <div className="border border-black/5 bg-white p-5 sm:p-8 hover:-translate-y-1 hover:shadow-xl transition duration-500">
 
       <p className="uppercase tracking-[0.3em] text-xs opacity-40 mb-6">
 
@@ -55,7 +55,7 @@ return (
 
       </p>
 
-      <h3 className="text-6xl font-light">
+      <h3 className="text-4xl font-light sm:text-5xl lg:text-6xl">
 
         {portfolioCount}
 
@@ -63,7 +63,7 @@ return (
 
     </div>
 
-    <div className="bg-white border border-black/5 p-8 hover:-translate-y-1 hover:shadow-xl transition duration-500">
+    <div className="border border-black/5 bg-white p-5 sm:p-8 hover:-translate-y-1 hover:shadow-xl transition duration-500">
 
       <p className="uppercase tracking-[0.3em] text-xs opacity-40 mb-6">
 
@@ -71,7 +71,7 @@ return (
 
       </p>
 
-      <h3 className="text-6xl font-light">
+      <h3 className="text-4xl font-light sm:text-5xl lg:text-6xl">
 
         {binCount}
 
@@ -79,7 +79,7 @@ return (
 
     </div>
 
-    <div className="bg-white border border-black/5 p-8 hover:-translate-y-1 hover:shadow-xl transition duration-500">
+    <div className="border border-black/5 bg-white p-5 sm:p-8 hover:-translate-y-1 hover:shadow-xl transition duration-500">
 
       <p className="uppercase tracking-[0.3em] text-xs opacity-40 mb-6">
 
@@ -87,7 +87,7 @@ return (
 
       </p>
 
-      <h3 className="text-6xl font-light">
+      <h3 className="text-4xl font-light sm:text-5xl lg:text-6xl">
 
         {usersCount}
 
@@ -103,13 +103,13 @@ return (
 
   </div>
 
-  <div className="bg-white border border-black/5 p-12">
+  <div className="border border-black/5 bg-white p-6 sm:p-8 lg:p-12">
 
     <p className="uppercase tracking-[0.3em] text-xs opacity-40 mb-6">
       Quick Actions
     </p>
 
-    <h3 className="text-3xl font-light mb-10">
+    <h3 className="mb-7 text-2xl font-light sm:mb-10 sm:text-3xl">
       What would you like to do?
     </h3>
 
@@ -121,7 +121,7 @@ return (
           onClick={() =>
             setSection("journal")
           }
-          className="border border-black/10 p-6 text-left hover:bg-black hover:text-white transition duration-500"
+          className="border border-black/10 p-4 sm:p-6 text-left hover:bg-black hover:text-white transition duration-500"
           >
             New Article
         </button>
@@ -135,7 +135,7 @@ return (
           onClick={() =>
             setSection("portfolio") 
           }
-          className="border border-black/10 p-6 text-left hover:bg-black hover:text-white transition duration-500"
+          className="border border-black/10 p-4 sm:p-6 text-left hover:bg-black hover:text-white transition duration-500"
           >
             New Portfolio Project
         </button>
@@ -147,7 +147,7 @@ return (
           onClick={() =>
             setSection("settings")
           }
-          className="border border-black/10 p-6 text-left hover:bg-black hover:text-white transition duration-500"
+          className="border border-black/10 p-4 sm:p-6 text-left hover:bg-black hover:text-white transition duration-500"
           >
             Manage Users
         </button>
@@ -161,7 +161,7 @@ return (
           onClick={() =>
             setSection("bin")
           }
-          className="border border-black/10 p-6 text-left hover:bg-black hover:text-white transition duration-500"
+          className="border border-black/10 p-4 sm:p-6 text-left hover:bg-black hover:text-white transition duration-500"
         >
           Open Bin
         </button>
@@ -171,7 +171,7 @@ return (
 
     {/* RECENT ACTIVITY */}
 
-    <div className="bg-white border border-black/5 p-12 mt-12">
+    <div className="border border-black/5 bg-white p-6 sm:p-8 lg:p-12 mt-12">
 
       <p className="uppercase tracking-[0.3em] text-xs opacity-40 mb-6">
 

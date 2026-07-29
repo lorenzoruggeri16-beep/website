@@ -10,7 +10,7 @@ export default function StoryCard({ article }) {
     >
 
       {/* IMAGE */}
-      <div className="overflow-hidden mb-6 h-[460px] bg-[#e8e0d4]">
+      <div className="overflow-hidden mb-5 h-[340px] sm:mb-6 sm:h-[420px] lg:h-[460px] bg-[#e8e0d4]">
 
         <img
           src={
@@ -44,7 +44,7 @@ export default function StoryCard({ article }) {
       </p>
 
       {/* TITLE */}
-      <h3 className="text-2xl lg:text-[34px] font-light leading-[1.15] mb-5 transition-all duration-500 group-hover:text-[#c6a66a]">
+      <h3 className="text-2xl sm:text-3xl lg:text-[34px] font-light leading-[1.15] mb-5 transition-all duration-500 group-hover:text-[#c6a66a]">
 
         {article.title}
 

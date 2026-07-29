@@ -9,8 +9,8 @@
   setShowForgotPassword,
 }) {
   return (
-    <main className="min-h-screen bg-[#f8f6f2] flex items-center justify-center px-6">
-      <div className="max-w-md w-full bg-white border border-black/10 p-10">
+    <main className="flex min-h-screen items-center justify-center bg-[#f8f6f2] px-5 sm:px-6">
+      <div className="w-full max-w-md border border-black/10 bg-white p-6 sm:p-10">
         <p className="uppercase tracking-[0.3em] text-xs opacity-50 mb-4 text-center">
           Golden Light Studio
         </p>
@@ -21,7 +21,7 @@
           className="w-20 mx-auto mb-4"
         />
 
-        <h1 className="text-4xl font-light mb-10 text-center">Admin Access</h1>
+        <h1 className="mb-7 text-3xl font-light sm:mb-10 sm:text-4xl text-center">Admin Access</h1>
 
         <label className="sr-only" htmlFor="admin-email">Email</label>
         <input

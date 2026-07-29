@@ -55,7 +55,7 @@ export default function PortfolioSection({
         setError("");
         setPortfolioItems(await fetchActivePortfolio());
       } catch (fetchError) {
-        setError("Non Ã¨ stato possibile caricare il portfolio.");
+        setError("Non \u00e8 stato possibile caricare il portfolio.");
         console.error(fetchError);
       } finally {
         setLoading(false);
@@ -86,7 +86,7 @@ export default function PortfolioSection({
       updateForm("coverImage", coverImage);
       setUploadProgress(100);
     } catch (uploadError) {
-      setError("Non Ã¨ stato possibile caricare l'immagine di copertina.");
+      setError("Non \u00e8 stato possibile caricare l'immagine di copertina.");
       console.error(uploadError);
     } finally {
       setUploading(false);
@@ -107,7 +107,7 @@ export default function PortfolioSection({
         gallery: [...currentForm.gallery, ...gallery],
       }));
     } catch (uploadError) {
-      setError("Non Ã¨ stato possibile caricare tutte le immagini della galleria.");
+      setError("Non \u00e8 stato possibile caricare tutte le immagini della galleria.");
       console.error(uploadError);
     } finally {
       setUploading(false);
@@ -182,13 +182,13 @@ export default function PortfolioSection({
       setAiWarning(warning);
     } catch (saveError) {
       console.error(saveError);
-      setError("Non Ã¨ stato possibile salvare la sessione.");
+      setError("Non \u00e8 stato possibile salvare la sessione.");
     } finally {
       setIsSaving(false);
     }
   };
   const handleArchive = async (item) => {
-    if (!window.confirm(`Spostare â€œ${item.title}â€ nel cestino?`)) return;
+    if (!window.confirm(`Spostare "${item.title}" nel cestino?`)) return;
 
     try {
       setError("");
@@ -208,24 +208,24 @@ export default function PortfolioSection({
 
       if (form.id === item.id) resetForm();
     } catch (archiveError) {
-      setError("Non Ã¨ stato possibile spostare la sessione nel cestino.");
+      setError("Non \u00e8 stato possibile spostare la sessione nel cestino.");
       console.error(archiveError);
     }
   };
 
   return (
     <div className="max-w-[1600px] mx-auto">
-      <header className="mb-20">
+      <header className="mb-10 sm:mb-16 lg:mb-20">
         <p className="uppercase tracking-[0.3em] text-xs opacity-50 mb-6">
           Creative Management
         </p>
-        <h2 className="text-6xl font-light mb-6">Portfolio</h2>
+        <h2 className="mb-5 text-4xl font-light sm:mb-6 sm:text-5xl lg:text-6xl">Portfolio</h2>
         <p className="opacity-50 text-lg max-w-2xl leading-relaxed">
           Manage cinematic sessions and visual storytelling archives.
         </p>
       </header>
 
-      <div className="grid lg:grid-cols-12 gap-20 w-full items-start">
+      <div className="grid gap-10 lg:grid-cols-12 lg:gap-20 w-full items-start">
         <PortfolioEditor
           aiStatus={aiStatus}
           aiWarning={aiWarning}

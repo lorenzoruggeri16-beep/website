@@ -27,7 +27,7 @@ export default function Contact() {
         <Navbar />
 
         {/* Hero */}
-        <section className="pt-28 md:pt-40 pb-16 md:pb-20 px-6 md:px-12 text-center">
+        <section className="px-6 pb-14 pt-28 sm:px-8 sm:pb-16 sm:pt-32 md:px-12 md:pb-20 md:pt-40 text-center">
 
           <FadeIn>
 
@@ -37,7 +37,7 @@ export default function Contact() {
 
             </p>
 
-            <h1 className="text-5xl md:text-6xl lg:text-[5rem] font-light leading-none">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[5rem] font-light leading-none">
 
               {t("contact_title_1")}
               <br />
@@ -50,9 +50,9 @@ export default function Contact() {
         </section>
 
         {/* Content */}
-        <section className="px-6 md:px-12 pb-24 md:pb-32">
+        <section className="px-6 pb-20 sm:px-8 sm:pb-24 md:px-12 md:pb-32">
 
-          <div className="grid md:grid-cols-2 gap-16 md:gap-24 max-w-7xl mx-auto">
+          <div className="grid gap-12 md:grid-cols-2 md:gap-24 max-w-7xl mx-auto">
 
             {/* Left */}
             <FadeIn>
@@ -67,7 +67,7 @@ export default function Contact() {
 
                 <div className="w-16 h-px bg-[#c6a66a] mb-10" />
 
-                <h2 className="text-4xl md:text-5xl font-light leading-[1.1] mb-10">
+                <h2 className="mb-7 text-3xl font-light leading-[1.08] sm:mb-10 sm:text-4xl md:text-5xl">
 
                   Every story begins
                   <br />
@@ -75,7 +75,7 @@ export default function Contact() {
 
                 </h2>
 
-                <p className="text-lg opacity-80 leading-[1.9] max-w-md mb-12">
+                <p className="mb-9 max-w-md text-base leading-[1.8] opacity-80 sm:mb-12 sm:text-lg sm:leading-[1.9]">
 
                   Whether you're planning a wedding,
                   a couples session, a family experience
@@ -106,7 +106,7 @@ export default function Contact() {
               <form
                 action="https://formspree.io/f/mbdbkjvz"
                 method="POST"
-                className="space-y-10"
+                className="space-y-7 sm:space-y-10"
               >
 
                 <div>
@@ -121,7 +121,7 @@ export default function Contact() {
                     type="text"
                     name="name"
                     required
-                    className="w-full border-b border-black bg-transparent py-4 outline-none"
+                    className="w-full border-b border-black bg-transparent py-3 text-base outline-none sm:py-4"
                   />
 
                 </div>
@@ -138,7 +138,7 @@ export default function Contact() {
                     type="email"
                     name="email"
                     required
-                    className="w-full border-b border-black bg-transparent py-4 outline-none"
+                    className="w-full border-b border-black bg-transparent py-3 text-base outline-none sm:py-4"
                   />
 
                 </div>
@@ -153,7 +153,7 @@ export default function Contact() {
 
                   <select
                     name="session_type"
-                    className="w-full border-b border-black bg-transparent py-4 outline-none"
+                    className="w-full border-b border-black bg-transparent py-3 text-base outline-none sm:py-4"
                   >
 
                     <option>Couples</option>
@@ -179,7 +179,7 @@ export default function Contact() {
                   <input
                     type="text"
                     name="location"
-                    className="w-full border-b border-black bg-transparent py-4 outline-none"
+                    className="w-full border-b border-black bg-transparent py-3 text-base outline-none sm:py-4"
                   />
 
                 </div>
@@ -195,14 +195,14 @@ export default function Contact() {
                   <textarea
                     rows="6"
                     name="message"
-                    className="w-full border-b border-black bg-transparent py-4 outline-none resize-none"
+                    className="w-full resize-none border-b border-black bg-transparent py-3 text-base outline-none sm:py-4"
                   />
 
                 </div>
 
                 <button
                   type="submit"
-                  className="uppercase tracking-[0.35em] text-sm border border-[#c6a66a] px-10 py-4 hover:bg-[#c6a66a] hover:text-white transition duration-500"
+                  className="w-full border border-[#c6a66a] px-8 py-4 text-xs uppercase tracking-[0.28em] sm:w-auto sm:px-10 sm:text-sm sm:tracking-[0.35em] hover:bg-[#c6a66a] hover:text-white transition duration-500"
                 >
 
                   {t("contact_button")}

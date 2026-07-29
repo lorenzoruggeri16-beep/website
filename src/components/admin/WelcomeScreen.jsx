@@ -28,7 +28,7 @@ export default function WelcomeScreen({
 
         </p>
 
-        <h1 className="text-6xl md:text-8xl font-light">
+        <h1 className="text-4xl sm:text-6xl md:text-8xl font-light">
 
           Welcome {userName}
 

@@ -10,21 +10,23 @@ export default function Intro() {
 
     <section className="bg-[#f8f6f2] text-black">
 
-      <div className="max-w-6xl mx-auto px-8 py-24 md:py-28">
+      <div className="max-w-6xl mx-auto px-6 py-20 sm:px-8 sm:py-24 md:py-28">
 
         <FadeIn>
 
           <p
             className="
               uppercase
-              tracking-[0.5em]
-              text-[11px]
+              tracking-[0.3em]
+              text-[10px]
+              sm:tracking-[0.5em]
+              sm:text-[11px]
               text-center
               mb-10
               opacity-60
             "
           >
-            Tenerife · Canary Islands · Worldwide
+            Tenerife {"\u00b7"} Canary Islands {"\u00b7"} Worldwide
           </p>
 
         </FadeIn>
@@ -33,7 +35,8 @@ export default function Intro() {
 
           <h2
             className="
-              text-4xl
+              text-3xl
+              sm:text-4xl
               md:text-6xl
               lg:text-7xl
               font-light
@@ -59,8 +62,10 @@ export default function Intro() {
               max-w-3xl
               mx-auto
               text-center
-              mt-12
-              text-lg
+              mt-8
+              text-base
+              sm:mt-12
+              sm:text-lg
               leading-relaxed
               opacity-70
             "

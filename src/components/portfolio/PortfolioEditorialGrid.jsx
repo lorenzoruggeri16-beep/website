@@ -114,13 +114,13 @@ export default function PortfolioEditorialGrid() {
 
     <section className="px-0 py-0 bg-[#f6f2eb]">
 
-      <div className="px-6 lg:px-20 pb-32">
+      <div className="px-5 pb-20 sm:px-6 sm:pb-24 lg:px-20 lg:pb-32">
         <h2 className="sr-only">ç
           {t("portfolio_gallery")}
         </h2>
 
         {/* CATEGORY NAV */}
-        <div className="mb-14 grid grid-cols-2 gap-x-7 gap-y-1 border-y border-black/10 py-6 lg:hidden">
+        <div className="mb-10 grid sm:mb-14 grid-cols-2 gap-x-7 gap-y-1 border-y border-black/10 py-6 lg:hidden">
           {PORTFOLIO_CATEGORIES.map((category) => (
             <button
               key={category.id}
@@ -207,7 +207,7 @@ export default function PortfolioEditorialGrid() {
                     alt={item.title}
                     loading="lazy"
                     decoding="async"
-                    className="w-full h-[420px] object-cover group-hover:scale-[1.04] transition duration-[2500ms]"
+                    className="w-full h-[360px] sm:h-[420px] object-cover group-hover:scale-[1.04] transition duration-[2500ms]"
                   />
 
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent opacity-60 group-hover:opacity-90 transition duration-700" />
@@ -215,7 +215,7 @@ export default function PortfolioEditorialGrid() {
                 </div>
 
                 {/* CONTENT */}
-                <div className="pt-8 transition-all duration-700 group-hover:translate-y-[-6px]">
+                <div className="pt-6 sm:pt-8 transition-all duration-700 group-hover:translate-y-[-6px]">
 
                   <p className="uppercase tracking-[0.35em] text-[10px] opacity-40 mb-4">
 
