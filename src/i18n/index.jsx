@@ -126,6 +126,7 @@ const resources = {
       portfolio_title_2: "creadas a través de",
       portfolio_title_3: "imágenes atemporales.",
       portfolio_text: "Una colección cuidadosamente seleccionada de fotografía de maternidad, parejas y editoriales capturada con emoción, movimiento y luz natural.",
+      portfolio_mobile_text: "Una selecci\u00f3n de fotograf\u00eda editorial, creada con emoci\u00f3n y luz natural.",
 
       journal_title_1: "Historias capturadas",
       journal_title_2: "a través de la luz",
@@ -340,6 +341,7 @@ const resources = {
       portfolio_title_2: "create attraverso",
       portfolio_title_3: "immagini senza tempo.",
       portfolio_text: "Una collezione curata di fotografie di maternità, coppia ed editoriali catturate con emozione, movimento e luce naturale.",
+      portfolio_mobile_text: "Una selezione di fotografia editoriale, creata con emozione e luce naturale.",
 
       journal_title_1: "Storie catturate",
       journal_title_2: "attraverso luce",
@@ -554,6 +556,7 @@ const resources = {
       portfolio_title_2: "crafted through",
       portfolio_title_3: "timeless imagery.",
       portfolio_text: "A curated collection of motherhood, couples and editorial photography captured with emotion, movement and natural light.",
+      portfolio_mobile_text: "A selected collection of editorial photography, created with emotion and natural light.",
 
       journal_title_1: "Stories captured",
       journal_title_2: "through light",

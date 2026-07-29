@@ -12,6 +12,8 @@ import {
   motion,
 } from "framer-motion";
 
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
+
 import useEmblaCarousel
 from "embla-carousel-react";
 
@@ -846,112 +848,43 @@ useEffect(() => {
 
             </div>
 
-            {/* CLOSE */}
-
+            {/* LIGHTBOX CONTROLS */}
             <button
-             onClick={() =>
-              setLightboxOpen(false)
-             }
-             className="
-             
-             absolute
-             top-8
-             right-8
-
-             text-white
-             text-3xl
-
-             opacity-70
-             hover:opacity-100
-
-             transition
-
-             "
-
-             >
-
-              âœ•
-
-             </button>
-
-             {/* PREV*/}
-             <button
-              onClick={(e) => {
-                
-                e.stopPropagation();
-
-                setActiveImage(
-                  (prev) =>
-
-                    prev === 0
-
-                    ? portfolio.images.length - 1
-                    : prev - 1
-                );
-              }}
-              className="
-              
-              absolute
-              left-8
-              top-1/2
-
-              -translate-y-1/2
-
-              text-white
-              text-5xl
-
-              opacity-60
-              hover:opacity-100
-
-              transition
-
-              "
-              >
-
-                 â†
-
-              </button>
-
-              {/* NEXT */}
-            <button
-              onClick={(e) => {
-
-                e.stopPropagation();
-
-                setActiveImage(
-                  (prev) =>
-
-                    prev ===
-                    portfolio.images.length - 1
-
-                    ? 0
-
-                    : prev + 1
-                );
-
-              }}
-              className="
-              
-              absolute
-              right-8
-              top-1/2
-
-              -translate-y-1/2
-
-              text-white
-              text-5xl
-
-              opacity-60 
-              hover:opacity-100 
-
-              transition
-
-              "
+              type="button"
+              onClick={() => setLightboxOpen(false)}
+              aria-label="Close image preview"
+              className="absolute right-5 top-5 z-50 rounded-full p-3 text-white/70 transition hover:bg-white/10 hover:text-white sm:right-8 sm:top-8"
             >
+              <X size={26} strokeWidth={1.5} aria-hidden="true" />
+            </button>
 
-               â†’
+            <button
+              type="button"
+              onClick={(event) => {
+                event.stopPropagation();
+                setActiveImage((previous) =>
+                  previous === 0 ? portfolio.images.length - 1 : previous - 1
+                );
+              }}
+              aria-label="Previous image"
+              className="absolute left-3 top-1/2 z-50 -translate-y-1/2 rounded-full p-3 text-white/70 transition hover:bg-white/10 hover:text-white sm:left-8"
+            >
+              <ChevronLeft size={32} strokeWidth={1.5} aria-hidden="true" />
+            </button>
 
-               </button>
+            <button
+              type="button"
+              onClick={(event) => {
+                event.stopPropagation();
+                setActiveImage((previous) =>
+                  previous === portfolio.images.length - 1 ? 0 : previous + 1
+                );
+              }}
+              aria-label="Next image"
+              className="absolute right-3 top-1/2 z-50 -translate-y-1/2 rounded-full p-3 text-white/70 transition hover:bg-white/10 hover:text-white sm:right-8"
+            >
+              <ChevronRight size={32} strokeWidth={1.5} aria-hidden="true" />
+            </button>
 
           </div>
 

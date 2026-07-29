@@ -5,6 +5,13 @@ import { supabase } from "../../lib/supabase";
 import { useTranslation } from "react-i18next";
 import { localizeContent } from "../../lib/localizedContent";
 
+const PORTFOLIO_CATEGORIES = [
+  { id: "Portrait Sessions", translationKey: "category_portraits" },
+  { id: "Commercial", translationKey: "category_commercial" },
+  { id: "Weddings", translationKey: "category_weddings" },
+  { id: "Events", translationKey: "category_events" },
+];
+
 export default function PortfolioEditorialGrid() {
 
   const { t, i18n } =
@@ -113,95 +120,47 @@ export default function PortfolioEditorialGrid() {
         </h2>
 
         {/* CATEGORY NAV */}
-        <div className="flex justify-center">
+        <div className="mb-14 grid grid-cols-2 gap-x-7 gap-y-1 border-y border-black/10 py-6 lg:hidden">
+          {PORTFOLIO_CATEGORIES.map((category) => (
+            <button
+              key={category.id}
+              type="button"
+              onClick={() => setActiveCategory(category.id)}
+              className={`border-b py-4 text-left text-[10px] uppercase tracking-[0.2em] transition-colors ${
+                activeCategory === category.id
+                  ? "border-[#c6a66a] text-black"
+                  : "border-black/10 text-black/55"
+              }`}
+            >
+              {t(category.translationKey)}
+            </button>
+          ))}
+        </div>
 
-          <div className="flex flex-wrap justify-center gap-16 mb-24 border-b border-black/10 py-10">
-
-            {[
-              "Portrait Sessions",
-              "Commercial",
-              "Weddings",
-              "Events",
-            ].map((category) => (
-
+        <div className="hidden justify-center lg:flex">
+          <div className="mb-24 flex flex-wrap justify-center gap-16 border-b border-black/10 py-10">
+            {PORTFOLIO_CATEGORIES.map((category) => (
               <button
-                key={category}
-                onClick={() =>
-                  setActiveCategory(
-                    category
-                  )
-                }
-                className={`
-
-                  relative
-
-                  text-sm lg:text-base
-
-                  uppercase
-                  tracking-[0.35em]
-
-                  pb-4
-
-                  transition-all
-                  duration-500
-
-                  ${
-
-                    activeCategory ===
-                    category
-
-                      ? "opacity-100"
-
-                      : "opacity-60 hover:opacity-100"
-
-                  }
-                `}
+                key={category.id}
+                type="button"
+                onClick={() => setActiveCategory(category.id)}
+                className={`relative pb-4 text-base uppercase tracking-[0.35em] transition-all duration-500 ${
+                  activeCategory === category.id
+                    ? "opacity-100"
+                    : "opacity-60 hover:opacity-100"
+                }`}
               >
-
-                {category === "Portrait Sessions" &&
-                  t("category_portraits")}
-
-                {category === "Commercial" &&
-                  t("category_commercial")}
-
-                {category === "Weddings" &&
-                  t("category_weddings")}
-
-                {category === "Events" &&
-                  t("category_events")}
-
-                <div
-                  className={`
-
-                    absolute
-                    left-0
-                    -bottom-[2px]
-
-                    h-[1px]
-                    bg-[#c6a66a]
-
-                    transition-all
-                    duration-700
-
-                    ${
-
-                      activeCategory ===
-                      category
-
-                        ? "w-full opacity-100"
-
-                        : "w-0 opacity-0"
-
-                    }
-                  `}
+                {t(category.translationKey)}
+                <span
+                  className={`absolute bottom-[-2px] left-0 h-px bg-[#c6a66a] transition-all duration-700 ${
+                    activeCategory === category.id
+                      ? "w-full opacity-100"
+                      : "w-0 opacity-0"
+                  }`}
                 />
-
               </button>
-
             ))}
-
           </div>
-
         </div>
 
         {/* GRID */}
