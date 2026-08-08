@@ -7,7 +7,10 @@ export default function Footer() {
   return (
     <footer className="bg-[#11110f] px-6 py-10 text-[#f6f2eb] sm:px-10 sm:py-14 lg:px-20 lg:py-12">
       <div className="mx-auto flex max-w-5xl flex-col items-center text-center">
-        <img src="/images/logo-white.png" alt="Golden Light Studio" className="mb-3 w-10 object-contain sm:w-12 lg:w-14" />
+        <picture className="mb-3 block">
+          <source srcSet="/images/logo-white.avif" type="image/avif" />
+          <img src="/images/logo-white.png" alt="Golden Light Studio" className="w-10 object-contain sm:w-12 lg:w-14" />
+        </picture>
         <p className="mb-5 text-[11px] uppercase tracking-[0.34em] sm:text-[14px] sm:tracking-[0.45em]">Golden Light Studio</p>
         <p className="mb-8 max-w-xs text-sm leading-relaxed opacity-70 sm:mb-9">{t("hero_subtitle")}</p>
 

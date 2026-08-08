@@ -15,11 +15,10 @@ export default function Loader() {
         className="flex flex-col items-center"
       >
 
-        <img
-          src="/images/logo-black.png"
-          alt="Golden Light Studio"
-          className="w-20 mb-8"
-        />
+        <picture className="mb-8 block">
+          <source srcSet="/images/logo-black.avif" type="image/avif" />
+          <img src="/images/logo-black.png" alt="Golden Light Studio" className="w-20" />
+        </picture>
 
         <p className="uppercase tracking-[0.45em] text-[10px] text-black/40">
           Loading Experience

@@ -19,7 +19,8 @@ export default function Hero() {
   return (
     <section className="relative flex min-h-[620px] h-[100svh] items-center overflow-hidden">
       <picture className="absolute inset-0 block h-full w-full">
-        <source srcSet="/images/hero.avif" type="image/avif" />
+        <source media="(max-width: 767px)" srcSet="/images/hero-mobile.avif" type="image/avif" />
+        <source srcSet="/images/hero-desktop.avif" type="image/avif" />
         <motion.img
           src="/images/hero.jpg"
           alt="Golden Light Studio"

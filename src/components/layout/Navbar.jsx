@@ -54,11 +54,14 @@ export default function Navbar() {
         }`}
       >
         <Link to="/" className="flex min-w-0 shrink-0 items-center gap-3 sm:gap-4">
-          <img
-            src={darkMode ? "/images/logo-black.png" : "/images/logo-white.png"}
-            alt="Golden Light Studio"
-            className="h-8 w-auto sm:h-10"
-          />
+          <picture className="block">
+            <source srcSet={darkMode ? "/images/logo-black.avif" : "/images/logo-white.avif"} type="image/avif" />
+            <img
+              src={darkMode ? "/images/logo-black.png" : "/images/logo-white.png"}
+              alt="Golden Light Studio"
+              className="h-8 w-auto sm:h-10"
+            />
+          </picture>
           <span
             className={`hidden text-[13px] font-light uppercase tracking-[0.28em] transition-colors duration-500 min-[420px]:inline sm:text-[15px] sm:tracking-[0.34em] ${
               darkMode ? "text-black" : "text-white"

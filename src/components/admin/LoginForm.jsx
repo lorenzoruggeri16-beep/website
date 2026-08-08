@@ -1,4 +1,4 @@
-﻿export default function LoginForm({
+export default function LoginForm({
   username,
   setUsername,
   password,
@@ -15,11 +15,10 @@
           Golden Light Studio
         </p>
 
-        <img
-          src="/images/logo-white.png"
-          alt="Golden Light Studio"
-          className="w-20 mx-auto mb-4"
-        />
+        <picture className="mx-auto mb-4 block w-20">
+          <source srcSet="/images/logo-white.avif" type="image/avif" />
+          <img src="/images/logo-white.png" alt="Golden Light Studio" className="w-full" />
+        </picture>
 
         <h1 className="mb-7 text-3xl font-light sm:mb-10 sm:text-4xl text-center">Admin Access</h1>
 

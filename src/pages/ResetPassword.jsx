@@ -70,16 +70,14 @@ useState(false);
         max-w-md
       ">
 
-        <img
-         src="/images/logo-white.png"
-         alt="Golden Light Studio"
-          className="
-           w-20
-           h-auto
-           mx-auto
-           mb-4
-          "
-        />
+        <picture className="mx-auto mb-4 block w-20">
+          <source srcSet="/images/logo-white.avif" type="image/avif" />
+          <img
+            src="/images/logo-white.png"
+            alt="Golden Light Studio"
+            className="h-auto w-full"
+          />
+        </picture>
 
         <p className="
           uppercase
