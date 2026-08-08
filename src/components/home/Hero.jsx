@@ -29,10 +29,10 @@ export default function Hero() {
           className="absolute inset-0 h-[116%] w-full object-cover"
         />
       </picture>
-      <div className="absolute inset-0 bg-black/45" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/50 to-black/65" />
 
       <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col items-center px-5 pt-14 text-center text-white sm:px-8 md:px-12">
-        <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }} className="mb-6 text-[10px] uppercase tracking-[0.3em] opacity-80 sm:mb-8 sm:text-xs sm:tracking-[0.6em]">
+        <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }} className="mb-6 text-[10px] uppercase tracking-[0.3em] opacity-90 sm:mb-8 sm:text-xs sm:tracking-[0.6em]">
           {t("hero_subtitle")}
         </motion.p>
 
@@ -44,7 +44,7 @@ export default function Hero() {
           </AnimatePresence>
         </div>
 
-        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6, duration: 1 }} className="mt-5 max-w-xl text-sm leading-relaxed tracking-[0.03em] opacity-80 sm:mt-8 sm:text-base sm:tracking-[0.08em]">
+        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6, duration: 1 }} className="mt-5 max-w-xl text-sm leading-relaxed tracking-[0.03em] opacity-90 sm:mt-8 sm:text-base sm:tracking-[0.08em]">
           {t("intro_text")}
         </motion.p>
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }} className="mt-8 sm:mt-12">
@@ -54,7 +54,7 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      <div className="absolute bottom-7 left-1/2 hidden -translate-x-1/2 text-[10px] uppercase tracking-[0.4em] text-white opacity-70 sm:block">Scroll</div>
+      <div className="absolute bottom-7 left-1/2 hidden -translate-x-1/2 text-[10px] uppercase tracking-[0.4em] text-white opacity-85 sm:block">Scroll</div>
     </section>
   );
 }

@@ -231,7 +231,7 @@ useEffect(() => {
           />
 
           {/* DARK OVERLAY */}
-          <div className="absolute inset-0 bg-black/25" />
+          <div className="absolute inset-0 bg-black/45" />
 
           {/* TEXT */}
           <div className="absolute bottom-0 left-0 z-10 w-full px-5 pb-12 sm:px-8 sm:pb-16 lg:px-20 lg:pb-24">
@@ -250,7 +250,7 @@ useEffect(() => {
               }}
             >
 
-              <p className="uppercase tracking-[0.28em] text-[10px] text-white/70 mb-5 sm:tracking-[0.45em] sm:text-xs sm:mb-8">
+              <p className="uppercase tracking-[0.28em] text-[10px] text-white/85 mb-5 sm:tracking-[0.45em] sm:text-xs sm:mb-8">
 
                 {portfolio.location}
 
@@ -495,7 +495,7 @@ useEffect(() => {
                   }}
 
                   src={image}
-                  alt=""
+                  alt={getImageAltText(portfolio, image, i18n.language, portfolio.title)}
                   loading="lazy"
                   className="
   
@@ -729,7 +729,7 @@ useEffect(() => {
                 activeImage
               ]
             }
-            alt=""
+            alt={getImageAltText(portfolio, portfolio.images[activeImage], i18n.language, portfolio.title)}
             className="
             
             max-w-[90vw]

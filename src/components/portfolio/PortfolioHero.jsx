@@ -61,7 +61,7 @@ export default function PortfolioHero() {
         )}
       </AnimatePresence>
 
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/35 to-black/30 lg:from-black/75 lg:via-black/40 lg:to-black/35" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/50 to-black/40 lg:from-black/80 lg:via-black/50 lg:to-black/40" />
 
       <div className="absolute inset-0 flex items-end px-6 pb-12 lg:hidden">
         <motion.div

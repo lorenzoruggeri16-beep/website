@@ -63,7 +63,7 @@ export default function About() {
 
                 <img
                   src="/images/about-left.jpg"
-                  alt=""
+                  alt="Lorenzo Ruggeri, Photographer and Creative Director at Golden Light Studio"
                   className="aspect-square h-auto w-full max-w-[320px] object-cover rounded-full mb-9"
                 />
 
@@ -107,7 +107,7 @@ export default function About() {
 
                 <img
                   src="/images/about-right.jpg"
-                  alt=""
+                  alt="Giorgia Labrozzi, Photographer and Cinematic Storyteller at Golden Light Studio"
                   className="aspect-square h-auto w-full max-w-[320px] object-cover rounded-full mb-8"
                 />
 

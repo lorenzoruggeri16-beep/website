@@ -123,11 +123,11 @@ export default function JournalArticle() {
             className="w-full h-full object-cover"
           />
 
-          <div className="absolute inset-0 bg-black/30" />
+          <div className="absolute inset-0 bg-black/45" />
 
           <div className="absolute bottom-12 left-5 sm:bottom-16 sm:left-8 lg:bottom-20 lg:left-20 text-white max-w-4xl">
 
-            <p className="uppercase tracking-[0.28em] text-[10px] opacity-70 mb-4 sm:tracking-[0.35em] sm:text-xs sm:mb-6">
+            <p className="uppercase tracking-[0.28em] text-[10px] opacity-85 mb-4 sm:tracking-[0.35em] sm:text-xs sm:mb-6">
 
               {article.category}
 
@@ -139,7 +139,7 @@ export default function JournalArticle() {
 
             </h1>
 
-            <p className="max-w-xl text-base leading-relaxed opacity-80 sm:text-lg lg:max-w-2xl lg:text-2xl">
+            <p className="max-w-xl text-base leading-relaxed opacity-90 sm:text-lg lg:max-w-2xl lg:text-2xl">
 
               {article.excerpt}
 
