@@ -18,7 +18,17 @@ export default function Hero() {
 
   return (
     <section className="relative flex min-h-[620px] h-[100svh] items-center overflow-hidden">
-      <motion.img src="/images/hero.jpg" alt="Golden Light Studio" style={{ y }} fetchPriority="high" decoding="async" className="absolute inset-0 h-[116%] w-full object-cover" />
+      <picture className="absolute inset-0 block h-full w-full">
+        <source srcSet="/images/hero.avif" type="image/avif" />
+        <motion.img
+          src="/images/hero.jpg"
+          alt="Golden Light Studio"
+          style={{ y }}
+          fetchPriority="high"
+          decoding="async"
+          className="absolute inset-0 h-[116%] w-full object-cover"
+        />
+      </picture>
       <div className="absolute inset-0 bg-black/45" />
 
       <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col items-center px-5 pt-14 text-center text-white sm:px-8 md:px-12">

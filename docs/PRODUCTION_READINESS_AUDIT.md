@@ -54,7 +54,7 @@ Audit statico eseguito il 22 luglio 2026 sul repository locale. Questo documento
 
 ## P1 â€” SEO e indicizzazione
 
-- Il dominio configurato in `src/config/site.jsx`, `index.html`, `robots.txt` e `sitemap.xml` Ã¨ `goldenlightstudio.netlify.app`, non `https://goldenlightstudio.es`. Prima del go-live aggiornare centralmente ogni canonical, OG, Twitter card, robots e sitemap.
+- Il dominio ufficiale configurato in `src/config/site.jsx`, `index.html`, `robots.txt` e `sitemap.xml` è `https://goldenlight.studio`; canonical, Open Graph, Twitter card, robots e sitemap sono coerenti con il dominio di produzione.
 - `Journal.jsx` non monta il componente `SEO`; eredita quindi i metadati statici della home.
 - `JournalArticle.jsx` usa sempre `/journal` come canonical, invece dell'URL dell'articolo. `PortfolioDetail.jsx` non passa alcun URL a `SEO`, quindi usa `/` come canonical.
 - `NotFound.jsx` emette `index,follow`; deve essere `noindex,follow`. Anche `/studio-control` deve essere noindex, preferibilmente protetto da Netlify/HTTP oltre al solo `robots.txt`.
