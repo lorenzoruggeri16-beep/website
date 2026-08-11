@@ -63,6 +63,11 @@ const ResetPassword =
     import("../pages/ResetPassword")
   );
 
+const BookingConfirmed =
+  lazy(() =>
+    import("../pages/BookingConfirmed")
+  );
+
 export default function AppRouter() {
 
   const location =
@@ -124,6 +129,11 @@ export default function AppRouter() {
           <Route
             path="/reset-password"
             element={<ResetPassword />}
+          />
+
+          <Route
+            path="/booking-confirmed"
+            element={<BookingConfirmed />}
           />
 
           <Route
