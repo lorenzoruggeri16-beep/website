@@ -23,7 +23,7 @@ export default function Footer() {
 
         <div className="mb-5 flex flex-wrap justify-center gap-x-5 gap-y-3 text-[10px] uppercase tracking-[0.18em] opacity-70 sm:gap-x-6 sm:text-[12px] sm:tracking-[0.22em]">
           <a href="https://www.instagram.com/goldenlightstudio.es/" target="_blank" rel="noopener noreferrer" className="transition-colors duration-500 hover:text-[#c6a66a]">Instagram</a>
-          <Link to="/contact" className="transition-colors duration-500 hover:text-[#c6a66a]">WhatsApp</Link>
+          <a href="https://wa.me/34600542162" arget="_blank" rel="noopener noreferrer" className="transition-colors duration-500 hover:text-[#c6a66a]">WhatsApp</a>
           <a href="mailto:contacto.goldenlightstudio@gmail.com" className="transition-colors duration-500 hover:text-[#c6a66a]">Email</a>
         </div>
 
