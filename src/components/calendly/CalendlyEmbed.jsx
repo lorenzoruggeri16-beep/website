@@ -5,9 +5,21 @@ import { CALENDLY_OPEN_EVENT, CALENDLY_URL } from "../../lib/calendly";
 
 const SCRIPT_ID = "calendly-widget-script";
 const STYLES_ID = "calendly-widget-styles";
+const ASSETS_PRECONNECT_ID = "calendly-assets-preconnect";
+const APP_PRECONNECT_ID = "calendly-app-preconnect";
 const SCRIPT_URL = "https://assets.calendly.com/assets/external/widget.js";
 const STYLES_URL = "https://assets.calendly.com/assets/external/widget.css";
 
+function addPreconnect(id, href) {
+  if (document.getElementById(id)) return;
+
+  const link = document.createElement("link");
+  link.id = id;
+  link.rel = "preconnect";
+  link.href = href;
+  link.crossOrigin = "anonymous";
+  document.head.appendChild(link);
+}
 function loadCalendlyWidget() {
   if (window.Calendly) return Promise.resolve();
 
@@ -45,6 +57,19 @@ export default function CalendlyEmbed() {
   const [isOpen, setIsOpen] = useState(false);
   const [hasError, setHasError] = useState(false);
   const widgetRef = useRef(null);
+
+  useEffect(() => {
+    addPreconnect(ASSETS_PRECONNECT_ID, "https://assets.calendly.com");
+    addPreconnect(APP_PRECONNECT_ID, "https://calendly.com");
+
+    const warmUp = () => {
+      loadCalendlyStyles();
+      loadCalendlyWidget().catch(() => {});
+    };
+    const warmUpId = window.setTimeout(warmUp, 1200);
+
+    return () => window.clearTimeout(warmUpId);
+  }, []);
 
   useEffect(() => {
     const handleOpen = () => setIsOpen(true);
