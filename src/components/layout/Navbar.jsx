@@ -2,6 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { openCalendly } from "../../lib/calendly";
 
 const LANGUAGES = ["es", "en", "it"];
 
@@ -77,9 +78,9 @@ export default function Navbar() {
           <Link to="/journal" className="transition-colors duration-300 hover:text-[#c6a66a]">{t("journal")}</Link>
           <Link to="/about" className="transition-colors duration-300 hover:text-[#c6a66a]">{t("about")}</Link>
           <Link to="/contact" className="transition-colors duration-300 hover:text-[#c6a66a]">{t("contact")}</Link>
-          <a href="https://calendly.com/contacto-goldenlightstudio/golden-light-session" target="_blank" rel="noopener noreferrer" className="border border-[#c6a66a] px-7 py-3 text-[11px] uppercase tracking-[0.28em] transition-all duration-500 hover:bg-[#c6a66a] hover:text-white">
+          <button type="button" onClick={openCalendly} className="border border-[#c6a66a] px-7 py-3 text-[11px] uppercase tracking-[0.28em] transition-all duration-500 hover:bg-[#c6a66a] hover:text-white">
             Book a Session
-          </a>
+          </button>
           {languageControl()}
         </div>
 
@@ -103,9 +104,9 @@ export default function Navbar() {
             <Link to="/journal" onClick={() => setOpen(false)}>{t("journal")}</Link>
             <Link to="/about" onClick={() => setOpen(false)}>{t("about")}</Link>
             <Link to="/contact" onClick={() => setOpen(false)}>{t("contact")}</Link>
-            <a href="https://calendly.com/contacto-goldenlightstudio/golden-light-session" target="_blank" rel="noopener noreferrer" onClick={() => setOpen(false)} className="mt-2 border border-[#c6a66a] px-6 py-3 text-[11px] uppercase tracking-[0.28em] text-[#c6a66a] transition-all duration-500 hover:bg-[#c6a66a] hover:text-white sm:px-8 sm:py-4 sm:text-base sm:tracking-[0.35em]">
+            <button type="button" onClick={() => { setOpen(false); openCalendly(); }} className="mt-2 border border-[#c6a66a] px-6 py-3 text-[11px] uppercase tracking-[0.28em] text-[#c6a66a] transition-all duration-500 hover:bg-[#c6a66a] hover:text-white sm:px-8 sm:py-4 sm:text-base sm:tracking-[0.35em]">
               Book a Session
-            </a>
+            </button>
             {languageControl(true)}
           </div>
         </div>

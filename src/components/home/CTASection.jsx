@@ -1,5 +1,6 @@
-﻿import FadeIn from "../ui/FadeIn";
+import FadeIn from "../ui/FadeIn";
 import { useTranslation } from "react-i18next";
+import { openCalendly } from "../../lib/calendly";
 
 export default function CTASection() {
 
@@ -55,10 +56,9 @@ export default function CTASection() {
             {t("cta_text")}
           </p>
 
-          <a
-            href="https://calendly.com/contacto-goldenlightstudio/golden-light-session"
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            type="button"
+            onClick={openCalendly}
             className="
               inline-flex
               items-center
@@ -79,7 +79,7 @@ export default function CTASection() {
             "
           >
             {t("cta_button")}
-          </a>
+          </button>
 
         </FadeIn>
 
